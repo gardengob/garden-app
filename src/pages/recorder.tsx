@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 export default function Recorder() {
   const textAreaRef = useRef(null)
   const finalTextRef = useRef(null)
+  const recognitionRef = useRef(null)
 
   const [fullText, setFullText] = useState('Eh')
   const [onGoingTextRecog, setOnGoingTextRecog] = useState({
@@ -11,20 +12,18 @@ export default function Recorder() {
   })
   const [onAir, setOnAir] = useState<boolean>(false)
 
-  let recognition
-
   // -------------------------- USE
 
   useEffect(() => {
     let SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition
 
-    recognition = new SpeechRecognition()
-    recognition.continuous = true
-    recognition.interimResults = true
-    recognition.lang = 'fr-FR'
+    recognitionRef.current = new SpeechRecognition()
+    recognitionRef.current.continuous = true
+    recognitionRef.current.interimResults = true
+    recognitionRef.current.lang = 'fr-FR'
 
-    recognition.onresult = function (event) {
+    recognitionRef.current.onresult = function (event) {
       /* récupère le mot ou la phrase */
       let sentence = event.results[event.resultIndex][0].transcript
       // console.log('e', event)
@@ -36,23 +35,23 @@ export default function Recorder() {
         final: event.results[event.resultIndex].isFinal,
       })
     }
-    recognition.onerror = function (event) {
+    recognitionRef.current.onerror = function (event) {
       console.log('Erreur : ' + event.error)
-      setFullText(fullText + 'ERROR !!!')
-      recognition.start()
+      // setFullText(fullText + 'ERROR !!!')
+      recognitionRef.current.start()
     }
 
-    recognition.onend = function (event) {
+    recognitionRef.current.onend = function (event) {
       console.log('End : ' + event.error)
-      setFullText(fullText + ' END !!!')
+      // setFullText(fullText + ' END !!!')
     }
 
-    recognition.onsoundstart = function (event) {
+    recognitionRef.current.onsoundstart = function (event) {
       setOnAir(true)
     }
 
-    recognition.onsoundend = function (event) {
-      setFullText(fullText + 'SOUND END !!!')
+    recognitionRef.current.onsoundend = function (event) {
+      // setFullText(fullText + 'SOUND END !!!')
       setOnAir(false)
     }
 
@@ -62,10 +61,10 @@ export default function Recorder() {
 
   useEffect(() => {
     if (!onGoingTextRecog.final) {
-      // finalTextRef.current.innerHTML = fullText
-      // textAreaRef.current.value = fullText + ' ' + onGoingTextRecog.text
+      // textAreaRef.current.innerHTML = fullText
+      textAreaRef.current.value = fullText + ' ' + onGoingTextRecog.text
     }
-  }, [fullText, onGoingTextRecog])
+  }, [onGoingTextRecog])
 
   useEffect(() => {
     if (onGoingTextRecog.final) {
@@ -78,13 +77,15 @@ export default function Recorder() {
   // -------------------------- METHODS
 
   const startRecognition = () => {
-    if (recognition) {
-      recognition.start()
+    if (recognitionRef.current) {
+      recognitionRef.current.start()
     }
   }
   const stopRecognition = () => {
-    if (recognition) {
-      recognition.stop()
+    console.log(recognitionRef.current)
+    if (recognitionRef.current) {
+      console.log('stoppppp')
+      recognitionRef.current.stop()
     }
   }
 
@@ -100,7 +101,15 @@ export default function Recorder() {
         {fullText}{' '}
         <span style={{ color: 'lime' }}>{onGoingTextRecog.text}</span>
       </p>
-      <textarea ref={textAreaRef} id="text-zone"></textarea>
+      <textarea
+        ref={textAreaRef}
+        id="text-zone"
+        onChange={(e) => {
+          console.log('changed')
+          setFullText(e.target.value)
+          recognitionRef.current.stop()
+        }}
+      ></textarea>
       <p>{onAir ? 'onAir' : 'nosound'}</p>
     </div>
   )
