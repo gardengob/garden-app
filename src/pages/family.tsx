@@ -1,17 +1,14 @@
 import { useEffect, useLayoutEffect, useState } from 'react'
 import AddFamily from '../components/addFamily/AddFamily'
+import RoutingCameraService from '../services/events/RoutingCameraService'
 import { supabase } from '../utils/supabaseClient'
+import { Component3dName } from '../webGL/webGLArchitecture/Types/Component3dNameType'
 import css from './family.module.scss'
 
 export default function Family() {
-  const [session, setSession] = useState(null)
-
+  const CAMERA_POSITION: Component3dName = 'contest'
   useEffect(() => {
-    setSession(supabase.auth.session())
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
+    RoutingCameraService.goTo(CAMERA_POSITION)
   }, [])
 
   return (

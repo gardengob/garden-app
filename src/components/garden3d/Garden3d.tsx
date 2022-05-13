@@ -16,6 +16,7 @@ import SpaceEntryService from '../../services/events/SpaceEntryService'
 import { useRouter } from 'next/router'
 import Stats from 'three/examples/jsm/libs/stats.module'
 import ScrollService from '../../services/events/ScrollService'
+import { merge } from '../../utils/arrayUtils'
 export interface IWindowSize {
   width: number
   height: number
@@ -23,7 +24,7 @@ export interface IWindowSize {
 
 const stats = Stats()
 
-export default function Garden3d() {
+export default function Garden3d({ className }) {
   const canvasRef = useRef(null)
   let time = Date.now()
   const [windowSize, setWindowSize] = useState<IWindowSize>({
@@ -138,11 +139,12 @@ export default function Garden3d() {
   }
 
   return (
-    <div className={css.webgl}>
+    <div className={merge([className, css.webgl])}>
       {/* <div>{stats.domElement}</div> */}
       <button
         style={{
           position: 'absolute',
+          top: '100px',
         }}
         onClick={() => {
           AppManager.getInstance().devMode = !AppManager.getInstance().devMode

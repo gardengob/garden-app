@@ -25,6 +25,7 @@ const loadingManager = LoadingManager.getInstance()
 export const contestComponent3d = new Component3d()
 contestComponent3d.cameraLookAtTarget.position.set(0, 1, 0)
 contestComponent3d.name = 'contest'
+contestComponent3d.placeHolderName = 'Table'
 contestComponent3d.index = 6
 contestComponent3d.expectedObjects = ['table_space']
 

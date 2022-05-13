@@ -9,6 +9,7 @@ const loadingManager = LoadingManager.getInstance()
 
 export const mailboxComponent3d = new Component3d()
 mailboxComponent3d.name = 'mail_box'
+mailboxComponent3d.placeHolderName = 'Letterbox'
 mailboxComponent3d.cameraLookAtTarget.position.set(0, 1, 0)
 mailboxComponent3d.index = 1
 mailboxComponent3d.expectedObjects = ['boitemail_space']
@@ -24,7 +25,7 @@ mailboxComponent3d.onInit = () => {
   // const light = new AmbientLight(0x404040) // soft white light
   // mailboxComponent3d.root.add(light)
   mailboxComponent3d.root.add(space.getModel())
-  mailboxComponent3d.root.position.set(-5, 0, 7)
+  // mailboxComponent3d.root.position.set(-5, 0, 7)
 }
 
 MailBoxGraphConstruction(mailboxComponent3d)
