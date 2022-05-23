@@ -25,6 +25,11 @@ export default function Header() {
             <a>Recipes</a>
           </Link>
         </li>
+        <li className={css.link}>
+          <Link href="/contest">
+            <a>Contest</a>
+          </Link>
+        </li>
       </ul>
     </div>
   )
