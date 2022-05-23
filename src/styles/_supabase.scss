@@ -190,6 +190,10 @@ input[disabled] {
   color: var(--custom-color-secondary);
 }
 
+button[disabled] {
+  opacity: 0.2;
+}
+
 /* Utils */
 
 .block {
