@@ -124,18 +124,18 @@ export class AppManager {
     renderPass.setSize(window.innerWidth, window.innerHeight)
     this.composer.addPass(renderPass)
 
-    this.outlinePass = new OutlinePass(
-      new Vector2(window.innerWidth, window.innerHeight),
-      this.scene,
-      this.camera
-    )
-    this.composer.addPass(this.outlinePass)
-    this.outlinePass.edgeStrength = 1.2
-    this.outlinePass.selectedObjects = []
-    this.outlinePass.edgeGlow = 0.2
-    this.outlinePass.edgeThickness = 1
-    this.outlinePass.pulsePeriod = 0
-    this.outlinePass.visibleEdgeColor = new Color(0xdb4a48)
+    // this.outlinePass = new OutlinePass(
+    //   new Vector2(window.innerWidth, window.innerHeight),
+    //   this.scene,
+    //   this.camera
+    // )
+    // this.composer.addPass(this.outlinePass)
+    // this.outlinePass.edgeStrength = 1.2
+    // this.outlinePass.selectedObjects = []
+    // this.outlinePass.edgeGlow = 0.2
+    // this.outlinePass.edgeThickness = 1
+    // this.outlinePass.pulsePeriod = 0
+    // this.outlinePass.visibleEdgeColor = new Color(0xdb4a48)
 
     if (
       this.renderer.getPixelRatio() === 1 &&
@@ -172,6 +172,7 @@ export class AppManager {
   buildRender(): WebGLRenderer {
     const renderer = new WebGLRenderer({ canvas: this.canvas, alpha: true })
     const DPR = window.devicePixelRatio ? window.devicePixelRatio : 1
+    renderer.outputEncoding = sRGBEncoding
     renderer.setPixelRatio(DPR)
     renderer.setClearColor(0x000000, 0) // the default
     renderer.setSize(this.canvas.width, this.canvas.height)
@@ -195,7 +196,7 @@ export class AppManager {
       nearPlane,
       farPlane
     )
-    camera.zoom = 0.8
+    // camera.zoom = 0.8
     return camera
   }
 
@@ -226,7 +227,7 @@ export class AppManager {
         this.renderer.render(this.scene, this.devCamera)
         this.devControls.update()
       } else {
-        this.composer.render()
+        // this.composer.render()
         this.renderer.render(this.scene, this.camera)
       }
     }

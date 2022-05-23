@@ -16,6 +16,7 @@ export class Component3d implements IUpdatable, IPathable {
   index: number
   points: Vector3[] = []
   name: Component3dName
+  placeHolderName: string
   cameraLookAtTarget: Object3D = new Object3D()
 
   root: Object3D = new Object3D()

@@ -26,6 +26,7 @@ export const vegetableGardenComponent3d = new Component3d()
 vegetableGardenComponent3d.cameraLookAtTarget.position.set(0, 1, 0)
 vegetableGardenComponent3d.index = 2
 vegetableGardenComponent3d.name = 'vegetable_garden'
+vegetableGardenComponent3d.placeHolderName = 'Potager'
 
 vegetableGardenComponent3d.expectedObjects = ['potager_space']
 
@@ -43,8 +44,6 @@ vegetableGardenComponent3d.onInit = () => {
 
   const garden = pocHouse.getModel()
   vegetableGardenComponent3d.root.add(garden)
-  garden.position.y = 0.1
-  vegetableGardenComponent3d.root.position.set(-6, 0, 5.5)
   VegetableGardenGraphConstruction(vegetableGardenComponent3d)
   VegetableGardenInitialization(vegetableGardenComponent3d)
 }

@@ -9,6 +9,8 @@ import {
   PerspectiveCamera,
   Camera,
   LoopRepeat,
+  AmbientLight,
+  AnimationAction,
 } from 'three'
 import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
 import { Scene } from '../../webGLArchitecture/Classes/Scene/Scene'
@@ -25,11 +27,16 @@ import SpaceEntryService from '../../../services/events/SpaceEntryService'
 import { Component3d } from '../../webGLArchitecture/Classes/Compoment3d/Component3d'
 import { GLTFObject } from '../../webGLArchitecture/Classes/GLTFObject/GLTFObject'
 import ScrollService from '../../../services/events/ScrollService'
-
+import RoutingCameraService from '../../../services/events/RoutingCameraService'
+import gsap from 'gsap'
 export const gardenScene = new Scene()
 const loadingManager = LoadingManager.getInstance()
 
-gardenScene.expectedObjects = ['garden_base', 'base_fake_elements3']
+gardenScene.expectedObjects = [
+  'garden_base',
+  'base_fake_elements3',
+  'test_bake',
+]
 
 gardenScene.components.push(vegetableGardenComponent3d)
 gardenScene.components.push(treeComponent3d)
@@ -41,9 +48,12 @@ gardenScene.components.push(memoryComponent3d)
 MaterialHelper.disableLights(gardenScene.sceneBase)
 
 let cameraTest: PerspectiveCamera
-let mixerCam
+let mixerCam: AnimationMixer
 const ANIMATION_SPEED = 1 / 144
 const ANIMATION_SPEED_COEF = 1 / 20
+
+let cameraPathDuration = 0
+let cameraLoopNumber = 0
 let scrolling = 0
 let closeElement: Component3d = null
 
@@ -56,31 +66,67 @@ gardenScene.onInit = (scene) => {
 
   scene.assignLoadedSceneObjects(gltfMap)
   const gardenBase = scene.getObject('garden_base')
-  const testBase = scene.getObject('base_fake_elements3')
+  // const testBase = scene.getObject('base_fake_elements3')
+  const testBake = scene.getObject('test_bake')
 
-  const clipsCam = (testBase as GLTFObject).GLTF.animations
+  const clipsCam = (gardenBase as GLTFObject).GLTF.animations
 
   const gardenBaseModel = gardenBase.getModel()
-  const testBaseModel = testBase.getModel()
+  // const testBaseModel = testBase.getModel()
+  const testBakeModel = testBake.getModel()
 
-  // gardenBaseModel.position.set(-19.5, 0, 0)
   scene.sceneBase.add(gardenBaseModel)
-  scene.sceneBase.add(testBaseModel)
-
-  cameraTest = testBaseModel.getObjectByName(
+  // scene.sceneBase.add(testBaseModel)
+  scene.sceneBase.add(testBakeModel)
+  MaterialHelper.disableLights(testBakeModel)
+  cameraTest = gardenBaseModel.getObjectByName(
     'Caméra_Orientation'
   ) as PerspectiveCamera
   const helpertest = new CameraHelper(cameraTest as Camera)
-  appManager.scene.add(testBaseModel)
+  // appManager.scene.add(gardenBaseModel)
   appManager.camera = cameraTest
-  testBaseModel.add(helpertest)
+  appManager.onWindowResize()
+  gardenBaseModel.add(helpertest)
+
+  gardenScene.components.forEach((component) => {
+    gardenBaseModel.traverse((child) => {
+      if (child.name === component.placeHolderName) {
+        component.root.position.set(
+          child.position.x,
+          child.position.y,
+          child.position.z
+        )
+        component.root.rotation.set(
+          child.rotation.x,
+          child.rotation.y,
+          child.rotation.z
+        )
+      }
+      if (child.name === 'Portail') {
+        testBakeModel.position.set(
+          child.position.x,
+          child.position.y,
+          child.position.z
+        )
+        testBakeModel.rotation.set(
+          child.rotation.x,
+          child.rotation.y,
+          child.rotation.z
+        )
+      }
+    })
+  })
+
+  const light = new AmbientLight()
+  appManager.scene.add(light)
 
   // ANIMATIONS
-  mixerCam = new AnimationMixer(testBaseModel)
-  const clip = AnimationClip.findByName(clipsCam, 'Action')
-  const action = mixerCam.clipAction(clip)
+  mixerCam = new AnimationMixer(gardenBaseModel)
+  const clip: AnimationClip = AnimationClip.findByName(clipsCam, 'Action')
+  const action: AnimationAction = mixerCam.clipAction(clip)
   action.loop = LoopRepeat
   action.play()
+  cameraPathDuration = clip.duration
 
   gardenScene.assignPoints()
 }
@@ -88,9 +134,29 @@ gardenScene.onInit = (scene) => {
 ScrollService.signal.on((e) => {
   scrolling = e !== null ? e.deltaY : 0
 })
+
+RoutingCameraService.signal.on((time) => {
+  const animationTime = {
+    value: mixerCam.time,
+  }
+  gsap.to(animationTime, {
+    value: cameraLoopNumber * cameraPathDuration + time,
+    onUpdate: (tween) => {
+      console.log('tween', tween)
+      mixerCam.setTime(animationTime.value)
+    },
+    ease: 'power1.inOut',
+    duration: 2.5,
+  })
+})
+
 gardenScene.onAnimationLoop = (ellapsedTime) => {
   const appManager = AppManager.getInstance()
-
+  const camLoop = Math.floor(mixerCam.time / cameraPathDuration)
+  if (camLoop != cameraLoopNumber) {
+    cameraLoopNumber = camLoop
+    console.log(cameraLoopNumber)
+  }
   if (scrolling < -0.1 || scrolling > 0.1) {
     if (scrolling > 0) {
       mixerCam.update(
@@ -114,19 +180,15 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
   for (let i = 0; i < gardenScene.entryPoints.length; i++) {
     const element = gardenScene.entryPoints[i]
 
-    const worldElementPosition = new Vector3()
-    element.object.getWorldPosition(worldElementPosition)
-
-    const worldCameraPosition = new Vector3()
-    appManager.camera.getWorldPosition(worldCameraPosition)
-
     if (
-      worldElementPosition.x > worldCameraPosition.x - 1 &&
-      worldElementPosition.x < worldCameraPosition.x + 1 &&
-      worldElementPosition.y > worldCameraPosition.y - 1 &&
-      worldElementPosition.y < worldCameraPosition.y + 1 &&
-      worldElementPosition.z > worldCameraPosition.z - 1 &&
-      worldElementPosition.z < worldCameraPosition.z + 1
+      mixerCam.time >
+        cameraLoopNumber * cameraPathDuration +
+          RoutingCameraService.cameraTimedPositions[element.component.name] -
+          0.2 &&
+      mixerCam.time <
+        cameraLoopNumber * cameraPathDuration +
+          RoutingCameraService.cameraTimedPositions[element.component.name] +
+          0.2
     ) {
       notCloseToAnyThing = false
       if (element.component != closeElement) {

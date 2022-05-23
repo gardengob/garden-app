@@ -10,6 +10,7 @@ const loadingManager = LoadingManager.getInstance()
 
 export const kitchenComponent3d = new Component3d()
 kitchenComponent3d.name = 'kitchen'
+kitchenComponent3d.placeHolderName = 'Cuisine'
 kitchenComponent3d.index = 3
 kitchenComponent3d.cameraLookAtTarget.position.set(0, 1, 0)
 kitchenComponent3d.expectedObjects = []
@@ -27,7 +28,6 @@ kitchenComponent3d.onInit = () => {
   //   const light = new AmbientLight(0x404040) // soft white light
   //   kitchenComponent3d.root.add(light)
   kitchenComponent3d.root.add(space.getModel())
-  kitchenComponent3d.root.position.set(-6, 0, -4)
 }
 
 KitchenGraphConstruction(kitchenComponent3d)
