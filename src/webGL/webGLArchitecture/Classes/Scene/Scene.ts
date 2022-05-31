@@ -41,7 +41,7 @@ export class Scene implements IUpdatable {
   /**
    * get a THREE.js object directly by it's Playlet's scene graph
    *
-   * @param name - the name of the wanted object
+   * @param name - the name of the wanted object 
    *
    * @public
    */

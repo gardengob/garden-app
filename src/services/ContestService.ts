@@ -1,17 +1,61 @@
+import {
+  IFamilyContest,
+  IContestCreationPayload,
+  IContestUpdatePayload,
+  IContestEntry,
+} from '../types/contest'
+import { supabase } from '../utils/supabaseClient'
+
 class ContestService {
-  getAll(): FamilyContest[] {
-    throw new Error('Not Implemented ')
+  async getAll(): Promise<IFamilyContest[]> {
+    try {
+      let { error, data } = await supabase
+        .from('family_contest')
+        .select('*')
+        .eq('family_id', localStorage.getItem('family_id'))
+      return data
+    } catch (error) {
+      console.log('error', error)
+    }
   }
-  get(contestId: string): FamilyContest {
-    throw new Error('Not Implemented ')
+  async get(contestId: string): Promise<IFamilyContest> {
+    try {
+      let { error, data } = await supabase
+        .from('family_contest')
+        .select('*')
+        .eq('family_id', localStorage.getItem('family_id'))
+        .eq('id', contestId)
+        .limit(1)
+        .single()
+
+      return data
+    } catch (error) {
+      console.log('error', error)
+    }
   }
-  create(contest: ContestCreationPayload): void {
-    throw new Error('Not Implemented ')
+  async add(contest: IContestCreationPayload): Promise<void> {
+    try {
+      let { error, data } = await supabase
+        .from('family_contest')
+        .insert(contest)
+    } catch (error) {
+      console.log('error', error)
+    }
   }
-  update(contestId: string, data: ContestUpdatePayload): void {
-    throw new Error('Not Implemented ')
+  async update(
+    contestId: string,
+    updateData: IContestUpdatePayload
+  ): Promise<void> {
+    try {
+      let { error, data } = await supabase
+        .from('family_contest')
+        .update(updateData)
+        .match({ id: contestId })
+    } catch (error) {
+      console.log('error', error)
+    }
   }
-  participate(entry: ContestEntry): void {
+  participate(entry: IContestEntry): void {
     throw new Error('Not Implemented')
   }
   vote(entry_id): void {
