@@ -21,7 +21,7 @@ import { vegetableGardenComponent3d } from '../VegetableGarden/VegetableGarden.m
 import { contestComponent3d } from '../Contest/Contest.main'
 import { LoadingManager } from '../../webGLArchitecture/Classes/LoadingManager/LoadingManager'
 import { GLTF } from 'three-stdlib'
-import { memoryComponent3d } from '../MemoriesScene/Memory.main'
+import { memoryComponent3d } from '../Memories/Memory.main'
 import { MaterialHelper } from '../../webGLArchitecture/Utils/MaterialHelper'
 import SpaceEntryService from '../../../services/events/SpaceEntryService'
 import { Component3d } from '../../webGLArchitecture/Classes/Compoment3d/Component3d'
@@ -29,14 +29,11 @@ import { GLTFObject } from '../../webGLArchitecture/Classes/GLTFObject/GLTFObjec
 import ScrollService from '../../../services/events/ScrollService'
 import RoutingCameraService from '../../../services/events/RoutingCameraService'
 import gsap from 'gsap'
+import { portalComponent3d } from '../Portal/Portal.main'
 export const gardenScene = new Scene()
 const loadingManager = LoadingManager.getInstance()
 
-gardenScene.expectedObjects = [
-  'garden_base',
-  'base_fake_elements3',
-  'test_bake',
-]
+gardenScene.expectedObjects = ['garden_base', 'base_fake_elements3']
 
 gardenScene.components.push(vegetableGardenComponent3d)
 gardenScene.components.push(treeComponent3d)
@@ -44,6 +41,7 @@ gardenScene.components.push(kitchenComponent3d)
 gardenScene.components.push(mailboxComponent3d)
 gardenScene.components.push(contestComponent3d)
 gardenScene.components.push(memoryComponent3d)
+gardenScene.components.push(portalComponent3d)
 
 MaterialHelper.disableLights(gardenScene.sceneBase)
 
@@ -67,18 +65,18 @@ gardenScene.onInit = (scene) => {
   scene.assignLoadedSceneObjects(gltfMap)
   const gardenBase = scene.getObject('garden_base')
   // const testBase = scene.getObject('base_fake_elements3')
-  const testBake = scene.getObject('test_bake')
+  // const testBake = scene.getObject('test_bake')
 
   const clipsCam = (gardenBase as GLTFObject).GLTF.animations
 
   const gardenBaseModel = gardenBase.getModel()
   // const testBaseModel = testBase.getModel()
-  const testBakeModel = testBake.getModel()
+  // const testBakeModel = testBake.getModel()
 
   scene.sceneBase.add(gardenBaseModel)
   // scene.sceneBase.add(testBaseModel)
-  scene.sceneBase.add(testBakeModel)
-  MaterialHelper.disableLights(testBakeModel)
+  // scene.sceneBase.add(testBakeModel)
+  // MaterialHelper.disableLights(testBakeModel)
   cameraTest = gardenBaseModel.getObjectByName(
     'Caméra_Orientation'
   ) as PerspectiveCamera
@@ -103,22 +101,22 @@ gardenScene.onInit = (scene) => {
         )
       }
       if (child.name === 'Portail') {
-        testBakeModel.position.set(
-          child.position.x,
-          child.position.y,
-          child.position.z
-        )
-        testBakeModel.rotation.set(
-          child.rotation.x,
-          child.rotation.y,
-          child.rotation.z
-        )
+        // testBakeModel.position.set(
+        //   child.position.x,
+        //   child.position.y,
+        //   child.position.z
+        // )
+        // testBakeModel.rotation.set(
+        //   child.rotation.x,
+        //   child.rotation.y,
+        //   child.rotation.z
+        // )
       }
     })
   })
 
   const light = new AmbientLight()
-  appManager.scene.add(light)
+  // appManager.scene.add(light)
 
   // ANIMATIONS
   mixerCam = new AnimationMixer(gardenBaseModel)
@@ -129,6 +127,7 @@ gardenScene.onInit = (scene) => {
   cameraPathDuration = clip.duration
 
   gardenScene.assignPoints()
+  MaterialHelper.disableLights(gardenScene.sceneBase)
 }
 
 ScrollService.signal.on((e) => {

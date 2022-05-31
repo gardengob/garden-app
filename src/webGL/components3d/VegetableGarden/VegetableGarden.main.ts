@@ -1,20 +1,4 @@
-import {
-  AmbientLight,
-  BoxGeometry,
-  BufferGeometry,
-  CubicBezierCurve3,
-  Line,
-  LineBasicMaterial,
-  Mesh,
-  MeshBasicMaterial,
-  Object3D,
-  PMREMGenerator,
-  Points,
-  PointsMaterial,
-  Vector3,
-} from 'three'
-import { EXRLoader, Geometry, GLTF } from 'three-stdlib'
-import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
+import { GLTF } from 'three-stdlib'
 import { Component3d } from '../../webGLArchitecture/Classes/Compoment3d/Component3d'
 import { LoadingManager } from '../../webGLArchitecture/Classes/LoadingManager/LoadingManager'
 import { VegetableGardenGraphConstruction } from './VegetableGarden.graphContruction'
@@ -23,8 +7,7 @@ import { VegetableGardenInitialization } from './VegetableGarden.initialization'
 const loadingManager = LoadingManager.getInstance()
 
 export const vegetableGardenComponent3d = new Component3d()
-vegetableGardenComponent3d.cameraLookAtTarget.position.set(0, 1, 0)
-vegetableGardenComponent3d.index = 2
+
 vegetableGardenComponent3d.name = 'vegetable_garden'
 vegetableGardenComponent3d.placeHolderName = 'Potager'
 

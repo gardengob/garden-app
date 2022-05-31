@@ -1,7 +1,6 @@
-import { BoxGeometry, Mesh, MeshBasicMaterial, Object3D, Vector3 } from 'three'
+import { Object3D, Vector3 } from 'three'
 import { GLTF } from 'three-stdlib/loaders/GLTFLoader'
 import { IObject3DWrapper } from '../../Interfaces/IObject3DWrapper'
-import { IPathable } from '../../Interfaces/IPathable'
 import { IUpdatable } from '../../Interfaces/IUpdatable'
 import { Component3dName } from '../../Types/Component3dNameType'
 import { GLTFObject } from '../GLTFObject/GLTFObject'
@@ -12,12 +11,9 @@ export enum Component3dStateEnum {
   IDLE = 'IDLE',
 }
 
-export class Component3d implements IUpdatable, IPathable {
-  index: number
-  points: Vector3[] = []
+export class Component3d implements IUpdatable {
   name: Component3dName
   placeHolderName: string
-  cameraLookAtTarget: Object3D = new Object3D()
 
   root: Object3D = new Object3D()
   position: Vector3
@@ -34,9 +30,6 @@ export class Component3d implements IUpdatable, IPathable {
     IObject3DWrapper
   >()
 
-  constructor() {
-    this.root.add(this.cameraLookAtTarget)
-  }
   //closure called on component3d init
   onInit: ((component3d: Component3d) => void) | undefined
 
@@ -105,39 +98,6 @@ export class Component3d implements IUpdatable, IPathable {
       }
     }
   }
-
-  getPoints(): Object3D[] {
-    const camPoints = []
-    this.root.traverse((obj) => {
-      if (
-        obj.name.includes('cameraPathPoint') ||
-        obj.name.includes('entryPoint')
-      ) {
-        camPoints.push(obj)
-      }
-    })
-    return camPoints
-  }
-  // buildPoints(): Object3D[] {
-  //   const camPointsObjectArray: Object3D[] = []
-  //   for (let i = 0; i < this.points.length; i++) {
-  //     const point = this.points[i]
-  //     const cubeGeometery = new BoxGeometry(0.1, 0.1, 0.1)
-  //     const cubeMaterial = new MeshBasicMaterial({ color: 0xffff00 })
-
-  //     const cube = new Mesh(cubeGeometery, cubeMaterial)
-  //     cube.name = 'pathPoint-' + i
-  //     this.root.add(cube)
-  //     cube.position.set(
-  //       this.root.position.x + point.x,
-  //       this.root.position.y + point.y,
-  //       this.root.position.z + point.z
-  //     )
-
-  //     camPointsObjectArray.push(cube)
-  //   }
-  //   return camPointsObjectArray
-  // }
 
   toGlobalView(): void {
     this.status = Component3dStateEnum.GLOBAL_ONGOING

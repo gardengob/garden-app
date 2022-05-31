@@ -11,8 +11,6 @@ const loadingManager = LoadingManager.getInstance()
 export const kitchenComponent3d = new Component3d()
 kitchenComponent3d.name = 'kitchen'
 kitchenComponent3d.placeHolderName = 'Cuisine'
-kitchenComponent3d.index = 3
-kitchenComponent3d.cameraLookAtTarget.position.set(0, 1, 0)
 kitchenComponent3d.expectedObjects = []
 
 kitchenComponent3d.expectedObjects = ['kitchen_space']
