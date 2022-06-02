@@ -1,8 +1,9 @@
+import { IRecipe } from '../types/recipe'
 import { supabase } from '../utils/supabaseClient'
 
 class RecipeService {
   public async add(
-    recipe: any,
+    recipe: IRecipe,
     callback?: () => void
   ): Promise<void> {
     if (!recipe) return alert('Renseigner une recette')
@@ -15,9 +16,9 @@ class RecipeService {
           family_id: localStorage.getItem('family_id'),
           author_id: user.id,
           name: recipe.name,
-          people_amount: recipe.people,
-          preparation_time: recipe.preparation_time,
-          cooking_time: recipe.cooking_time,
+          people_amount: recipe.peopleAmount,
+          preparation_time: recipe.preparationTime,
+          cooking_time: recipe.cookingTime,
           ingredients: recipe.ingredients,
           instructions: recipe.instructions,
         },

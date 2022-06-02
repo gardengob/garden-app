@@ -97,10 +97,10 @@ export default function RecipeInformationsStep({
           onChange={preparationTimeAmountChange}
         />
         <select
-          name="preparationTimeType"
-          id="preparationTimeType"
-          onChange={preparationTimeUnitChange}
+          name="preparationTimeUnit"
+          id="preparationTimeUnit"
           value={preparationTime.unit}
+          onChange={preparationTimeUnitChange}
         >
           {(Object.keys(ETimeUnit) as Array<keyof typeof ETimeUnit>).map(
             (key, i) => {

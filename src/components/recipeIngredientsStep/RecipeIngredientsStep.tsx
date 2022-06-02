@@ -7,11 +7,18 @@ export default function RecipeIngredientsStep({
 }) {
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const addIngredientHandler = (ingredient_name: string) => {
-    if (ingredient_name === '' || ingredient_name.trim().length === 0) return
+  const addIngredientHandler = (name: string) => {
+    if (name === '' || name.trim().length === 0) return
 
-    ingredientsChange((ingredients) => [...ingredients, ingredient_name])
+    ingredientsChange((ingredients) => [
+      ...ingredients,
+      { name: name, amount: '', unit: '' },
+    ])
     inputRef.current.value = ''
+  }
+
+  const removeIngredientHandler = (index: number) => {
+    ingredientsChange((ingredients) => ingredients.splice(0, index))
   }
 
   return (
@@ -20,7 +27,11 @@ export default function RecipeIngredientsStep({
 
       <div className={css.ingredients}>
         {ingredients.map(function (item, i) {
-          return <li key={i}>{item}</li>
+          return (
+            <li key={i} onClick={() => removeIngredientHandler(i)}>
+              {item.name}
+            </li>
+          )
         })}
       </div>
 
@@ -33,7 +44,7 @@ export default function RecipeIngredientsStep({
         />
         <button
           className={css.button}
-          onClick={(e) => addIngredientHandler(inputRef.current.value)}
+          onClick={() => addIngredientHandler(inputRef.current.value)}
         >
           Ajouter ingrédient
         </button>
