@@ -4,14 +4,16 @@ import ProgressBar from '../components/progressBar/ProgressBar'
 import RecipeInformationsStep from '../components/recipeInformationsStep/RecipeInformationsStep'
 import RecipeIngredientsStep from '../components/recipeIngredientsStep/RecipeIngredientsStep'
 import RecipeInstructionsStep from '../components/recipeInstructionsStep/RecipeInstructionsStep'
+import RecipeQuantitiesStep from '../components/recipeQuantitiesStep/RecipeQuantitiesStep'
+import RecipeTagsStep from '../components/recipeTagsStep/RecipeTagsStep'
 import FamilyService from '../services/FamilyService'
 import RecipeService from '../services/RecipeService'
 import UserService from '../services/UserService'
-import { ETimeUnit, IIngredients, IMeasurable, IRecipe } from '../types/recipe'
+import { ETimeUnit, IIngredient, IMeasurable, IRecipe } from '../types/recipe'
 import { merge } from '../utils/arrayUtils'
 import css from './add-recipe.module.scss'
 
-const MAX_FORM_STEP = 3
+const MAX_FORM_STEP = 5
 const STARTING_RECIPE: IRecipe = {
   name: '',
   peopleAmount: 0,
@@ -44,7 +46,7 @@ export default function AddRecipe() {
   const [cookingTime, setCookingTime] = useState<IMeasurable>(
     STARTING_RECIPE.cookingTime
   )
-  const [ingredients, setIngredients] = useState<IIngredients[]>(
+  const [ingredients, setIngredients] = useState<IIngredient[]>(
     STARTING_RECIPE.ingredients
   )
   const [instructions, setInstructions] = useState<string[]>(
@@ -75,8 +77,8 @@ export default function AddRecipe() {
   ])
 
   useEffect(() => {
-    console.log(recipe)
-  }, [recipe])
+    // console.log('PARENT', ingredients)
+  }, [ingredients])
 
   // ------------------------------------------------------------------- METHODS
 
@@ -115,10 +117,10 @@ export default function AddRecipe() {
             }}
             preparationTime={preparationTime}
             preparationTimeAmountChange={(e) =>
-              setPreparationTime({ ...cookingTime, amount: e.target.value })
+              setPreparationTime({ ...preparationTime, amount: e.target.value })
             }
             preparationTimeUnitChange={(e) =>
-              setPreparationTime({ ...cookingTime, unit: e.target.value })
+              setPreparationTime({ ...preparationTime, unit: e.target.value })
             }
             cookingTime={cookingTime}
             cookingTimeAmountChange={(e) =>
@@ -129,7 +131,8 @@ export default function AddRecipe() {
             }
           />
         )}
-        {step === 2 && (
+        {step === 2 && <RecipeTagsStep />}
+        {step === 3 && (
           <RecipeIngredientsStep
             ingredients={ingredients}
             ingredientsChange={(newIngredients) =>
@@ -137,7 +140,15 @@ export default function AddRecipe() {
             }
           />
         )}
-        {step === 3 && (
+        {step === 4 && (
+          <RecipeQuantitiesStep
+            ingredients={ingredients}
+            ingredientsQuantitiesChange={(newIngredientsQuantities) =>
+              setIngredients(newIngredientsQuantities)
+            }
+          />
+        )}
+        {step === 5 && (
           <RecipeInstructionsStep
             instructions={instructions}
             instructionsChange={(newInstructions) =>

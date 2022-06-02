@@ -3,12 +3,12 @@ export interface IRecipe {
   peopleAmount: number
   preparationTime: IMeasurable
   cookingTime: IMeasurable
-  ingredients: IIngredients[]
+  ingredients: IIngredient[]
   instructions: string[]
   imageUrl: string
 }
 
-export interface IIngredients {
+export interface IIngredient {
   name: string
   amount: number
   unit: string

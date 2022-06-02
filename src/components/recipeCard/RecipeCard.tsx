@@ -31,7 +31,7 @@ export default function RecipeCard(recipe: any) {
           <div className={css.ingredients}>
             <label>Ingrédients</label>
             {recipe.recipe.ingredients.map(function (item, i) {
-              return <li key={i}>{item}</li>
+              return <li key={i}>{item.name}{item.amount}{item.unit}</li>
             })}
           </div>
 
