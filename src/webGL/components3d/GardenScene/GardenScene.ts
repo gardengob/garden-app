@@ -11,6 +11,9 @@ import {
   LoopRepeat,
   AmbientLight,
   AnimationAction,
+  LoopOnce,
+  Clock,
+  Object3D,
 } from 'three'
 import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
 import { Scene } from '../../webGLArchitecture/Classes/Scene/Scene'
@@ -32,7 +35,7 @@ import gsap from 'gsap'
 import { portalComponent3d } from '../Portal/Portal.main'
 export const gardenScene = new Scene()
 const loadingManager = LoadingManager.getInstance()
-
+const STARTING_CAMERA_OFFSET = 4
 gardenScene.expectedObjects = ['garden_base', 'base_fake_elements3']
 
 gardenScene.components.push(vegetableGardenComponent3d)
@@ -47,6 +50,7 @@ MaterialHelper.disableLights(gardenScene.sceneBase)
 
 let cameraTest: PerspectiveCamera
 let mixerCam: AnimationMixer
+let mixerPortal: AnimationMixer
 const ANIMATION_SPEED = 1 / 144
 const ANIMATION_SPEED_COEF = 1 / 20
 
@@ -57,6 +61,7 @@ let closeElement: Component3d = null
 
 gardenScene.onInit = (scene) => {
   const appManager = AppManager.getInstance()
+  gardenScene.statesDictionnary['introPlayed'] = false
 
   const gltfMap: Map<string, GLTF> = loadingManager.getFromList(
     gardenScene.expectedObjects
@@ -68,7 +73,6 @@ gardenScene.onInit = (scene) => {
   // const testBake = scene.getObject('test_bake')
 
   const clipsCam = (gardenBase as GLTFObject).GLTF.animations
-
   const gardenBaseModel = gardenBase.getModel()
   // const testBaseModel = testBase.getModel()
   // const testBakeModel = testBake.getModel()
@@ -80,8 +84,13 @@ gardenScene.onInit = (scene) => {
   cameraTest = gardenBaseModel.getObjectByName(
     'Caméra_Orientation'
   ) as PerspectiveCamera
+
+  const worldCameraInitialAnimationPos: Vector3 = new Vector3()
   const helpertest = new CameraHelper(cameraTest as Camera)
+  cameraTest.getWorldPosition(worldCameraInitialAnimationPos)
+  // cameraTest.rotateOnAxis(new Vector3(0, 0, 1), Math.PI / 2)
   // appManager.scene.add(gardenBaseModel)
+  cameraTest.zoom = 0.93
   appManager.camera = cameraTest
   appManager.onWindowResize()
   gardenBaseModel.add(helpertest)
@@ -114,20 +123,89 @@ gardenScene.onInit = (scene) => {
       }
     })
   })
-
-  const light = new AmbientLight()
-  // appManager.scene.add(light)
-
-  // ANIMATIONS
+  const portalGLTF = portalComponent3d.getObject('portal_space')
+  // ANIMATIONS"Cube.052Action"
+  // CAMERA
+  console.log('clipsCam', clipsCam)
   mixerCam = new AnimationMixer(gardenBaseModel)
   const clip: AnimationClip = AnimationClip.findByName(clipsCam, 'Action')
+  const entrPathClip: AnimationClip = AnimationClip.findByName(
+    clipsCam,
+    'Action.001'
+  )
   const action: AnimationAction = mixerCam.clipAction(clip)
+  const entryAction: AnimationAction = mixerCam.clipAction(entrPathClip)
   action.loop = LoopRepeat
+  entryAction.loop = LoopOnce
   action.play()
   cameraPathDuration = clip.duration
-
   gardenScene.assignPoints()
+  console.log('points', gardenScene.entryPoints)
+
+  const clipsPortal = (portalGLTF as GLTFObject).GLTF.animations
+  // PORTAL
+  mixerPortal = new AnimationMixer(portalComponent3d.root)
+  console.log('portal animations', clipsPortal)
+  const portalClip: AnimationClip = AnimationClip.findByName(
+    clipsPortal,
+    'Cube.052Action.001'
+  )
+  const portalAction: AnimationAction = mixerPortal.clipAction(portalClip)
+  portalAction.loop = LoopOnce
+  // cameraPathDuration = portalClip.duration
+
   MaterialHelper.disableLights(gardenScene.sceneBase)
+  // cameraTest.rotateOnWorldAxis(new Vector3(0, 1, 0), Math.PI)
+  cameraTest.position.y = -STARTING_CAMERA_OFFSET
+  cameraTest.position.z = -1
+
+  const test = new Vector3(0, -0.25, 1)
+
+  cameraTest.rotateOnWorldAxis(test, Math.PI)
+  const rotation = {
+    value: 0,
+  }
+  SpaceEntryService.gardenEntrySignal.on(() => {
+    console.log('pazpeapzepazep')
+    gsap
+      .to(cameraTest.position, {
+        z: cameraTest.position.z + 0.9,
+        y: worldCameraInitialAnimationPos.y - STARTING_CAMERA_OFFSET / 2,
+        duration: 4,
+        ease: 'power2.inOut',
+        onStart: () => {
+          gsap.to(rotation, {
+            value: Math.PI,
+            duration: 3.5,
+            ease: 'power1.inOut',
+            delay: 2,
+            onUpdate: () => {
+              cameraTest.rotateOnWorldAxis(test, -0.015)
+            },
+          })
+          portalAction.play()
+          mixerPortal.setTime(1.2)
+
+          const animationTime = {
+            value: mixerCam.time,
+          }
+          gsap.to(animationTime, {
+            value: cameraLoopNumber * cameraPathDuration + 3,
+            onUpdate: (tween) => {
+              console.log('tween', tween)
+              mixerCam.setTime(animationTime.value)
+            },
+            ease: 'power1.inOut',
+            duration: 3.5,
+            delay: 2,
+          })
+        },
+      })
+
+      .then(() => {
+        gardenScene.statesDictionnary['introPlayed'] = true
+      })
+  })
 }
 
 ScrollService.signal.on((e) => {
@@ -152,26 +230,29 @@ RoutingCameraService.signal.on((time) => {
 gardenScene.onAnimationLoop = (ellapsedTime) => {
   const appManager = AppManager.getInstance()
   const camLoop = Math.floor(mixerCam.time / cameraPathDuration)
+  mixerPortal.update(1 / 60)
   if (camLoop != cameraLoopNumber) {
     cameraLoopNumber = camLoop
     console.log(cameraLoopNumber)
   }
-  if (scrolling < -0.1 || scrolling > 0.1) {
-    if (scrolling > 0) {
-      mixerCam.update(
-        ANIMATION_SPEED *
-          ANIMATION_SPEED_COEF *
-          ellapsedTime *
-          Math.sqrt(scrolling)
-      )
-    }
-    if (scrolling < 0) {
-      mixerCam.update(
-        -ANIMATION_SPEED *
-          ANIMATION_SPEED_COEF *
-          ellapsedTime *
-          Math.sqrt(Math.abs(scrolling))
-      )
+  if (gardenScene.statesDictionnary['introPlayed']) {
+    if (scrolling < -0.1 || scrolling > 0.1) {
+      if (scrolling > 0) {
+        mixerCam.update(
+          ANIMATION_SPEED *
+            ANIMATION_SPEED_COEF *
+            ellapsedTime *
+            Math.sqrt(scrolling)
+        )
+      }
+      if (scrolling < 0) {
+        mixerCam.update(
+          -ANIMATION_SPEED *
+            ANIMATION_SPEED_COEF *
+            ellapsedTime *
+            Math.sqrt(Math.abs(scrolling))
+        )
+      }
     }
   }
 
@@ -179,6 +260,7 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
   for (let i = 0; i < gardenScene.entryPoints.length; i++) {
     const element = gardenScene.entryPoints[i]
 
+    console.log('mixerCam.time', cameraPathDuration)
     if (
       mixerCam.time >
         cameraLoopNumber * cameraPathDuration +
@@ -189,6 +271,8 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
           RoutingCameraService.cameraTimedPositions[element.component.name] +
           0.2
     ) {
+      console.log('found: ', element.component.name)
+
       notCloseToAnyThing = false
       if (element.component != closeElement) {
         closeElement = element.component

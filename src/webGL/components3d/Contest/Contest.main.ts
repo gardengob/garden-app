@@ -24,7 +24,7 @@ contestComponent3d.onInit = () => {
   // const light = new AmbientLight(0x404040) // soft white light
   // contestComponent3d.root.add(light)
   contestComponent3d.root.add(pocHouse.getModel())
-  contestComponent3d.root.position.set(6, 0, 6)
+  // contestComponent3d.root.position.set(6, 0, 6)
   // console.log('cegetableGardenComponent initialized')
   ContestGraphConstruction(contestComponent3d)
   ContestInitialization(contestComponent3d)

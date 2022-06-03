@@ -170,7 +170,11 @@ export class AppManager {
   }
 
   buildRender(): WebGLRenderer {
-    const renderer = new WebGLRenderer({ canvas: this.canvas, alpha: true })
+    const renderer = new WebGLRenderer({
+      canvas: this.canvas,
+      alpha: true,
+      antialias: true,
+    })
     const DPR = window.devicePixelRatio ? window.devicePixelRatio : 1
     renderer.outputEncoding = sRGBEncoding
     renderer.setPixelRatio(DPR)
