@@ -156,8 +156,6 @@ gardenScene.onInit = (scene) => {
 
   MaterialHelper.disableLights(gardenScene.sceneBase)
   // cameraTest.rotateOnWorldAxis(new Vector3(0, 1, 0), Math.PI)
-  cameraTest.position.y = -STARTING_CAMERA_OFFSET
-  cameraTest.position.z = -1
 
   const test = new Vector3(0, -0.25, 1)
 
@@ -167,44 +165,7 @@ gardenScene.onInit = (scene) => {
   }
   SpaceEntryService.gardenEntrySignal.on(() => {
     console.log('pazpeapzepazep')
-    gsap
-      .to(cameraTest.position, {
-        z: cameraTest.position.z + 0.9,
-        y: worldCameraInitialAnimationPos.y - STARTING_CAMERA_OFFSET / 2,
-        duration: 4,
-        ease: 'power2.inOut',
-        onStart: () => {
-          gsap.to(rotation, {
-            value: Math.PI,
-            duration: 3.5,
-            ease: 'power1.inOut',
-            delay: 2,
-            onUpdate: () => {
-              cameraTest.rotateOnWorldAxis(test, -0.015)
-            },
-          })
-          portalAction.play()
-          mixerPortal.setTime(1.2)
-
-          const animationTime = {
-            value: mixerCam.time,
-          }
-          gsap.to(animationTime, {
-            value: cameraLoopNumber * cameraPathDuration + 3,
-            onUpdate: (tween) => {
-              console.log('tween', tween)
-              mixerCam.setTime(animationTime.value)
-            },
-            ease: 'power1.inOut',
-            duration: 3.5,
-            delay: 2,
-          })
-        },
-      })
-
-      .then(() => {
-        gardenScene.statesDictionnary['introPlayed'] = true
-      })
+    gardenScene.statesDictionnary['introPlayed'] = 'shallPlay'
   })
 }
 
