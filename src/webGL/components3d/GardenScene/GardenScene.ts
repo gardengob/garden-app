@@ -168,7 +168,6 @@ gardenScene.onInit = (scene) => {
   const portalAction: AnimationAction = mixerPortal.clipAction(portalClip)
   portalAction.loop = LoopOnce
   // cameraPathDuration = portalClip.duration
-
   MaterialHelper.disableLights(gardenScene.sceneBase)
   // cameraTest.rotateOnWorldAxis(new Vector3(0, 1, 0), Math.PI)
 
@@ -182,11 +181,13 @@ gardenScene.onInit = (scene) => {
   //========== ENTRY ===========//
   SpaceEntryService.gardenEntrySignal.on(() => {
     entryAction.play()
+    mixerPortal.setTime(1.3)
+    portalAction.play()
+
     const animationFinished = setTimeout(() => {
       console.log('finished', entrPathClip.duration)
 
       mixerCam.setTime(2.7915)
-      portalAction.play()
       appManager.camera = cameraTest
       appManager.onWindowResize()
     }, entrPathClip.duration * mixerEntryCam.timeScale * 300)
