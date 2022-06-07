@@ -33,6 +33,7 @@ import ScrollService from '../../../services/events/ScrollService'
 import RoutingCameraService from '../../../services/events/RoutingCameraService'
 import gsap from 'gsap'
 import { portalComponent3d } from '../Portal/Portal.main'
+import Stats from 'three/examples/jsm/libs/stats.module'
 export const gardenScene = new Scene()
 const loadingManager = LoadingManager.getInstance()
 const STARTING_CAMERA_OFFSET = 4
@@ -49,7 +50,9 @@ gardenScene.components.push(portalComponent3d)
 MaterialHelper.disableLights(gardenScene.sceneBase)
 
 let cameraTest: PerspectiveCamera
+let cameraEntry: PerspectiveCamera
 let mixerCam: AnimationMixer
+let mixerEntryCam: AnimationMixer
 let mixerPortal: AnimationMixer
 const ANIMATION_SPEED = 1 / 144
 const ANIMATION_SPEED_COEF = 1 / 20
@@ -59,7 +62,9 @@ let cameraLoopNumber = 0
 let scrolling = 0
 let closeElement: Component3d = null
 
+const stats = Stats()
 gardenScene.onInit = (scene) => {
+  document.body.appendChild(stats.dom)
   const appManager = AppManager.getInstance()
   gardenScene.statesDictionnary['introPlayed'] = false
 
@@ -85,15 +90,22 @@ gardenScene.onInit = (scene) => {
     'Caméra_Orientation'
   ) as PerspectiveCamera
 
+  cameraEntry = gardenBaseModel.getObjectByName(
+    'Caméra001_Orientation'
+  ) as PerspectiveCamera
+
   const worldCameraInitialAnimationPos: Vector3 = new Vector3()
   const helpertest = new CameraHelper(cameraTest as Camera)
   cameraTest.getWorldPosition(worldCameraInitialAnimationPos)
   // cameraTest.rotateOnAxis(new Vector3(0, 0, 1), Math.PI / 2)
   // appManager.scene.add(gardenBaseModel)
   cameraTest.zoom = 0.93
-  appManager.camera = cameraTest
+  cameraEntry.zoom = 0.93
+  cameraEntry.rotateX(-0.01)
+  cameraEntry.rotateY(0.01)
+  appManager.camera = cameraEntry
   appManager.onWindowResize()
-  gardenBaseModel.add(helpertest)
+  // gardenBaseModel.add(helpertest)
 
   gardenScene.components.forEach((component) => {
     gardenBaseModel.traverse((child) => {
@@ -128,15 +140,18 @@ gardenScene.onInit = (scene) => {
   // CAMERA
   console.log('clipsCam', clipsCam)
   mixerCam = new AnimationMixer(gardenBaseModel)
+  mixerEntryCam = new AnimationMixer(gardenBaseModel)
   const clip: AnimationClip = AnimationClip.findByName(clipsCam, 'Action')
   const entrPathClip: AnimationClip = AnimationClip.findByName(
     clipsCam,
     'Action.001'
   )
   const action: AnimationAction = mixerCam.clipAction(clip)
-  const entryAction: AnimationAction = mixerCam.clipAction(entrPathClip)
+  const entryAction: AnimationAction = mixerEntryCam.clipAction(entrPathClip)
   action.loop = LoopRepeat
   entryAction.loop = LoopOnce
+
+  entryAction.clampWhenFinished = true
   action.play()
   cameraPathDuration = clip.duration
   gardenScene.assignPoints()
@@ -159,11 +174,22 @@ gardenScene.onInit = (scene) => {
 
   const test = new Vector3(0, -0.25, 1)
 
-  cameraTest.rotateOnWorldAxis(test, Math.PI)
-  const rotation = {
-    value: 0,
-  }
+  // cameraTest.rotateOnWorldAxis(test, Math.PI)
+  // const rotation = {
+  //   value: 0,
+  // }
+
+  //========== ENTRY ===========//
   SpaceEntryService.gardenEntrySignal.on(() => {
+    entryAction.play()
+    const animationFinished = setTimeout(() => {
+      console.log('finished', entrPathClip.duration)
+
+      mixerCam.setTime(2.7915)
+      portalAction.play()
+      appManager.camera = cameraTest
+      appManager.onWindowResize()
+    }, entrPathClip.duration * mixerEntryCam.timeScale * 300)
     console.log('pazpeapzepazep')
     gardenScene.statesDictionnary['introPlayed'] = 'shallPlay'
   })
@@ -189,7 +215,9 @@ RoutingCameraService.signal.on((time) => {
 })
 
 gardenScene.onAnimationLoop = (ellapsedTime) => {
+  stats.update()
   const appManager = AppManager.getInstance()
+  mixerEntryCam.update(1 / 60)
   const camLoop = Math.floor(mixerCam.time / cameraPathDuration)
   mixerPortal.update(1 / 60)
   if (camLoop != cameraLoopNumber) {
@@ -221,7 +249,6 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
   for (let i = 0; i < gardenScene.entryPoints.length; i++) {
     const element = gardenScene.entryPoints[i]
 
-    console.log('mixerCam.time', cameraPathDuration)
     if (
       mixerCam.time >
         cameraLoopNumber * cameraPathDuration +
