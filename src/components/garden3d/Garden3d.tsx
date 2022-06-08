@@ -17,6 +17,7 @@ import { useRouter } from 'next/router'
 import Stats from 'three/examples/jsm/libs/stats.module'
 import ScrollService from '../../services/events/ScrollService'
 import { merge } from '../../utils/arrayUtils'
+import LoadingService from '../../services/events/LoadingService'
 export interface IWindowSize {
   width: number
   height: number
@@ -32,13 +33,15 @@ export default function Garden3d({ className }) {
     height: 0,
   })
   const [elementNear, setElementNear] = useState(null)
+
   const router = useRouter()
 
   useEffect(() => {
     const loadingManager = LoadingManager.getInstance()
     const appManager = AppManager.getInstance()
 
-    SpaceEntryService.signal.on((name) => {
+    SpaceEntryService.spaceSignal.on((name) => {
+      console.log('papapasdsofsfo')
       setElementNear(name)
     })
 
@@ -130,17 +133,19 @@ export default function Garden3d({ className }) {
   function onLoadErrorFunction(error: ErrorEvent): void {}
   function onModelLoadedFunction(gltf: GLTF, loadingPercent: number): void {}
   function onAllLoadedFunction(): void {
+    LoadingService.loadingFinished()
     const appManager = AppManager.getInstance()
 
     appManager.appState = AppStateEnum.INITIALIZING
   }
   function onLoadingFunction(xhr: ProgressEvent<EventTarget>): void {
-    // console.log(Math.round((xhr.loaded * 100) / xhr.total))
+    console.log(Math.round((xhr.loaded * 100) / xhr.total))
   }
 
   return (
     <div className={merge([className, css.webgl])}>
       {/* <div>{stats.domElement}</div> */}
+
       <button
         style={{
           position: 'absolute',

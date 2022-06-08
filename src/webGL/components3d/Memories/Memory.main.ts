@@ -2,29 +2,14 @@ import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManage
 import { Component3d } from '../../webGLArchitecture/Classes/Compoment3d/Component3d'
 import { MemoryGraphConstruction } from './Memory.graphConstruction'
 import { MemoryInitialization } from './Memory.intialization'
-import {
-  AmbientLight,
-  BoxGeometry,
-  BufferGeometry,
-  CubicBezierCurve3,
-  Line,
-  LineBasicMaterial,
-  Mesh,
-  MeshBasicMaterial,
-  Object3D,
-  Points,
-  PointsMaterial,
-  Vector3,
-} from 'three'
-import { Geometry, GLTF } from 'three-stdlib'
+
+import { GLTF } from 'three-stdlib'
 
 import { LoadingManager } from '../../webGLArchitecture/Classes/LoadingManager/LoadingManager'
 
 const loadingManager = LoadingManager.getInstance()
 
 export const memoryComponent3d = new Component3d()
-memoryComponent3d.index = 4
-memoryComponent3d.cameraLookAtTarget.position.set(0, 1, 0)
 memoryComponent3d.name = 'memories'
 memoryComponent3d.placeHolderName = 'Memories'
 memoryComponent3d.expectedObjects = ['memories_space']

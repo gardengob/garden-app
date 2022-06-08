@@ -13,8 +13,6 @@ export const treeComponent3d = new Component3d()
 treeComponent3d.root.position.set(2, 0, 2)
 treeComponent3d.name = 'tree'
 treeComponent3d.placeHolderName = 'Arbre'
-treeComponent3d.cameraLookAtTarget.position.set(0, 4, 0)
-treeComponent3d.index = 5
 
 treeComponent3d.expectedObjects = ['tree_space']
 
