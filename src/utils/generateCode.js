@@ -1,4 +1,4 @@
-export const generateCode = (): string => {
+export const generateCode = () => {
   let code = ''
   const possible =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'

@@ -2,6 +2,9 @@ import Image from 'next/image'
 import css from './RecipeCard.module.scss'
 
 export default function RecipeCard(recipe: any) {
+
+  console.log(recipe)
+  
   return (
     <div className={css.root}>
       {recipe.recipe && (
@@ -31,7 +34,13 @@ export default function RecipeCard(recipe: any) {
           <div className={css.ingredients}>
             <label>Ingrédients</label>
             {recipe.recipe.ingredients.map(function (item, i) {
-              return <li key={i}>{item.name}{item.amount}{item.unit}</li>
+              return (
+                <li key={i}>
+                  {item.name}{' '}
+                  {item.amount}{' '}
+                  {item.unit}
+                </li>
+              )
             })}
           </div>
 
