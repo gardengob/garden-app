@@ -101,8 +101,8 @@ gardenScene.onInit = (scene) => {
   // appManager.scene.add(gardenBaseModel)
   cameraTest.zoom = 0.93
   cameraEntry.zoom = 0.93
-  cameraEntry.rotateX(-0.01)
-  cameraEntry.rotateY(0.01)
+  // cameraEntry.rotateY(0.0115)
+  // cameraEntry.rotateZ(0.05)
   appManager.camera = cameraEntry
   appManager.onWindowResize()
   // gardenBaseModel.add(helpertest)
@@ -121,18 +121,18 @@ gardenScene.onInit = (scene) => {
           child.rotation.z
         )
       }
-      if (child.name === 'Portail') {
-        // testBakeModel.position.set(
-        //   child.position.x,
-        //   child.position.y,
-        //   child.position.z
-        // )
-        // testBakeModel.rotation.set(
-        //   child.rotation.x,
-        //   child.rotation.y,
-        //   child.rotation.z
-        // )
-      }
+      // if (child.name === 'Portail') {
+      //   testBakeModel.position.set(
+      //     child.position.x,
+      //     child.position.y,
+      //     child.position.z
+      //   )
+      //   testBakeModel.rotation.set(
+      //     child.rotation.x,
+      //     child.rotation.y,
+      //     child.rotation.z
+      //   )
+      // }
     })
   })
   const portalGLTF = portalComponent3d.getObject('portal_space')
@@ -163,15 +163,13 @@ gardenScene.onInit = (scene) => {
   console.log('portal animations', clipsPortal)
   const portalClip: AnimationClip = AnimationClip.findByName(
     clipsPortal,
-    'Cube.052Action.001'
+    'Cube.052Action'
   )
   const portalAction: AnimationAction = mixerPortal.clipAction(portalClip)
   portalAction.loop = LoopOnce
   // cameraPathDuration = portalClip.duration
   MaterialHelper.disableLights(gardenScene.sceneBase)
   // cameraTest.rotateOnWorldAxis(new Vector3(0, 1, 0), Math.PI)
-
-  const test = new Vector3(0, -0.25, 1)
 
   // cameraTest.rotateOnWorldAxis(test, Math.PI)
   // const rotation = {
@@ -181,13 +179,14 @@ gardenScene.onInit = (scene) => {
   //========== ENTRY ===========//
   SpaceEntryService.gardenEntrySignal.on(() => {
     entryAction.play()
-    mixerPortal.setTime(1.3)
+    mixerPortal.setTime(3)
     portalAction.play()
 
     const animationFinished = setTimeout(() => {
       console.log('finished', entrPathClip.duration)
 
-      mixerCam.setTime(2.7915)
+      mixerCam.setTime(2.793)
+      // mixerCam.setTime(2.7935)
       appManager.camera = cameraTest
       appManager.onWindowResize()
     }, entrPathClip.duration * mixerEntryCam.timeScale * 300)

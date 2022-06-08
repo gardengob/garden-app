@@ -10,7 +10,7 @@ const loadingManager = LoadingManager.getInstance()
 
 export const portalComponent3d = new Component3d()
 portalComponent3d.name = 'portal'
-portalComponent3d.placeHolderName = ''
+portalComponent3d.placeHolderName = 'Portal'
 portalComponent3d.expectedObjects = ['portal_space']
 
 portalComponent3d.onInit = () => {
