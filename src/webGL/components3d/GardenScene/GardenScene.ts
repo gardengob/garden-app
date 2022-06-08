@@ -62,6 +62,8 @@ let cameraLoopNumber = 0
 let scrolling = 0
 let closeElement: Component3d = null
 
+let introFrameCount
+
 const stats = Stats()
 gardenScene.onInit = (scene) => {
   document.body.appendChild(stats.dom)
@@ -178,18 +180,13 @@ gardenScene.onInit = (scene) => {
 
   //========== ENTRY ===========//
   SpaceEntryService.gardenEntrySignal.on(() => {
+    introFrameCount = 0
     entryAction.play()
     mixerPortal.setTime(3)
     portalAction.play()
 
-    const animationFinished = setTimeout(() => {
-      console.log('finished', entrPathClip.duration)
-
-      mixerCam.setTime(2.793)
-      // mixerCam.setTime(2.7935)
-      appManager.camera = cameraTest
-      appManager.onWindowResize()
-    }, entrPathClip.duration * mixerEntryCam.timeScale * 300)
+    // const animationFinished = setTimeout(() => {},
+    // entrPathClip.duration * mixerEntryCam.timeScale * 300)
     console.log('pazpeapzepazep')
     gardenScene.statesDictionnary['introPlayed'] = 'shallPlay'
   })
@@ -215,6 +212,7 @@ RoutingCameraService.signal.on((time) => {
 })
 
 gardenScene.onAnimationLoop = (ellapsedTime) => {
+  introFrameCount++
   stats.update()
   const appManager = AppManager.getInstance()
   mixerEntryCam.update(1 / 60)
@@ -224,6 +222,24 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
     cameraLoopNumber = camLoop
     console.log(cameraLoopNumber)
   }
+  console.log(
+    " gardenScene.statesDictionnary['introPlayed']",
+    gardenScene.statesDictionnary['introPlayed']
+  )
+  console.log(' introFrameCount', introFrameCount)
+  if (
+    introFrameCount >= 260 &&
+    gardenScene.statesDictionnary['introPlayed'] === 'shallPlay'
+  ) {
+    // console.log('finished', entrPathClip.duration)
+
+    mixerCam.setTime(2.793)
+    // mixerCam.setTime(2.7935)
+    appManager.camera = cameraTest
+    appManager.onWindowResize()
+    introFrameCount = 0
+  }
+
   if (gardenScene.statesDictionnary['introPlayed']) {
     if (scrolling < -0.1 || scrolling > 0.1) {
       if (scrolling > 0) {
