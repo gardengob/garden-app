@@ -8,8 +8,16 @@ import RecipeQuantitiesStep from '../components/recipeQuantitiesStep/RecipeQuant
 import RecipeTagsStep from '../components/recipeTagsStep/RecipeTagsStep'
 import FamilyService from '../services/FamilyService'
 import RecipeService from '../services/RecipeService'
+import TagService from '../services/TagService'
 import UserService from '../services/UserService'
-import { ETimeUnit, IIngredient, IMeasurable, IRecipe } from '../types/recipe'
+import {
+  EDifficulty,
+  ETimeUnit,
+  IIngredient,
+  IMeasurable,
+  IRecipe,
+  ITag,
+} from '../types/recipe'
 import { merge } from '../utils/arrayUtils'
 import css from './add-recipe.module.scss'
 
@@ -28,6 +36,26 @@ const STARTING_RECIPE: IRecipe = {
   ingredients: [],
   instructions: [],
   imageUrl: '',
+  difficulty: {
+    id: 'ab7f3f15-7736-4a52-8739-42ffa00468b0',
+    label: 'Moyen',
+    type_id: 'ebc4b03d-6876-4ea2-a1a5-1801cca03540',
+    family_id: null,
+  },
+  diet: {
+    id: '365c5dc1-1b78-4ac1-9733-ca8a5f995c8f',
+    label: 'Omnivore',
+    type_id: 'be47f87b-b0aa-4308-828b-673a45f03edb',
+    family_id: null,
+  },
+  tags: [
+    {
+      family_id: '22d38158-427c-42e6-929a-748c4689a782',
+      id: '3e85a7e6-d230-4386-bfd5-72706d7c6757',
+      label: 'Bon pour le corps',
+      type_id: '8dc1dc16-ea42-4783-81cf-8dcd036d39c9',
+    },
+  ],
 }
 
 export default function AddRecipe() {
@@ -54,7 +82,16 @@ export default function AddRecipe() {
   )
   const [imageUrl, setImageUrl] = useState<string>(STARTING_RECIPE.imageUrl)
 
+  const [difficulty, setDifficulty] = useState<ITag>(STARTING_RECIPE.difficulty)
+
+  const [diet, setDiet] = useState<ITag>(STARTING_RECIPE.diet)
+
+  const [tags, setTags] = useState<ITag[]>(STARTING_RECIPE.tags)
   // ------------------------------------------------------------------- USE
+
+  useEffect(() => {
+    TagService.getAll()
+  }, [])
 
   useEffect(() => {
     setRecipe({
@@ -65,6 +102,9 @@ export default function AddRecipe() {
       ingredients,
       instructions,
       imageUrl,
+      difficulty,
+      diet,
+      tags,
     })
   }, [
     name,
@@ -74,11 +114,14 @@ export default function AddRecipe() {
     ingredients,
     instructions,
     imageUrl,
+    difficulty,
+    diet,
+    tags,
   ])
 
   useEffect(() => {
-    // console.log('PARENT', ingredients)
-  }, [ingredients])
+    console.log(recipe)
+  }, [recipe])
 
   // ------------------------------------------------------------------- METHODS
 
@@ -112,9 +155,7 @@ export default function AddRecipe() {
             name={name}
             nameChange={(e) => setName(e.target.value)}
             peopleAmount={peopleAmount}
-            peopleAmountChange={(amount) => {
-              setPeopleAmount(amount)
-            }}
+            peopleAmountChange={(amount) => setPeopleAmount(amount)}
             preparationTime={preparationTime}
             preparationTimeAmountChange={(e) =>
               setPreparationTime({ ...preparationTime, amount: e.target.value })
@@ -131,7 +172,16 @@ export default function AddRecipe() {
             }
           />
         )}
-        {step === 2 && <RecipeTagsStep />}
+        {step === 2 && (
+          <RecipeTagsStep
+            difficulty={difficulty}
+            difficultyChange={(dif) => setDifficulty(dif)}
+            diet={diet}
+            dietChange={(dt) => setDiet(dt)}
+            tags={tags}
+            tagsChange={(newTags) => setTags(newTags)}
+          />
+        )}
         {step === 3 && (
           <RecipeIngredientsStep
             ingredients={ingredients}

@@ -13,8 +13,6 @@ export default function Recipes() {
   const [currentRecipe, setCurrentRecipe] = useState(null)
 
   useEffect(() => {
-    FamilyService.getRecipes(localStorage.getItem('family_id'))
-
     const subscription = supabase
       .from('user_family')
       .on('*', (payload) => {
@@ -25,7 +23,7 @@ export default function Recipes() {
       .subscribe()
 
     FamilyService.getRecipes(localStorage.getItem('family_id')).then(
-      (families) => setRecipes(families)
+      (familyRecipes) => setRecipes(familyRecipes)
     )
 
     return () => {

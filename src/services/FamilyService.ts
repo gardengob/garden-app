@@ -68,7 +68,7 @@ class FamilyService {
     } finally {
       // Then we make the current user join this exact same family
       this.join(family_code)
-      callback()
+      if (callback) callback()
     }
   }
 
