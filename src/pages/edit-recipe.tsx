@@ -22,39 +22,38 @@ import {
 import { merge } from '../utils/arrayUtils'
 import css from './add-recipe.module.scss'
 
-const STARTING_RECIPE: IRecipe = {
-  familyId: '',
-  authorId: '',
-  name: '',
-  peopleAmount: 0,
-  preparationTime: {
-    amount: 0,
-    unit: ETimeUnit.MINUTES,
-  },
-  cookingTime: {
-    amount: 0,
-    unit: ETimeUnit.MINUTES,
-  },
-  ingredients: [],
-  instructions: [],
-  imageUrl: '',
-  difficulty: {
-    id: '',
-    label: '',
-    type_id: '',
-    family_id: '',
-  },
-  diet: {
-    id: '',
-    label: '',
-    type_id: '',
-    family_id: '',
-  },
-  tags: [],
-}
-
 export default function AddRecipe() {
+  const router = useRouter()
+  const { rid } = router.query
+  const [recipe, setRecipe] = useState<IRecipe>(null)
+
   // ------------------------------------------------------------------- USE
+
+  useEffect(() => {
+    if (rid) {
+      RecipeService.get(rid).then((reci) => console.log(reci))
+      RecipeService.get(rid).then((reci) =>
+        setRecipe({
+          familyId: reci.familyId,
+          authorId: reci.authorId,
+          name: reci.name,
+          peopleAmount: reci.peopleAmount,
+          preparationTime: reci.preparationTime,
+          cookingTime: reci.cookingTime,
+          ingredients: reci.ingredients,
+          instructions: reci.instructions,
+          imageUrl: reci.imageUrl,
+          difficulty: reci.difficulty,
+          diet: reci.diet,
+          tags: reci.tags,
+        })
+      )
+    }
+  }, [rid])
+
+  useEffect(() => {
+    console.log(recipe)
+  }, [recipe])
 
   // ------------------------------------------------------------------- METHODS
 
@@ -62,9 +61,7 @@ export default function AddRecipe() {
 
   return (
     <div className={css.root} style={{ padding: '100px 50px' }}>
-      {/* <ProgressBar progress={progress} /> */}
-
-      <RecipeForm recipe={STARTING_RECIPE} />
+      {recipe && <RecipeForm recipe={recipe} />}
     </div>
   )
 }

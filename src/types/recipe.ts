@@ -1,5 +1,7 @@
 export interface IRecipe {
   id?: string
+  familyId: string
+  authorId: string
   name: string
   peopleAmount: number
   preparationTime: IMeasurable

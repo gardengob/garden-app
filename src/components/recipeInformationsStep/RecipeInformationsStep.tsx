@@ -1,6 +1,7 @@
 import css from './RecipeInformationsStep.module.scss'
 import { useEffect, useRef, useState } from 'react'
 import { ETimeUnit, IMeasurable } from '../../types/recipe'
+import RecipeImageUploader from '../recipeImageUploader/RecipeImageUploader'
 
 type Props = {
   name: string
@@ -13,6 +14,8 @@ type Props = {
   cookingTime: IMeasurable
   cookingTimeAmountChange: (e) => void
   cookingTimeUnitChange: (e) => void
+  imageUrl: string
+  imageUrlChange: (string) => void
 }
 
 export default function RecipeInformationsStep({
@@ -26,6 +29,8 @@ export default function RecipeInformationsStep({
   cookingTime,
   cookingTimeAmountChange,
   cookingTimeUnitChange,
+  imageUrl,
+  imageUrlChange,
 }: Props) {
   const peopleInputRef = useRef(null)
   const [inputPeopleAmount, setInputPeopleAmount] =
@@ -140,6 +145,13 @@ export default function RecipeInformationsStep({
           )}
         </select>
       </div>
+      <RecipeImageUploader
+        url={imageUrl}
+        size={150}
+        onUpload={(url) => {
+          imageUrlChange(url)
+        }}
+      />
     </div>
   )
 }
