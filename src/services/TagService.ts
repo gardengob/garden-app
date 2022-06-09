@@ -18,7 +18,7 @@ class TagService {
       //     {
       //     label,
       //     type_id: '',
-      //     family_id: localStorage.getItem('family_id'),
+      //     family_id: localStorage.getItem('familyId'),
       //     },
       // ])
 
@@ -56,7 +56,7 @@ class TagService {
   public async getDifficulties(): Promise<ITag[]> {
     let id
     try {
-      // First we get the id of diet tags
+      // First we get the id of difficulty tags
       let { data } = await supabase
         .from('tag_type')
         .select('id, label')
@@ -76,7 +76,7 @@ class TagService {
   }
 
   public async getAll(): Promise<ITag[]> {
-    const family_id = localStorage.getItem('family_id')
+    const familyId = localStorage.getItem('familyId')
     let id
     try {
       // First we get the id of default tags
@@ -93,7 +93,7 @@ class TagService {
         .from('tag')
         .select('id, label, type_id, family_id')
         .eq('type_id', id)
-        .or(`family_id.eq.${family_id},family_id.is.${null}`)
+        .or(`family_id.eq.${familyId},family_id.is.${null}`)
 
       return data
     }

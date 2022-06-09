@@ -1,8 +1,10 @@
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useLayoutEffect, useState } from 'react'
 import RecipeCard from '../components/recipeCard/RecipeCard'
 import FamilyService from '../services/FamilyService'
 import RecipeService from '../services/RecipeService'
+import { IRecipe } from '../types/recipe'
 import { supabase } from '../utils/supabaseClient'
 import css from './recipes.module.scss'
 
@@ -10,19 +12,19 @@ export default function Recipes() {
   const router = useRouter()
   const [recipes, setRecipes] = useState([])
   const [isConsulting, setIsConsulting] = useState(false)
-  const [currentRecipe, setCurrentRecipe] = useState(null)
+  const [currentRecipe, setCurrentRecipe] = useState<IRecipe>(null)
 
   useEffect(() => {
     const subscription = supabase
       .from('user_family')
       .on('*', (payload) => {
-        FamilyService.getRecipes(localStorage.getItem('family_id')).then(
+        FamilyService.getRecipes(localStorage.getItem('familyId')).then(
           (families) => setRecipes(families)
         )
       })
       .subscribe()
 
-    FamilyService.getRecipes(localStorage.getItem('family_id')).then(
+    FamilyService.getRecipes(localStorage.getItem('familyId')).then(
       (familyRecipes) => setRecipes(familyRecipes)
     )
 
@@ -30,6 +32,14 @@ export default function Recipes() {
       supabase.removeSubscription(subscription)
     }
   }, [])
+
+  useEffect(() => {
+    console.log(recipes)
+  }, [recipes])
+
+  useEffect(() => {
+    console.log(currentRecipe)
+  }, [currentRecipe])
 
   const clickRecipeHandler = (recipe) => {
     RecipeService.store(recipe.name, () => {
@@ -50,13 +60,9 @@ export default function Recipes() {
 
         {recipes.map(function (item, i) {
           return (
-            <li
-              className={css.recipe}
-              key={i}
-              onClick={() => clickRecipeHandler(item)}
-            >
-              {item.name}
-            </li>
+            <Link key={i} href={`/recipe/${item.id}`}>
+              <a className={css.recipe}>{item.name}</a>
+            </Link>
           )
         })}
       </div>
