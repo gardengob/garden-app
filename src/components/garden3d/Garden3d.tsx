@@ -82,8 +82,8 @@ export default function Garden3d({ className }) {
     const axesHelper = new THREE.AxesHelper(5)
     appManager.scene.add(axesHelper)
 
-    const helper = new THREE.CameraHelper(appManager.camera)
-    appManager.scene.add(helper)
+    // const helper = new THREE.CameraHelper(appManager.camera)
+    // appManager.scene.add(helper)
 
     appManager.camera.lookAt(new THREE.Vector3(0, 0, 0))
 
@@ -145,7 +145,14 @@ export default function Garden3d({ className }) {
   return (
     <div className={merge([className, css.webgl])}>
       {/* <div>{stats.domElement}</div> */}
-
+      <div
+        className="img-debug-holder"
+        style={{
+          position: 'absolute',
+          top: '100px',
+          left: 0,
+        }}
+      ></div>
       <button
         style={{
           position: 'absolute',

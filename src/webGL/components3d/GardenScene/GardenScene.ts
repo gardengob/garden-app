@@ -182,8 +182,8 @@ gardenScene.onInit = (scene) => {
   SpaceEntryService.gardenEntrySignal.on(() => {
     introFrameCount = 0
     entryAction.play()
-    mixerPortal.setTime(3)
     portalAction.play()
+    mixerPortal.setTime(0.8)
 
     // const animationFinished = setTimeout(() => {},
     // entrPathClip.duration * mixerEntryCam.timeScale * 300)
@@ -215,20 +215,16 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
   introFrameCount++
   stats.update()
   const appManager = AppManager.getInstance()
-  mixerEntryCam.update(1 / 60)
+  mixerEntryCam.update((1 / 60) * 0.8)
   const camLoop = Math.floor(mixerCam.time / cameraPathDuration)
   mixerPortal.update(1 / 60)
   if (camLoop != cameraLoopNumber) {
     cameraLoopNumber = camLoop
     console.log(cameraLoopNumber)
   }
-  console.log(
-    " gardenScene.statesDictionnary['introPlayed']",
-    gardenScene.statesDictionnary['introPlayed']
-  )
-  console.log(' introFrameCount', introFrameCount)
+
   if (
-    introFrameCount >= 260 &&
+    introFrameCount >= 310 &&
     gardenScene.statesDictionnary['introPlayed'] === 'shallPlay'
   ) {
     // console.log('finished', entrPathClip.duration)
@@ -238,6 +234,7 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
     appManager.camera = cameraTest
     appManager.onWindowResize()
     introFrameCount = 0
+    gardenScene.statesDictionnary['introPlayed'] = true
   }
 
   if (gardenScene.statesDictionnary['introPlayed']) {
