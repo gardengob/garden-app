@@ -146,11 +146,9 @@ export default function Garden3d({ className }) {
     <div className={merge([className, css.webgl])}>
       {/* <div>{stats.domElement}</div> */}
       <div
-        className="img-debug-holder"
+        className="poi-holder"
         style={{
           position: 'absolute',
-          top: '100px',
-          left: 0,
         }}
       ></div>
       <button

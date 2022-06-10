@@ -1,4 +1,5 @@
-import { Object3D, Vector3 } from 'three'
+import { DOMElement } from 'react'
+import { Object3D, PerspectiveCamera, Vector3 } from 'three'
 import { GLTF } from 'three-stdlib/loaders/GLTFLoader'
 import { IObject3DWrapper } from '../../Interfaces/IObject3DWrapper'
 import { IUpdatable } from '../../Interfaces/IUpdatable'
@@ -29,6 +30,9 @@ export class Component3d implements IUpdatable {
     string,
     IObject3DWrapper
   >()
+
+  showPoi: boolean = true
+  poiArray: { htmlElement: HTMLDivElement; position: Vector3 }[] = []
 
   //closure called on component3d init
   onInit: ((component3d: Component3d) => void) | undefined
@@ -66,6 +70,26 @@ export class Component3d implements IUpdatable {
     } catch (error) {
       throw Error('Model not available')
     }
+  }
+
+  drawPOIs(camera: PerspectiveCamera, canvas) {
+    this.poiArray.forEach((element) => {
+      // element.position.project(camera)
+      console.log('element.position', element.position)
+
+      // get the position of the center of the cube
+
+      element.position.project(camera)
+
+      // convert the normalized position to CSS coordinates
+      const x = (element.position.x * 0.5 + 0.5) * canvas.clientWidth
+      const y = (element.position.y * -0.5 + 0.5) * canvas.clientHeight
+
+      console.log('x', x)
+      console.log('y', y)
+
+      element.htmlElement.style.transform = `translate(-50%, -50%) translate(${x}px,${y}px)`
+    })
   }
 
   /**
