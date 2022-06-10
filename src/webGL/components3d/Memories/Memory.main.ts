@@ -56,14 +56,14 @@ memoryComponent3d.onInit = () => {
     const ctx = canvas.getContext('2d')
     // document.querySelector('.img-debug-holder').append(img)
     // document.querySelector('.img-debug-holder').append(canvas)
-    img.height = 350
-    canvas.width = 350
-    canvas.height = 350
+    canvas.height = 512
+    img.src = imgUrl
     img.onload = function () {
-      ctx.drawImage(img, 0, 0)
+      img.crossOrigin = 'anonymous'
+      ctx.drawImage(img, 0, 0, 512, 512)
       const texture = new CanvasTexture(canvas)
       texture.needsUpdate = true
-      // const texture = new TextureLoader().load(imgUrl)
+
       console.log('frameObject', frameObject)
       if (frameObject) {
         const box = new Box3()
@@ -80,25 +80,34 @@ memoryComponent3d.onInit = () => {
         box.getSize(frameSize)
         console.log('frameSize', frameSize)
 
-        let imgRatio = texture.image.width / texture.image.height
-        let planeRatio = frameSize.x / frameSize.y
+        // let fitScaleX = (15 * frameSize.x) / texture.image.width
+        // let fitScaleY = (15 * frameSize.y) / texture.image.height
+        // let fitCoverScale = Math.max(fitScaleX, fitScaleY)
 
-        let yScale = 1
-        let xScale = planeRatio / imgRatio
-        if (xScale > 1) {
-          // it doesn't cover so based on x instead
-          xScale = 1
-          yScale = imgRatio / planeRatio
-        }
-        texture.repeat.set(xScale, yScale)
+        // var repeatX = -1 / fitCoverScale
+        // var repeatY = -1 / fitCoverScale
 
-        texture.wrapS = RepeatWrapping
+        // let imgRatio = texture.image.width / texture.image.height
+        // let planeRatio = frameSize.x / frameSize.y
+
+        // let yScale = 1
+        // let xScale = planeRatio / imgRatio
+        // if (xScale > 1) {
+        //   // it doesn't cover so based on x instead
+        //   xScale = 1
+        //   yScale = imgRatio / planeRatio
+        // }
+        // texture.repeat.set(xScale, yScale)
+
+        // texture.wrapS = RepeatWrapping
+        // texture.wrapT = RepeatWrapping
+
+        // texture.repeat.x = repeatX
+        // texture.repeat.y = repeatY
 
         frameMesh.material = new MeshBasicMaterial({ map: texture })
       }
     }
-    img.crossOrigin = 'anonymous'
-    img.src = imgUrl
   })
   // const light = new AmbientLight(0x404040) // soft white light
   // memoryComponent3d.root.add(light)

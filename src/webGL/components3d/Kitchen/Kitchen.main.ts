@@ -1,4 +1,4 @@
-import { AmbientLight, Vector3 } from 'three'
+import { AmbientLight, Object3D, Vector3 } from 'three'
 import { GLTF } from 'three-stdlib'
 import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
 import { Component3d } from '../../webGLArchitecture/Classes/Compoment3d/Component3d'
@@ -20,6 +20,26 @@ kitchenComponent3d.onInit = () => {
     kitchenComponent3d.expectedObjects
   )
 
+  const appManager = AppManager.getInstance()
+
+  const kitchenPOIHolder = new Object3D()
+
+  kitchenPOIHolder.position.y = 1
+  kitchenPOIHolder.position.x = -1.6
+  kitchenPOIHolder.position.z = -1.6
+
+  kitchenComponent3d.root.add(kitchenPOIHolder)
+
+  // kitchenComponent3d.root.getWorldPosition(rootWorldPos)
+
+  kitchenComponent3d.poiArray.push({
+    onclick: () => {
+      console.log('kitchen')
+    },
+    holder: kitchenPOIHolder,
+  })
+
+  kitchenComponent3d.drawPOIs(appManager.camera, appManager.canvas)
   kitchenComponent3d.assignLoadedSceneObjects(gltfMap)
   const space = kitchenComponent3d.getObject('kitchen_space')
 

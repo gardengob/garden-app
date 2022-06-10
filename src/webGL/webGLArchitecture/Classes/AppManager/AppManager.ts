@@ -23,6 +23,7 @@ import {
   RenderPass,
   SMAAPass,
 } from 'three-stdlib'
+import { CSS2DRenderer } from '../../../renderers/CSS2DRenderer'
 
 import { AppModeEnum } from '../../Enums/AppModeEnum'
 import { AppStateEnum } from '../../Enums/AppStateEnum'
@@ -53,6 +54,9 @@ export class AppManager {
   appMode: AppModeEnum = AppModeEnum.STORY
   loaderState: LoaderStateEnum = LoaderStateEnum.LOADING
 
+  //Css2d renderer
+  public labelRenderer: CSS2DRenderer
+
   //Dev tools
   devMode: boolean = false
   loaderDisplay: boolean = true
@@ -69,6 +73,7 @@ export class AppManager {
     this.loader = document.querySelector('.loader') as HTMLElement
     this.scene = this.buildScene()
     this.renderer = this.buildRender()
+    this.labelRenderer = this.buildLabelRenderer()
     const cameraHolder = new Group()
 
     //Camera initialization
@@ -85,7 +90,10 @@ export class AppManager {
 
     // this.camera.position.z = 10
 
-    this.devControls = new OrbitControls(this.devCamera, this.canvas)
+    this.devControls = new OrbitControls(
+      this.devCamera,
+      this.labelRenderer.domElement
+    )
     this.devControls.enableDamping = true
     this.devControls.enableZoom = false
     this.devCamera.position.set(0, 20, 0)
@@ -189,6 +197,22 @@ export class AppManager {
     return renderer
   }
 
+  /**
+   * build renderer for ui-components in three.js space
+   *
+   * @public
+   */
+  buildLabelRenderer(): CSS2DRenderer {
+    const labelRenderer = new CSS2DRenderer({
+      element: document.querySelector('.css-render-target')! as HTMLElement,
+    })
+    labelRenderer.setSize(window.innerWidth, window.innerHeight)
+    labelRenderer.domElement.style.position = 'absolute'
+    labelRenderer.domElement.style.top = '0px'
+    // document.body.appendChild(labelRenderer.domElement);
+    return labelRenderer
+  }
+
   buildCamera(): PerspectiveCamera {
     const aspectRatio = this.canvas.width / this.canvas.height
     const fieldOfView = 45
@@ -229,10 +253,12 @@ export class AppManager {
       //dev - normal view mode switch
       if (this.devMode) {
         this.renderer.render(this.scene, this.devCamera)
+        this.labelRenderer.render(this.scene, this.devCamera)
         this.devControls.update()
       } else {
         // this.composer.render()
         this.renderer.render(this.scene, this.camera)
+        this.labelRenderer.render(this.scene, this.camera)
       }
     }
   }
@@ -245,5 +271,6 @@ export class AppManager {
 
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     this.composer.setSize(window.innerWidth, window.innerHeight)
+    this.labelRenderer.setSize(window.innerWidth, window.innerHeight)
   }
 }

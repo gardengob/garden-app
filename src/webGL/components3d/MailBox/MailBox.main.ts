@@ -5,8 +5,9 @@ import {
 import { MailBoxGraphConstruction } from './MailBox.graphConstruction'
 import { MailBoxInitialization } from './MailBox.intialization'
 import { GLTF } from 'three-stdlib'
+import { CSS2DObject } from '../../renderers/CSS2DRenderer'
 import { LoadingManager } from '../../webGLArchitecture/Classes/LoadingManager/LoadingManager'
-import { Vector3 } from 'three'
+import { Object3D, Vector3 } from 'three'
 import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
 const loadingManager = LoadingManager.getInstance()
 
@@ -16,22 +17,43 @@ mailboxComponent3d.placeHolderName = 'Letterbox'
 mailboxComponent3d.expectedObjects = ['boitemail_space']
 
 mailboxComponent3d.onInit = () => {
+  const appManager = AppManager.getInstance()
+
   const gltfMap: Map<string, GLTF> = loadingManager.getFromList(
     mailboxComponent3d.expectedObjects
   )
 
-  const elem = document.createElement('div')
-  elem.textContent = 'patate'
-  elem.style.color = 'red'
-  document.querySelector('.poi-holder').appendChild(elem)
-  const rootWorldPos = new Vector3(1, 0, 2)
-  console.log('rootWorldPos', rootWorldPos)
+  const mailBoxPOIHolder = new Object3D()
+  mailBoxPOIHolder.position.y = 1
+  mailBoxPOIHolder.position.x = 0.2
+  mailBoxPOIHolder.position.z = 0.1
+
+  const packagePOIHolder = new Object3D()
+  packagePOIHolder.position.y = 0.5
+  packagePOIHolder.position.x = -0.15
+  packagePOIHolder.position.z = -0.5
+
+  mailboxComponent3d.root.add(mailBoxPOIHolder)
+  mailboxComponent3d.root.add(packagePOIHolder)
+
   // mailboxComponent3d.root.getWorldPosition(rootWorldPos)
 
-  mailboxComponent3d.poiArray.push({
-    htmlElement: elem,
-    position: rootWorldPos,
-  })
+  mailboxComponent3d.poiArray.push(
+    {
+      onclick: () => {
+        console.log('mailBox')
+      },
+      holder: mailBoxPOIHolder,
+    },
+    {
+      onclick: () => {
+        console.log('package')
+      },
+      holder: packagePOIHolder,
+    }
+  )
+
+  mailboxComponent3d.drawPOIs(appManager.camera, appManager.canvas)
 
   mailboxComponent3d.assignLoadedSceneObjects(gltfMap)
   const space = mailboxComponent3d.getObject('boitemail_space')
@@ -47,7 +69,6 @@ mailboxComponent3d.onInit = () => {
 mailboxComponent3d.onAnimationLoop = () => {
   const appManager = AppManager.getInstance()
   console.log('etstet')
-  mailboxComponent3d.drawPOIs(appManager.camera, appManager.canvas)
 }
 
 MailBoxGraphConstruction(mailboxComponent3d)

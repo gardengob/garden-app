@@ -1,6 +1,7 @@
 import { DOMElement } from 'react'
 import { Object3D, PerspectiveCamera, Vector3 } from 'three'
 import { GLTF } from 'three-stdlib/loaders/GLTFLoader'
+import { CSS2DObject } from '../../../renderers/CSS2DRenderer'
 import { IObject3DWrapper } from '../../Interfaces/IObject3DWrapper'
 import { IUpdatable } from '../../Interfaces/IUpdatable'
 import { Component3dName } from '../../Types/Component3dNameType'
@@ -32,7 +33,7 @@ export class Component3d implements IUpdatable {
   >()
 
   showPoi: boolean = true
-  poiArray: { htmlElement: HTMLDivElement; position: Vector3 }[] = []
+  poiArray: { onclick: () => void; holder: Object3D }[] = []
 
   //closure called on component3d init
   onInit: ((component3d: Component3d) => void) | undefined
@@ -75,20 +76,25 @@ export class Component3d implements IUpdatable {
   drawPOIs(camera: PerspectiveCamera, canvas) {
     this.poiArray.forEach((element) => {
       // element.position.project(camera)
-      console.log('element.position', element.position)
+      const poi = document.createElement('div')
+      const poiInnerCircle = document.createElement('div')
+      const poiOuterCircle = document.createElement('div')
+      const poiMiddleCircle = document.createElement('div')
 
-      // get the position of the center of the cube
+      poi.classList.add('poi-circle')
+      poiInnerCircle.classList.add('poi-inner-circle')
+      poiMiddleCircle.classList.add('poi-middle-circle')
+      poiOuterCircle.classList.add('poi-outer-circle')
 
-      element.position.project(camera)
+      poi.append(poiInnerCircle)
+      poi.append(poiMiddleCircle)
+      poi.append(poiOuterCircle)
 
-      // convert the normalized position to CSS coordinates
-      const x = (element.position.x * 0.5 + 0.5) * canvas.clientWidth
-      const y = (element.position.y * -0.5 + 0.5) * canvas.clientHeight
+      // document.querySelector('.poi-holder').appendChild(poi)
 
-      console.log('x', x)
-      console.log('y', y)
-
-      element.htmlElement.style.transform = `translate(-50%, -50%) translate(${x}px,${y}px)`
+      poi.onclick = element.onclick
+      const poiObject = new CSS2DObject(poi)
+      element.holder.add(poiObject)
     })
   }
 

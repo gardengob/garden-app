@@ -1,14 +1,18 @@
 @import '../../styles/references';
 
-.webgl
-{
-    position: fixed;
-    top: 0;
-    left: 0;
-    outline: none;
+.webgl {
+  position: fixed;
+  top: 0;
+  left: 0;
+  outline: none;
 }
 
 .canvas {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
+}
+.poi {
+  height: 50px;
+  width: 50px;
+  background-color: red;
 }

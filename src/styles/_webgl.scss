@@ -1,0 +1,63 @@
+.poi {
+  position: relative;
+}
+
+.poi-inner-circle {
+  position: absolute;
+  border-radius: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  z-index: 30;
+  height: 20px;
+  width: 20px;
+  background-color: white;
+}
+
+@keyframes pulse {
+  from {
+    transform: translateY(-50%) translateX(-50%) scale(0.5);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-50%) translateX(-50%) scale(1);
+    opacity: 0;
+  }
+}
+@keyframes pulseOuter {
+  from {
+    transform: translateY(-50%) translateX(-50%) scale(0.1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-50%) translateX(-50%) scale(1);
+    opacity: 0;
+  }
+}
+
+.poi-middle-circle {
+  height: 50px;
+  z-index: 20;
+  width: 50px;
+  background-color: rgba(255, 255, 255, 0.595);
+  position: absolute;
+  border-radius: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+
+  animation: 2s ease-in-out infinite pulseOuter;
+}
+.poi-outer-circle {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  border-radius: 100%;
+
+  height: 75px;
+  width: 75px;
+  background-color: rgba(255, 255, 255, 0.238);
+  animation: 2s ease-out infinite pulseOuter;
+}

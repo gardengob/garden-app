@@ -37,11 +37,11 @@ export default function Garden3d({ className }) {
   const router = useRouter()
 
   useEffect(() => {
+    console.log('init garden3D')
     const loadingManager = LoadingManager.getInstance()
     const appManager = AppManager.getInstance()
 
     SpaceEntryService.spaceSignal.on((name) => {
-      console.log('papapasdsofsfo')
       setElementNear(name)
     })
 
@@ -146,9 +146,13 @@ export default function Garden3d({ className }) {
     <div className={merge([className, css.webgl])}>
       {/* <div>{stats.domElement}</div> */}
       <div
-        className="poi-holder"
+        className="css-render-target"
         style={{
           position: 'absolute',
+          height: '100vh',
+          width: '100vw',
+          top: 0,
+          left: 0,
         }}
       ></div>
       <button
