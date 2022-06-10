@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import css from './RecipeForm.module.scss'
 import { useEffect, useState } from 'react'
 import RecipeInstructionsStep from '../recipeInstructionsStep/RecipeInstructionsStep'
@@ -13,12 +14,25 @@ import { merge } from '../../utils/arrayUtils'
 
 const MAX_FORM_STEP = 5
 
-export default function RecipeForm({ recipe }) {
+export enum ERecipeFormMode {
+  ADD,
+  EDIT,
+}
+
+interface IProps {
+  recipe: IRecipe
+  mode: ERecipeFormMode
+}
+
+export default function RecipeForm(props: IProps) {
+  const { recipe, mode } = props
   const router = useRouter()
   const [step, setStep] = useState<number>(1)
 
   // TODO: Ask yourselves if stocking this in localStorage is useful, maybe for keeping info when offline / refreshing ? Delete it when posting
   const [formRecipe, setFormRecipe] = useState<IRecipe>(recipe)
+  const [familyId, setFamilyId] = useState<string>(recipe.familyId)
+  const [authorId, setAuthorId] = useState<string>(recipe.authorId)
   const [name, setName] = useState<string>(recipe.name)
   const [peopleAmount, setPeopleAmount] = useState<number>(recipe.peopleAmount)
   const [preparationTime, setPreparationTime] = useState<IMeasurable>(
@@ -49,6 +63,9 @@ export default function RecipeForm({ recipe }) {
 
   useEffect(() => {
     setFormRecipe({
+      ...formRecipe,
+      familyId,
+      authorId,
       name,
       peopleAmount,
       preparationTime,
@@ -61,6 +78,8 @@ export default function RecipeForm({ recipe }) {
       tags,
     })
   }, [
+    familyId,
+    authorId,
     name,
     peopleAmount,
     preparationTime,
@@ -86,16 +105,19 @@ export default function RecipeForm({ recipe }) {
   }
 
   const finishForm = (e) => {
-    RecipeService.add(formRecipe, () => {
-      setStep((currentStep) => currentStep + 1)
-    })
+    mode === ERecipeFormMode.ADD
+      ? RecipeService.addRecipe(formRecipe, () => {
+          setStep((currentStep) => currentStep + 1)
+        })
+      : RecipeService.updateRecipe(formRecipe, () => {
+          setStep((currentStep) => currentStep + 1)
+        })
   }
 
   // ------------------------------------------------------------------- RENDER
 
   return (
     <div className={css.root}>
-      <p>RecipeForm</p>
       <div className={css.container}>
         <h2 className={css.title}>Créez votre recette</h2>
 

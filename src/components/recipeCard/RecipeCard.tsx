@@ -9,7 +9,7 @@ export default function RecipeCard({ recipe }) {
   const [recipeImageUrl, setRecipeImageUrl] = useState(null)
 
   useEffect(() => {
-    console.log("RECIPE", recipe)
+    console.log('RECIPE', recipe)
     if (recipe) downloadRecipeImage(recipe.imageUrl)
   }, [recipe])
 
@@ -48,10 +48,12 @@ export default function RecipeCard({ recipe }) {
               <label>Personnes:</label> {recipe.people_amount}
             </p>
             <p className={css.detail}>
-              <label>Temps de préparation:</label> {recipe.preparation_time}
+              <label>Temps de préparation:</label>{' '}
+              {recipe.preparationTime.amount} {recipe.preparationTime.unit}
             </p>
             <p className={css.detail}>
-              <label>Temps de cuisson:</label> {recipe.cooking_time}
+              <label>Temps de cuisson:</label> {recipe.cookingTime.amount}{' '}
+              {recipe.preparationTime.unit}
             </p>
           </div>
 
