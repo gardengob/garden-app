@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect, useLayoutEffect, useState } from 'react'
 import ProgressBar from '../components/progressBar/ProgressBar'
-import RecipeForm from '../components/recipeForm/RecipeForm'
+import RecipeForm, { ERecipeFormMode } from '../components/recipeForm/RecipeForm'
 import RecipeInformationsStep from '../components/recipeInformationsStep/RecipeInformationsStep'
 import RecipeIngredientsStep from '../components/recipeIngredientsStep/RecipeIngredientsStep'
 import RecipeInstructionsStep from '../components/recipeInstructionsStep/RecipeInstructionsStep'
@@ -64,7 +64,7 @@ export default function AddRecipe() {
     <div className={css.root} style={{ padding: '100px 50px' }}>
       {/* <ProgressBar progress={progress} /> */}
 
-      <RecipeForm recipe={STARTING_RECIPE} />
+      <RecipeForm recipe={STARTING_RECIPE} mode={ERecipeFormMode.ADD}  />
     </div>
   )
 }

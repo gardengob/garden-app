@@ -3,14 +3,16 @@ import { generateUUIDV4 } from '../utils/generateUUIDV4'
 import { supabase } from '../utils/supabaseClient'
 
 class RecipeService {
-  public async add(recipe: IRecipe, callback?: () => void): Promise<void> {
+  public async addRecipe(
+    recipe: IRecipe,
+    callback?: () => void
+  ): Promise<void> {
     if (!recipe) return alert('Renseigner une recette')
 
     const recipeId = generateUUIDV4()
 
     try {
       const user = supabase.auth.user()
-      // We create the family with the asked name
       let { error } = await supabase.from('recipe').insert([
         {
           id: recipeId,
@@ -53,6 +55,54 @@ class RecipeService {
     }
   }
 
+  public async updateRecipe(
+    recipe: IRecipe,
+    callback?: () => void
+  ): Promise<void> {
+    if (!recipe) return alert('Renseigner une recette')
+
+    try {
+      const { error } = await supabase
+        .from('recipe')
+        .update({
+          name: recipe.name,
+          peopleAmount: recipe.peopleAmount,
+          preparationTime: recipe.preparationTime,
+          cookingTime: recipe.cookingTime,
+          ingredients: recipe.ingredients,
+          instructions: recipe.instructions,
+          imageUrl: recipe.imageUrl,
+        })
+        .eq('id', recipe.id)
+
+      // Update les tags
+      let tags: IRecipeTag[] = [
+        {
+          recipe_id: recipe.id,
+          tag_id: recipe.difficulty.id,
+        },
+        {
+          recipe_id: recipe.id,
+          tag_id: recipe.diet.id,
+        },
+      ]
+
+      recipe.tags.forEach((tag) => {
+        tags.push({ recipe_id: recipe.id, tag_id: tag.id })
+      })
+
+      this.updateTags(recipe.id, tags)
+
+      if (error) {
+        throw error
+      }
+    } catch (error) {
+      alert(`${error.message}`)
+    } finally {
+      if (callback) callback()
+    }
+  }
+
   public async addTags(
     tags: IRecipeTag[],
     callback?: () => void
@@ -64,6 +114,58 @@ class RecipeService {
 
       if (error) {
         throw error
+      }
+    } catch (error) {
+      alert(`${error.message}`)
+    } finally {
+      if (callback) callback()
+    }
+  }
+
+  public async updateTags(
+    recipeId: string,
+    tags: IRecipeTag[],
+    callback?: () => void
+  ): Promise<void> {
+    if (!tags) return alert('Renseigner des tags')
+
+    try {
+      const baseTags = await supabase
+        .from('recipe_tag')
+        .select('*')
+        .eq('recipe_id', recipeId)
+
+      const tagsToInsert = []
+      const tagsToDelete = []
+
+      tags.forEach((tag) => {
+        const tagExistInBase = baseTags.data.some(
+          (baseTag) => baseTag.tag_id === tag.tag_id
+        )
+
+        if (!tagExistInBase) {
+          tagsToInsert.push(tag)
+        }
+      })
+
+      baseTags.data.forEach((baseTag) => {
+        const tagExistInApp = tags.some((tag) => tag.tag_id === baseTag.tag_id)
+
+        if (!tagExistInApp) {
+          tagsToDelete.push(baseTag.id)
+        }
+      })
+
+      console.log('INSERT', tagsToInsert, 'DELETE', tagsToDelete)
+
+      const insert_tags = await supabase.from('recipe_tag').insert(tagsToInsert)
+      const delete_tags = await supabase
+        .from('recipe_tag')
+        .delete()
+        .in('id', tagsToDelete)
+
+      if (insert_tags.error || delete_tags.error) {
+        throw (insert_tags.error, delete_tags.error)
       }
     } catch (error) {
       alert(`${error.message}`)
@@ -102,19 +204,19 @@ class RecipeService {
         .single()
 
       recipe = {
-          id: data.id,
-          familyId: data.familyId,
-          authorId: data.authorId,
-          name: data.name,
-          peopleAmount: data.peopleAmount,
-          preparationTime: data.preparationTime,
-          cookingTime: data.cookingTime,
-          ingredients: data.ingredients,
-          instructions: data.instructions,
-          imageUrl: data.imageUrl,
-          difficulty: await this.getDifficulty(recipe_id),
-          diet: await this.getDiet(recipe_id),
-          tags: []
+        id: data.id,
+        familyId: data.familyId,
+        authorId: data.authorId,
+        name: data.name,
+        peopleAmount: data.peopleAmount,
+        preparationTime: data.preparationTime,
+        cookingTime: data.cookingTime,
+        ingredients: data.ingredients,
+        instructions: data.instructions,
+        imageUrl: data.imageUrl,
+        difficulty: await this.getDifficulty(recipe_id),
+        diet: await this.getDiet(recipe_id),
+        tags: await this.getTags(recipe_id),
       }
 
       if (error) {
@@ -123,7 +225,6 @@ class RecipeService {
     } catch (error) {
       alert(`${error.message}`)
     } finally {
-      console.log(recipe)
       if (callback) callback()
       return recipe
     }
@@ -134,11 +235,11 @@ class RecipeService {
     try {
       // First we get the id of diet tags
       const { data, error } = await supabase
-      .from('recipe_tag')
-      .select('*, tag!inner(*, tag_type!inner(*))')
-      .eq('recipe_id', `${recipeId}`)
-      .eq('tag.tag_type.label', 'diet')
-      .single()
+        .from('recipe_tag')
+        .select('*, tag!inner(*, tag_type!inner(*))')
+        .eq('recipe_id', `${recipeId}`)
+        .eq('tag.tag_type.label', 'diet')
+        .single()
 
       dietTag = {
         id: data.tag.id,
@@ -146,7 +247,6 @@ class RecipeService {
         type_id: data.tag.type_id,
         family_id: data.tag.family_id,
       }
-
     } catch (error) {
       alert(`${error.message}`)
     } finally {
@@ -159,11 +259,11 @@ class RecipeService {
     try {
       // First we get the id of diet tags
       const { data, error } = await supabase
-      .from('recipe_tag')
-      .select('*, tag!inner(*, tag_type!inner(*))')
-      .eq('recipe_id', `${recipeId}`)
-      .eq('tag.tag_type.label', 'difficulty')
-      .single()
+        .from('recipe_tag')
+        .select('*, tag!inner(*, tag_type!inner(*))')
+        .eq('recipe_id', `${recipeId}`)
+        .eq('tag.tag_type.label', 'difficulty')
+        .single()
 
       difficultyTag = {
         id: data.tag.id,
@@ -171,7 +271,6 @@ class RecipeService {
         type_id: data.tag.type_id,
         family_id: data.tag.family_id,
       }
-
     } catch (error) {
       alert(`${error.message}`)
     } finally {
@@ -180,12 +279,26 @@ class RecipeService {
   }
 
   public async getTags(recipeId: string): Promise<ITag[]> {
+    let tags = []
     try {
+      const { data, error } = await supabase
+        .from('recipe_tag')
+        .select('*, tag!inner(*, tag_type!inner(*))')
+        .eq('recipe_id', `${recipeId}`)
+        .eq('tag.tag_type.label', 'default')
 
+      data.forEach((el) => {
+        tags.push({
+          id: el.tag.id,
+          label: el.tag.label,
+          type_id: el.tag.type_id,
+          family_id: el.tag.family_id,
+        })
+      })
     } catch (error) {
       alert(`${error.message}`)
     } finally {
-      return
+      return tags
     }
   }
 }

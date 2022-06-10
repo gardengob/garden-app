@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect, useLayoutEffect, useState } from 'react'
 import ProgressBar from '../components/progressBar/ProgressBar'
-import RecipeForm from '../components/recipeForm/RecipeForm'
+import RecipeForm, { ERecipeFormMode } from '../components/recipeForm/RecipeForm'
 import RecipeInformationsStep from '../components/recipeInformationsStep/RecipeInformationsStep'
 import RecipeIngredientsStep from '../components/recipeIngredientsStep/RecipeIngredientsStep'
 import RecipeInstructionsStep from '../components/recipeInstructionsStep/RecipeInstructionsStep'
@@ -31,9 +31,9 @@ export default function AddRecipe() {
 
   useEffect(() => {
     if (rid) {
-      RecipeService.get(rid).then((reci) => console.log(reci))
       RecipeService.get(rid).then((reci) =>
         setRecipe({
+          id: reci.id,
           familyId: reci.familyId,
           authorId: reci.authorId,
           name: reci.name,
@@ -52,7 +52,7 @@ export default function AddRecipe() {
   }, [rid])
 
   useEffect(() => {
-    console.log(recipe)
+    // console.log(recipe)
   }, [recipe])
 
   // ------------------------------------------------------------------- METHODS
@@ -61,7 +61,7 @@ export default function AddRecipe() {
 
   return (
     <div className={css.root} style={{ padding: '100px 50px' }}>
-      {recipe && <RecipeForm recipe={recipe} />}
+      {recipe && <RecipeForm recipe={recipe} mode={ERecipeFormMode.EDIT} />}
     </div>
   )
 }
