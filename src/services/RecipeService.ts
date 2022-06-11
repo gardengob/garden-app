@@ -130,6 +130,8 @@ class RecipeService {
     if (!tags) return alert('Renseigner des tags')
 
     try {
+
+      // GET ALL TAGS IN BASE
       const baseTags = await supabase
         .from('recipe_tag')
         .select('*')
@@ -138,6 +140,7 @@ class RecipeService {
       const tagsToInsert = []
       const tagsToDelete = []
 
+      // DETERMINE ALL TAGS THAT MUST BE ADDED TO BASE
       tags.forEach((tag) => {
         const tagExistInBase = baseTags.data.some(
           (baseTag) => baseTag.tag_id === tag.tag_id
@@ -148,6 +151,7 @@ class RecipeService {
         }
       })
 
+      // DETERMINE ALL TAGS THAT MUST BE DELETED FROM BASE
       baseTags.data.forEach((baseTag) => {
         const tagExistInApp = tags.some((tag) => tag.tag_id === baseTag.tag_id)
 
@@ -156,8 +160,7 @@ class RecipeService {
         }
       })
 
-      console.log('INSERT', tagsToInsert, 'DELETE', tagsToDelete)
-
+      // DELETE & INSERT TAGS
       const insert_tags = await supabase.from('recipe_tag').insert(tagsToInsert)
       const delete_tags = await supabase
         .from('recipe_tag')

@@ -17,8 +17,8 @@ export default function RecipeIngredientsStep({
     inputRef.current.value = ''
   }
 
-  const removeIngredientHandler = (index: number) => {
-    ingredientsChange((ingredients) => ingredients.splice(0, index))
+  const removeIngredientHandler = (i: number) => {
+    ingredientsChange(ingredients.slice(0,i).concat(ingredients.slice(i+1)))
   }
 
   return (
