@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import css from './RecipeInstructionsStep.module.scss'
 import { useEffect, useRef, useState } from 'react'
 
@@ -5,13 +6,83 @@ export default function RecipeInstructionsStep({
   instructions,
   instructionsChange,
 }) {
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
 
-  const addInstructionHandler = (ingredient_name: string) => {
-    if (ingredient_name === '' || ingredient_name.trim().length === 0) return
+  const recognitionRef = useRef(null)
 
-    instructionsChange((instructions) => [...instructions, ingredient_name])
+  const [onAir, setOnAir] = useState<boolean>(false)
+  const [fullText, setFullText] = useState<string>('')
+  const [onGoingTextRecog, setOnGoingTextRecog] = useState({
+    text: '',
+    final: false,
+  })
+
+  useEffect(() => {
+    // @ts-ignore
+    let SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+
+    recognitionRef.current = new SpeechRecognition()
+    recognitionRef.current.continuous = true
+    recognitionRef.current.interimResults = true
+    recognitionRef.current.lang = 'fr-FR'
+
+    recognitionRef.current.onresult = (event) => {
+      /* récupère le mot ou la phrase */
+      let sentence = event.results[event.resultIndex][0].transcript
+
+      /* Ajoute la phrase à la zone texte en ajoutant une majuscule et un point */
+      setOnGoingTextRecog({
+        text: sentence,
+        final: event.results[event.resultIndex].isFinal,
+      })
+    }
+
+    recognitionRef.current.onerror = () => {
+      recognitionRef.current.start()
+    }
+
+    recognitionRef.current.onstart = () => {
+      setOnAir(true)
+    }
+
+    recognitionRef.current.onend = () => {
+      setOnAir(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (onGoingTextRecog.final) {
+      setFullText(`${fullText} ${onGoingTextRecog.text}`)
+      setOnGoingTextRecog({ text: '', final: false })
+    } else {
+      inputRef.current.value = fullText + ' ' + onGoingTextRecog.text
+    }
+  }, [onGoingTextRecog])
+
+  // -------------------------- METHODS
+
+  const startRecognition = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.start()
+    }
+  }
+  const stopRecognition = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop()
+    }
+  }
+
+  const addInstructionHandler = (instruction: string) => {
+    if (instruction === '' || instruction.trim().length === 0) return
+
+    instructionsChange((instructions) => [...instructions, instruction])
+    setFullText('')
+    setOnGoingTextRecog({ text: '', final: false })
     inputRef.current.value = ''
+  }
+
+  const removeInstructionHandler = (i: number) => {
+    instructionsChange(instructions.slice(0,i).concat(instructions.slice(i+1)))
   }
 
   return (
@@ -19,21 +90,34 @@ export default function RecipeInstructionsStep({
       <h3 className={css.title}>Étapes</h3>
 
       <div className={css.instructions}>
-        {instructions.map(function (item, i) {
-          return <li key={i}>{item}</li>
+        {instructions.map(function (inst, i) {
+          return (
+            <li key={i} onClick={() => removeInstructionHandler(i)}>
+              Étape {i + 1} {inst}
+            </li>
+          )
         })}
       </div>
-      
-      <div className={css.combo}>
-        <input
-          id="instruction"
-          type="text"
-          placeholder="Étape à ajouter"
+
+      <div className={''}>
+        <button onClick={onAir ? stopRecognition : startRecognition}>
+          {onAir ? 'Stop' : 'Start'}
+        </button>
+        <p className={onAir ? css.green : css.red}>
+          {onAir ? 'On Air' : 'Off Air'}
+        </p>
+        <textarea
           ref={inputRef}
-        />
+          id="instruction"
+          placeholder="Étape à ajouter"
+          onChange={(e) => {
+            setFullText(e.target.value)
+            recognitionRef.current.stop()
+          }}
+        ></textarea>
         <button
           className={css.button}
-          onClick={(e) => addInstructionHandler(inputRef.current.value)}
+          onClick={() => addInstructionHandler(inputRef.current.value)}
         >
           Ajouter étape
         </button>
