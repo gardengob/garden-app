@@ -1,9 +1,11 @@
 import { useRouter } from 'next/router'
 import { useEffect, useLayoutEffect, useState } from 'react'
 import RecipeCard from '../components/recipeCard/RecipeCard'
+import RoutingCameraService from '../services/events/RoutingCameraService'
 import FamilyService from '../services/FamilyService'
 import RecipeService from '../services/RecipeService'
 import { supabase } from '../utils/supabaseClient'
+import { Component3dName } from '../webGL/webGLArchitecture/Types/Component3dNameType'
 import css from './recipes.module.scss'
 
 export default function Recipes() {
@@ -11,6 +13,10 @@ export default function Recipes() {
   const [recipes, setRecipes] = useState([])
   const [isConsulting, setIsConsulting] = useState(false)
   const [currentRecipe, setCurrentRecipe] = useState(null)
+  const CAMERA_POSITION: Component3dName = 'kitchen'
+  useEffect(() => {
+    RoutingCameraService.goTo(CAMERA_POSITION)
+  }, [])
 
   useEffect(() => {
     FamilyService.getRecipes(localStorage.getItem('family_id'))

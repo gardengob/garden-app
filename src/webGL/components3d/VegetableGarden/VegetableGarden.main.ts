@@ -39,7 +39,7 @@ vegetableGardenComponent3d.onInit = () => {
     holder: vegetableGardenPOIHolder,
   })
 
-  vegetableGardenComponent3d.drawPOIs(appManager.camera, appManager.canvas)
+  vegetableGardenComponent3d.drawPOIs()
 
   vegetableGardenComponent3d.assignLoadedSceneObjects(gltfMap)
   const pocHouse = vegetableGardenComponent3d.getObject('potager_space')

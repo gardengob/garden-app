@@ -53,7 +53,7 @@ mailboxComponent3d.onInit = () => {
     }
   )
 
-  mailboxComponent3d.drawPOIs(appManager.camera, appManager.canvas)
+  mailboxComponent3d.drawPOIs()
 
   mailboxComponent3d.assignLoadedSceneObjects(gltfMap)
   const space = mailboxComponent3d.getObject('boitemail_space')
@@ -68,7 +68,6 @@ mailboxComponent3d.onInit = () => {
 
 mailboxComponent3d.onAnimationLoop = () => {
   const appManager = AppManager.getInstance()
-  console.log('etstet')
 }
 
 MailBoxGraphConstruction(mailboxComponent3d)

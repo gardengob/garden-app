@@ -25,8 +25,8 @@ kitchenComponent3d.onInit = () => {
   const kitchenPOIHolder = new Object3D()
 
   kitchenPOIHolder.position.y = 1
-  kitchenPOIHolder.position.x = -1.6
-  kitchenPOIHolder.position.z = -1.6
+  kitchenPOIHolder.position.x = -1
+  kitchenPOIHolder.position.z = -0.6
 
   kitchenComponent3d.root.add(kitchenPOIHolder)
 
@@ -39,7 +39,7 @@ kitchenComponent3d.onInit = () => {
     holder: kitchenPOIHolder,
   })
 
-  kitchenComponent3d.drawPOIs(appManager.camera, appManager.canvas)
+  kitchenComponent3d.drawPOIs()
   kitchenComponent3d.assignLoadedSceneObjects(gltfMap)
   const space = kitchenComponent3d.getObject('kitchen_space')
 

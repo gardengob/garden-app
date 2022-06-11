@@ -55,7 +55,7 @@ let mixerCam: AnimationMixer
 let mixerEntryCam: AnimationMixer
 let mixerPortal: AnimationMixer
 const ANIMATION_SPEED = 1 / 144
-const ANIMATION_SPEED_COEF = 1 / 20
+const ANIMATION_SPEED_COEF = 1 / 20 / 2
 
 let cameraPathDuration = 0
 let cameraLoopNumber = 0
@@ -196,18 +196,49 @@ ScrollService.signal.on((e) => {
   scrolling = e !== null ? e.deltaY : 0
 })
 
-RoutingCameraService.signal.on((time) => {
+RoutingCameraService.signal.on((routingData) => {
   const animationTime = {
     value: mixerCam.time,
   }
-  gsap.to(animationTime, {
-    value: cameraLoopNumber * cameraPathDuration + time,
-    onUpdate: (tween) => {
-      console.log('tween', tween)
-      mixerCam.setTime(animationTime.value)
-    },
-    ease: 'power1.inOut',
-    duration: 2.5,
+  gsap
+    .to(animationTime, {
+      value:
+        cameraLoopNumber * cameraPathDuration + routingData.corespondingTime,
+      onUpdate: (tween) => {
+        console.log('tween', tween)
+        mixerCam.setTime(animationTime.value)
+      },
+      ease: 'power1.inOut',
+      duration: 2.5,
+    })
+    .then(() => {
+      const component = gardenScene.components.find(
+        (comp) => comp.name === routingData.name
+      )
+      if (component) {
+        component.poiArray.forEach((poi) => {
+          const children = poi.css2dObject.element.querySelectorAll('.poi')
+          children.forEach((child) => {
+            ;(child as HTMLElement).style.display = 'block'
+          })
+          // component.root.add(poi.css2dObject)
+        })
+      }
+    })
+})
+
+SpaceEntryService.spaceSignal.on((name) => {
+  console.log('name', name)
+  gardenScene.components.forEach((component) => {
+    if (name === null) {
+      component.poiArray.forEach((poi) => {
+        const children = poi.css2dObject.element.querySelectorAll('.poi')
+        children.forEach((child) => {
+          ;(child as HTMLElement).style.display = 'none'
+        })
+        // component.root.add(poi.css2dObject)
+      })
+    }
   })
 })
 
@@ -266,11 +297,11 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
       mixerCam.time >
         cameraLoopNumber * cameraPathDuration +
           RoutingCameraService.cameraTimedPositions[element.component.name] -
-          0.2 &&
+          0.3 &&
       mixerCam.time <
         cameraLoopNumber * cameraPathDuration +
           RoutingCameraService.cameraTimedPositions[element.component.name] +
-          0.2
+          0.3
     ) {
       console.log('found: ', element.component.name)
 

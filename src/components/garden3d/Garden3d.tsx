@@ -18,6 +18,7 @@ import Stats from 'three/examples/jsm/libs/stats.module'
 import ScrollService from '../../services/events/ScrollService'
 import { merge } from '../../utils/arrayUtils'
 import LoadingService from '../../services/events/LoadingService'
+import RoutingCameraService from '../../services/events/RoutingCameraService'
 export interface IWindowSize {
   width: number
   height: number
@@ -168,6 +169,14 @@ export default function Garden3d({ className }) {
       </button>
       {elementNear && (
         <div
+          onClick={() => {
+            for (const key in RoutingCameraService.routeSpaceDictionnary) {
+              const element = RoutingCameraService.routeSpaceDictionnary[key]
+              if (element === elementNear) {
+                router.push(key)
+              }
+            }
+          }}
           style={{
             position: 'absolute',
             top: '75%',

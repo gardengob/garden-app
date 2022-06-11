@@ -33,7 +33,11 @@ export class Component3d implements IUpdatable {
   >()
 
   showPoi: boolean = true
-  poiArray: { onclick: () => void; holder: Object3D }[] = []
+  poiArray: {
+    onclick: () => void
+    holder: Object3D
+    css2dObject?: CSS2DObject
+  }[] = []
 
   //closure called on component3d init
   onInit: ((component3d: Component3d) => void) | undefined
@@ -73,7 +77,7 @@ export class Component3d implements IUpdatable {
     }
   }
 
-  drawPOIs(camera: PerspectiveCamera, canvas) {
+  drawPOIs() {
     this.poiArray.forEach((element) => {
       // element.position.project(camera)
       const poi = document.createElement('div')
@@ -82,18 +86,20 @@ export class Component3d implements IUpdatable {
       const poiMiddleCircle = document.createElement('div')
 
       poi.classList.add('poi-circle')
-      poiInnerCircle.classList.add('poi-inner-circle')
-      poiMiddleCircle.classList.add('poi-middle-circle')
-      poiOuterCircle.classList.add('poi-outer-circle')
+      poiInnerCircle.classList.add('poi-inner-circle', 'poi')
+      poiMiddleCircle.classList.add('poi-middle-circle', 'poi')
+      poiOuterCircle.classList.add('poi-outer-circle', 'poi')
 
       poi.append(poiInnerCircle)
       poi.append(poiMiddleCircle)
       poi.append(poiOuterCircle)
 
       // document.querySelector('.poi-holder').appendChild(poi)
-
+      poi.style.display = 'none'
       poi.onclick = element.onclick
       const poiObject = new CSS2DObject(poi)
+
+      element.css2dObject = poiObject
       element.holder.add(poiObject)
     })
   }
