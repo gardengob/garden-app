@@ -147,6 +147,16 @@ export default function Garden3d({ className }) {
     <div className={merge([className, css.webgl])}>
       {/* <div>{stats.domElement}</div> */}
       <div
+        className="img-holder"
+        style={{
+          position: 'absolute',
+          height: '100vh',
+          width: '100vw',
+          top: 0,
+          left: 0,
+        }}
+      ></div>
+      <div
         className="css-render-target"
         style={{
           position: 'absolute',
