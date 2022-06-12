@@ -2,15 +2,16 @@ export interface IFamilyContest {
   id: string
   family_id: string
   name: string
-  createdAt: string
+  created_at: string
   type: IContestType
   winner_id: string
 }
 export interface IContestCreationPayload {
-  id: string
+  // id: string
   family_id: string
   name: string
-  type: string
+  instruction: string
+  type_id: string
 }
 export interface IContestUpdatePayload {
   name: string
@@ -18,10 +19,11 @@ export interface IContestUpdatePayload {
   winner_id: string
 }
 export interface IContestEntry {
-  id: string
   family_user_id: string
-  contest_id: string
-  numberOfVote: number
+  family_contest_id: string
+  response?: string
+  image?: string
+  // numberOfVote: number
 }
 
 export interface IContestType {
