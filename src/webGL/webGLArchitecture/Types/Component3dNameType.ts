@@ -5,3 +5,4 @@ export type Component3dName =
   | 'memories'
   | 'tree'
   | 'vegetable_garden'
+  | 'portal'
