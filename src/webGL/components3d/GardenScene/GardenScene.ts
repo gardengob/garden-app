@@ -56,6 +56,7 @@ let mixerEntryCam: AnimationMixer
 let mixerPortal: AnimationMixer
 const ANIMATION_SPEED = 1 / 144
 const ANIMATION_SPEED_COEF = 1 / 20 / 2
+const ENTRY_MARGIN = 0.3
 
 let cameraPathDuration = 0
 let cameraLoopNumber = 0
@@ -65,49 +66,31 @@ let closeElement: Component3d = null
 let introFrameCount
 
 const stats = Stats()
+
+// =========================== Init =========================== //
 gardenScene.onInit = (scene) => {
   document.body.appendChild(stats.dom)
   const appManager = AppManager.getInstance()
   gardenScene.statesDictionnary['introPlayed'] = false
 
+  // ============= GLTF Loading ============= //
   const gltfMap: Map<string, GLTF> = loadingManager.getFromList(
     gardenScene.expectedObjects
   )
 
   scene.assignLoadedSceneObjects(gltfMap)
-  const gardenBase = scene.getObject('garden_base')
-  // const testBase = scene.getObject('base_fake_elements3')
-  // const testBake = scene.getObject('test_bake')
 
-  const clipsCam = (gardenBase as GLTFObject).GLTF.animations
+  const gardenBase = scene.getObject('garden_base')
+  const portalGLTF = portalComponent3d.getObject('portal_space')
   const gardenBaseModel = gardenBase.getModel()
-  // const testBaseModel = testBase.getModel()
-  // const testBakeModel = testBake.getModel()
 
   scene.sceneBase.add(gardenBaseModel)
-  // scene.sceneBase.add(testBaseModel)
-  // scene.sceneBase.add(testBakeModel)
-  // MaterialHelper.disableLights(testBakeModel)
-  cameraTest = gardenBaseModel.getObjectByName(
-    'Caméra_Orientation'
-  ) as PerspectiveCamera
 
-  cameraEntry = gardenBaseModel.getObjectByName(
-    'Caméra001_Orientation'
-  ) as PerspectiveCamera
+  gardenScene.assignPoints()
 
-  const worldCameraInitialAnimationPos: Vector3 = new Vector3()
-  const helpertest = new CameraHelper(cameraTest as Camera)
-  cameraTest.getWorldPosition(worldCameraInitialAnimationPos)
-  // cameraTest.rotateOnAxis(new Vector3(0, 0, 1), Math.PI / 2)
-  // appManager.scene.add(gardenBaseModel)
-  cameraTest.zoom = 0.93
-  cameraEntry.zoom = 0.93
-  // cameraEntry.rotateY(0.0115)
-  // cameraEntry.rotateZ(0.05)
-  appManager.camera = cameraEntry
-  appManager.onWindowResize()
-  // gardenBaseModel.add(helpertest)
+  MaterialHelper.disableLights(gardenScene.sceneBase)
+
+  // ============= component3d snapping to scene ============= //
 
   gardenScene.components.forEach((component) => {
     gardenBaseModel.traverse((child) => {
@@ -123,60 +106,59 @@ gardenScene.onInit = (scene) => {
           child.rotation.z
         )
       }
-      // if (child.name === 'Portail') {
-      //   testBakeModel.position.set(
-      //     child.position.x,
-      //     child.position.y,
-      //     child.position.z
-      //   )
-      //   testBakeModel.rotation.set(
-      //     child.rotation.x,
-      //     child.rotation.y,
-      //     child.rotation.z
-      //   )
-      // }
     })
   })
-  const portalGLTF = portalComponent3d.getObject('portal_space')
-  // ANIMATIONS"Cube.052Action"
-  // CAMERA
-  console.log('clipsCam', clipsCam)
+
+  // ============= CAMERA ============= //
+
+  cameraTest = gardenBaseModel.getObjectByName(
+    'Caméra_Orientation'
+  ) as PerspectiveCamera
+
+  cameraEntry = gardenBaseModel.getObjectByName(
+    'Caméra001_Orientation'
+  ) as PerspectiveCamera
+
+  cameraTest.zoom = 0.93
+  cameraEntry.zoom = 0.93
+
+  appManager.camera = cameraEntry
+  appManager.onWindowResize()
+
+  //ANIMATION MIXERs
   mixerCam = new AnimationMixer(gardenBaseModel)
   mixerEntryCam = new AnimationMixer(gardenBaseModel)
+  mixerPortal = new AnimationMixer(portalComponent3d.root)
+
+  // ANIMATIONS
+  const clipsPortal = (portalGLTF as GLTFObject).GLTF.animations
+  const clipsCam = (gardenBase as GLTFObject).GLTF.animations
+
+  // CLIPS
   const clip: AnimationClip = AnimationClip.findByName(clipsCam, 'Action')
   const entrPathClip: AnimationClip = AnimationClip.findByName(
     clipsCam,
     'Action.001'
   )
-  const action: AnimationAction = mixerCam.clipAction(clip)
-  const entryAction: AnimationAction = mixerEntryCam.clipAction(entrPathClip)
-  action.loop = LoopRepeat
-  entryAction.loop = LoopOnce
-
-  entryAction.clampWhenFinished = true
-  action.play()
-  cameraPathDuration = clip.duration
-  gardenScene.assignPoints()
-  console.log('points', gardenScene.entryPoints)
-
-  const clipsPortal = (portalGLTF as GLTFObject).GLTF.animations
-  // PORTAL
-  mixerPortal = new AnimationMixer(portalComponent3d.root)
-  console.log('portal animations', clipsPortal)
   const portalClip: AnimationClip = AnimationClip.findByName(
     clipsPortal,
     'Cube.052Action'
   )
-  const portalAction: AnimationAction = mixerPortal.clipAction(portalClip)
-  portalAction.loop = LoopOnce
-  // cameraPathDuration = portalClip.duration
-  MaterialHelper.disableLights(gardenScene.sceneBase)
-  // cameraTest.rotateOnWorldAxis(new Vector3(0, 1, 0), Math.PI)
 
-  // cameraTest.rotateOnWorldAxis(test, Math.PI)
-  // const rotation = {
-  //   value: 0,
-  // }
+  // ACTIONS
+  const action: AnimationAction = mixerCam.clipAction(clip)
+  const entryAction: AnimationAction = mixerEntryCam.clipAction(entrPathClip)
+  const portalAction: AnimationAction = mixerPortal.clipAction(portalClip)
+
+  action.loop = LoopRepeat
+  action.play()
+
+  entryAction.loop = LoopOnce
+  entryAction.clampWhenFinished = true
+
+  cameraPathDuration = clip.duration
+
+  portalAction.loop = LoopOnce
 
   //========== ENTRY ===========//
   SpaceEntryService.gardenEntrySignal.on(() => {
@@ -185,13 +167,12 @@ gardenScene.onInit = (scene) => {
     portalAction.play()
     mixerPortal.setTime(0.8)
 
-    // const animationFinished = setTimeout(() => {},
-    // entrPathClip.duration * mixerEntryCam.timeScale * 300)
     console.log('pazpeapzepazep')
     gardenScene.statesDictionnary['introPlayed'] = 'shallPlay'
   })
 }
 
+// =========================== Events =========================== //
 ScrollService.signal.on((e) => {
   scrolling = e !== null ? e.deltaY : 0
 })
@@ -242,16 +223,19 @@ SpaceEntryService.spaceSignal.on((name) => {
   })
 })
 
+// =========================== Animation loop =========================== //
 gardenScene.onAnimationLoop = (ellapsedTime) => {
   introFrameCount++
   stats.update()
   const appManager = AppManager.getInstance()
+
+  //mixer Update
   mixerEntryCam.update((1 / 60) * 0.8)
-  const camLoop = Math.floor(mixerCam.time / cameraPathDuration)
   mixerPortal.update(1 / 60)
+
+  const camLoop = Math.floor(mixerCam.time / cameraPathDuration)
   if (camLoop != cameraLoopNumber) {
     cameraLoopNumber = camLoop
-    console.log(cameraLoopNumber)
   }
 
   if (
@@ -297,14 +281,12 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
       mixerCam.time >
         cameraLoopNumber * cameraPathDuration +
           RoutingCameraService.cameraTimedPositions[element.component.name] -
-          0.3 &&
+          ENTRY_MARGIN &&
       mixerCam.time <
         cameraLoopNumber * cameraPathDuration +
           RoutingCameraService.cameraTimedPositions[element.component.name] +
-          0.3
+          ENTRY_MARGIN
     ) {
-      console.log('found: ', element.component.name)
-
       notCloseToAnyThing = false
       if (element.component != closeElement) {
         closeElement = element.component
