@@ -37,7 +37,6 @@ function MyApp({ Component, pageProps }) {
           Loading...
         </div>
       )}
-      <Header />
       <Garden3d className={css.webgl} />
       <Component {...pageProps} className={css.content} />
     </>

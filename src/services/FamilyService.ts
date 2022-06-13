@@ -68,22 +68,22 @@ class FamilyService {
     } finally {
       // Then we make the current user join this exact same family
       this.join(family_code)
-      callback()
+      if (callback) callback()
     }
   }
 
-  public async store(family_name: string) {
+  public async store(familyName: string) {
     try {
       let { data, error } = await supabase
         .from('family')
         .select('id')
-        .eq('name', family_name)
+        .eq('name', familyName)
+        .single()
 
       const user_id = supabase.auth.user().id
-      // TODO: Créer un utils pour reformater correctment les résultats de fetch
-      const family_id = data[0].id
+      const familyId = data.id
 
-      localStorage.setItem('family_id', family_id)
+      localStorage.setItem('familyId', familyId)
 
       if (error) {
         throw error
@@ -93,12 +93,12 @@ class FamilyService {
     }
   }
 
-  public async getRecipes(family_id) {
+  public async getRecipes(familyId) {
     try {
       let { data, error, status } = await supabase
         .from('recipe')
-        .select(`*`)
-        .eq('family_id', family_id)
+        .select(`id, name, imageUrl`)
+        .eq('familyId', familyId)
 
       if (error && status !== 406) {
         throw error

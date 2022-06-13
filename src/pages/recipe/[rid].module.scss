@@ -1,17 +1,12 @@
-@import '../styles/references';
+@import '../../styles/references';
 
 .root {
-  padding: 48px 48px 0 48px;
-
-  .title {
-    color: $color-primary;
-  }
+  min-height: 100vh;
 
   .head {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
+    padding: 48px;
   }
 
   .back {
@@ -25,7 +20,7 @@
     }
   }
 
-  .add {
+  .edit {
     display: flex;
     padding: 12px;
     border-radius: 50%;
@@ -34,10 +29,6 @@
     .icon {
       margin: auto;
     }
-  }
-
-  .recipe {
-    width: 20%;
   }
 
   .ripped {
