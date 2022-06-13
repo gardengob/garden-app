@@ -1,26 +1,15 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @next/next/no-img-element */
+import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useLayoutEffect, useState } from 'react'
-import ProgressBar from '../components/progressBar/ProgressBar'
-import RecipeForm, { ERecipeFormMode } from '../components/recipeForm/RecipeForm'
-import RecipeInformationsStep from '../components/recipeInformationsStep/RecipeInformationsStep'
-import RecipeIngredientsStep from '../components/recipeIngredientsStep/RecipeIngredientsStep'
-import RecipeInstructionsStep from '../components/recipeInstructionsStep/RecipeInstructionsStep'
-import RecipeQuantitiesStep from '../components/recipeQuantitiesStep/RecipeQuantitiesStep'
-import RecipeTagsStep from '../components/recipeTagsStep/RecipeTagsStep'
-import FamilyService from '../services/FamilyService'
+import { useEffect, useState } from 'react'
+import RecipeForm, {
+  ERecipeFormMode,
+} from '../components/recipeForm/RecipeForm'
+import RippedPaper from '../components/rippedPaper/RippedPaper'
 import RecipeService from '../services/RecipeService'
-import TagService from '../services/TagService'
-import UserService from '../services/UserService'
-import {
-  EDifficulty,
-  ETimeUnit,
-  IIngredient,
-  IMeasurable,
-  IRecipe,
-  ITag,
-} from '../types/recipe'
-import { merge } from '../utils/arrayUtils'
-import css from './add-recipe.module.scss'
+import { IRecipe } from '../types/recipe'
+import css from './edit-recipe.module.scss'
 
 export default function AddRecipe() {
   const router = useRouter()
@@ -31,7 +20,7 @@ export default function AddRecipe() {
 
   useEffect(() => {
     if (rid) {
-      RecipeService.get(rid).then((reci) =>
+      RecipeService.getRecipe(rid).then((reci) =>
         setRecipe({
           id: reci.id,
           familyId: reci.familyId,
@@ -45,22 +34,26 @@ export default function AddRecipe() {
           imageUrl: reci.imageUrl,
           difficulty: reci.difficulty,
           diet: reci.diet,
+          dish: reci.dish,
           tags: reci.tags,
         })
       )
     }
   }, [rid])
 
-  useEffect(() => {
-    // console.log(recipe)
-  }, [recipe])
-
   // ------------------------------------------------------------------- METHODS
 
   // ------------------------------------------------------------------- RENDER
 
   return (
-    <div className={css.root} style={{ padding: '100px 50px' }}>
+    <div className={css.root}>
+      <div className={css.ripped}>
+        <RippedPaper reverse={true} />
+      </div>
+      <a className={css.back} onClick={() => router.back()}>
+        <img className={css.icon} src={`/images/icons/back.svg`} alt="" />
+      </a>
+      <h1 className={css.title}>Modification d'une recette</h1>
       {recipe && <RecipeForm recipe={recipe} mode={ERecipeFormMode.EDIT} />}
     </div>
   )

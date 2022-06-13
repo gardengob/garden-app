@@ -11,6 +11,7 @@ export interface IRecipe {
   imageUrl: string
   difficulty: ITag
   diet: ITag
+  dish: ITag
   tags: ITag[]
 }
 

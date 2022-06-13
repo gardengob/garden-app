@@ -1,4 +1,96 @@
 @import '../../styles/references';
 
 .root {
+  max-width: 575px;
+  margin: auto;
+  color: $color-primary-darker;
+
+  .title {
+    margin: 0 auto 40px auto;
+    text-align: center;
+    font-size: 24px;
+    font-weight: normal;
+    color: $color-primary-darker;
+  }
+
+  .group {
+    padding: 28px 0;
+
+    .label {
+      &:not(:first-child) {
+        margin: 0 0 18px 0;
+      }
+    }
+
+    &-difficulty {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $color-primary-lighter;
+    }
+  }
+
+  .container {
+    position: relative;
+    display: flex;
+
+    .tag {
+      cursor: pointer;
+      display: block;
+      width: fit-content;
+      color: $color-primary-darker;
+      background-color: $color-primary-lighter;
+      border: 1px solid $color-primary-lighter;
+      border-radius: 8px;
+      padding: 12px 24px;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        border: 1px solid $color-primary-darker;
+      }
+
+      &:not(:last-child) {
+        margin-right: 12px;
+      }
+    }
+  }
+
+  .levels {
+    margin: 0 12px;
+  }
+
+  .level {
+    position: relative;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 16px;
+      height: 16px;
+      background-color: $color-primary-lighter;
+      border-radius: 50%;
+    }
+
+    &:checked:before {
+      background-color: $color-primary-darker;
+    }
+  }
+
+  .checkbox {
+    visibility: hidden;
+    position: absolute;
+
+    &:checked + .tag {
+      color: white;
+      background-color: $color-primary;
+    }
+  }
 }

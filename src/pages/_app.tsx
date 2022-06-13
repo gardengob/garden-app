@@ -19,6 +19,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
+<<<<<<< HEAD
       {loading && (
         <div
           style={{
@@ -40,6 +41,10 @@ function MyApp({ Component, pageProps }) {
       <Header />
       <Garden3d className={css.webgl} />
       <Component {...pageProps} className={css.content} />
+=======
+      {/* <Header /> */}
+      <Component {...pageProps} />
+>>>>>>> 118c35d (styling recipes)
     </>
   )
 }

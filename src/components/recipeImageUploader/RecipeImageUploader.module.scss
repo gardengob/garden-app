@@ -1,0 +1,44 @@
+@import '../../styles/references';
+
+.root {
+  //   background-color: #e9ebe0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f5f5f0;
+  padding: 12px;
+  border: 1px dashed $color-primary;
+  border-radius: 8px;
+
+  .label {
+    display: flex;
+    align-items: center;
+
+    .icon {
+      margin-right: 12px;
+    }
+  }
+
+  .icon {
+    padding: 10px;
+    border: 1px solid $color-primary-darker;
+    background-color: $color-primary-darker;
+    border-radius: 50%;
+  }
+
+  .image {
+    &-no {
+      display: flex;
+      background-color: #e9ebe0;
+    }
+
+    .placeholder {
+      margin: auto;
+    }
+  }
+
+  &-uploading {
+    opacity: 0.5;
+  }
+}

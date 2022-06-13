@@ -37,6 +37,10 @@ class RecipeService {
           recipe_id: recipeId,
           tag_id: recipe.diet.id,
         },
+        {
+          recipe_id: recipeId,
+          tag_id: recipe.dish.id,
+        },
       ]
 
       recipe.tags.forEach((tag) => {
@@ -85,6 +89,10 @@ class RecipeService {
           recipe_id: recipe.id,
           tag_id: recipe.diet.id,
         },
+        {
+          recipe_id: recipe.id,
+          tag_id: recipe.dish.id,
+        },
       ]
 
       recipe.tags.forEach((tag) => {
@@ -130,7 +138,6 @@ class RecipeService {
     if (!tags) return alert('Renseigner des tags')
 
     try {
-
       // GET ALL TAGS IN BASE
       const baseTags = await supabase
         .from('recipe_tag')
@@ -177,27 +184,7 @@ class RecipeService {
     }
   }
 
-  public async store(recipeName: string, callback?: () => void) {
-    try {
-      let { data, error } = await supabase
-        .from('recipe')
-        .select('*')
-        .eq('name', recipeName)
-
-      const recipe = data[0]
-      localStorage.setItem('recipe', JSON.stringify(recipe))
-
-      if (error) {
-        throw error
-      }
-    } catch (error) {
-      alert(`${error.message}`)
-    } finally {
-      if (callback) callback()
-    }
-  }
-
-  public async get(recipe_id, callback?: () => void): Promise<IRecipe> {
+  public async getRecipe(recipe_id, callback?: () => void): Promise<IRecipe> {
     let recipe: IRecipe
     try {
       let { data, error } = await supabase
@@ -219,6 +206,7 @@ class RecipeService {
         imageUrl: data.imageUrl,
         difficulty: await this.getDifficulty(recipe_id),
         diet: await this.getDiet(recipe_id),
+        dish: await this.getDish(recipe_id),
         tags: await this.getTags(recipe_id),
       }
 
@@ -236,7 +224,6 @@ class RecipeService {
   public async getDiet(recipeId: string): Promise<ITag> {
     let dietTag
     try {
-      // First we get the id of diet tags
       const { data, error } = await supabase
         .from('recipe_tag')
         .select('*, tag!inner(*, tag_type!inner(*))')
@@ -244,11 +231,17 @@ class RecipeService {
         .eq('tag.tag_type.label', 'diet')
         .single()
 
-      dietTag = {
-        id: data.tag.id,
-        label: data.tag.label,
-        type_id: data.tag.type_id,
-        family_id: data.tag.family_id,
+      if (data) {
+        dietTag = {
+          id: data.tag.id,
+          label: data.tag.label,
+          type_id: data.tag.type_id,
+          family_id: data.tag.family_id,
+        }
+      }
+
+      if (error) {
+        console.log('ERROR DIET', error)
       }
     } catch (error) {
       alert(`${error.message}`)
@@ -257,10 +250,38 @@ class RecipeService {
     }
   }
 
+  public async getDish(recipeId: string): Promise<ITag> {
+    let dishTag
+    try {
+      const { data, error } = await supabase
+        .from('recipe_tag')
+        .select('*, tag!inner(*, tag_type!inner(*))')
+        .eq('recipe_id', `${recipeId}`)
+        .eq('tag.tag_type.label', 'dish')
+        .single()
+
+      if (data) {
+        dishTag = {
+          id: data.tag.id,
+          label: data.tag.label,
+          type_id: data.tag.type_id,
+          family_id: data.tag.family_id,
+        }
+      }
+
+      if (error) {
+        console.log('ERROR DISH', error)
+      }
+    } catch (error) {
+      alert(`${error.message}`)
+    } finally {
+      return dishTag
+    }
+  }
+
   public async getDifficulty(recipeId: string): Promise<ITag> {
     let difficultyTag
     try {
-      // First we get the id of diet tags
       const { data, error } = await supabase
         .from('recipe_tag')
         .select('*, tag!inner(*, tag_type!inner(*))')

@@ -1,8 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import RecipeCard from '../components/recipeCard/RecipeCard'
 import RoutingCameraService from '../services/events/RoutingCameraService'
 import { useEffect, useState } from 'react'
+import RecipePreview from '../components/recipePreview/RecipePreview'
+import RippedPaper from '../components/rippedPaper/RippedPaper'
 import FamilyService from '../services/FamilyService'
 import { supabase } from '../utils/supabaseClient'
 import { Component3dName } from '../webGL/webGLArchitecture/Types/Component3dNameType'
@@ -38,22 +41,30 @@ export default function Recipes() {
   }, [])
 
   return (
-    <div className={css.root} style={{ padding: '100px 50px' }}>
-      <div className={css.column}>
-        <div className={css.head}>
-          <label>Recettes</label>
-          <button onClick={() => router.push('/add-recipe')}>
-            Créer une recette
-          </button>
-        </div>
+    <div className={css.root}>
+      <div className={css.head}>
+        <Link href={`/`}>
+          <a className={css.back}>
+            <img className={css.icon} src={`/images/icons/back.svg`} alt="" />
+          </a>
+        </Link>
+        <h1 className={css.title}>Les recettes de la famille</h1>
+        <Link href={`/add-recipe`}>
+          <a className={css.add}>
+            <img className={css.icon} src={`/images/icons/plus.svg`} alt="" />
+          </a>
+        </Link>
+      </div>
 
-        {recipes.map(function (item, i) {
-          return (
-            <Link key={i} href={`/recipe/${item.id}`}>
-              <a className={css.recipe}>{item.name}</a>
-            </Link>
-          )
-        })}
+      {recipes.map(function (recipe, i) {
+        return (
+          <div className={css.recipe} key={i}>
+            <RecipePreview recipe={recipe} />
+          </div>
+        )
+      })}
+      <div className={css.ripped}>
+        <RippedPaper />
       </div>
     </div>
   )

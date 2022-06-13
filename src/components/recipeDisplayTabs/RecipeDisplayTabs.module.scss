@@ -1,0 +1,50 @@
+@import '../../styles/references';
+
+.root {
+  .tabs {
+    display: flex;
+    margin-bottom: 24px;
+
+    .tab {
+      cursor: pointer;
+      display: flex;
+      align-self: center;
+      margin-right: 40px;
+      font-size: 20px;
+      color: $color-primary-darker;
+      opacity: 0.5;
+
+      .icon {
+        margin-right: 10px;
+      }
+
+      &-active {
+        opacity: 1;
+      }
+    }
+  }
+
+  .content {
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+
+  .ingredient {
+    margin-bottom: 32px;
+    font-size: 18px;
+    color: $color-primary-darker;
+    list-style-type: circle;
+  }
+
+  .instruction {
+    list-style-type: none;
+    .step {
+      font-size: 20px;
+      color: $color-primary;
+    }
+    .text {
+      font-size: 18px;
+      color: $color-primary-darker;
+    }
+  }
+}

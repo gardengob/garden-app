@@ -1,4 +1,62 @@
 @import '../../styles/references';
 
 .root {
+  color: $color-primary-darker;
+
+  .title {
+    margin: 0 auto 40px auto;
+    text-align: center;
+    font-size: 24px;
+    font-weight: normal;
+  }
+
+  .ingredients {
+    color: $color-primary;
+
+    .ingredient {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+
+      .name {
+        font-size: 18px;
+      }
+
+      .quantity {
+        .value {
+          margin-right: 12px;
+          padding: 12px 24px;
+          font-size: 18px;
+          color: $color-primary;
+          border: 1px solid $color-primary;
+          border-radius: 8px;
+        }
+        .drop {
+          padding: 12px 24px;
+          font-size: 18px;
+          color: $color-primary;
+          border: 1px solid $color-primary;
+          border-radius: 8px;
+        }
+      }
+
+      &:not(:last-child) {
+        border-bottom: 1px solid $color-primary-lighter;
+      }
+    }
+  }
+
+  .delete {
+    cursor: pointer;
+    display: flex;
+    background-color: $color-primary-darker;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+
+    .icon {
+      margin: auto;
+    }
+  }
 }

@@ -1,25 +1,11 @@
-import { useRouter } from 'next/router'
-import { useEffect, useLayoutEffect, useState } from 'react'
-import ProgressBar from '../components/progressBar/ProgressBar'
-import RecipeForm, { ERecipeFormMode } from '../components/recipeForm/RecipeForm'
-import RecipeInformationsStep from '../components/recipeInformationsStep/RecipeInformationsStep'
-import RecipeIngredientsStep from '../components/recipeIngredientsStep/RecipeIngredientsStep'
-import RecipeInstructionsStep from '../components/recipeInstructionsStep/RecipeInstructionsStep'
-import RecipeQuantitiesStep from '../components/recipeQuantitiesStep/RecipeQuantitiesStep'
-import RecipeTagsStep from '../components/recipeTagsStep/RecipeTagsStep'
-import FamilyService from '../services/FamilyService'
-import RecipeService from '../services/RecipeService'
-import TagService from '../services/TagService'
-import UserService from '../services/UserService'
-import {
-  EDifficulty,
-  ETimeUnit,
-  IIngredient,
-  IMeasurable,
-  IRecipe,
-  ITag,
-} from '../types/recipe'
-import { merge } from '../utils/arrayUtils'
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @next/next/no-img-element */
+import Link from 'next/link'
+import RecipeForm, {
+  ERecipeFormMode,
+} from '../components/recipeForm/RecipeForm'
+import RippedPaper from '../components/rippedPaper/RippedPaper'
+import { ETimeUnit, IRecipe } from '../types/recipe'
 import css from './add-recipe.module.scss'
 
 const STARTING_RECIPE: IRecipe = {
@@ -50,6 +36,12 @@ const STARTING_RECIPE: IRecipe = {
     type_id: '',
     family_id: '',
   },
+  dish: {
+    id: '',
+    label: '',
+    type_id: '',
+    family_id: '',
+  },
   tags: [],
 }
 
@@ -61,10 +53,17 @@ export default function AddRecipe() {
   // ------------------------------------------------------------------- RENDER
 
   return (
-    <div className={css.root} style={{ padding: '100px 50px' }}>
-      {/* <ProgressBar progress={progress} /> */}
-
-      <RecipeForm recipe={STARTING_RECIPE} mode={ERecipeFormMode.ADD}  />
+    <div className={css.root}>
+      <div className={css.ripped}>
+        <RippedPaper reverse={true} />
+      </div>
+      <Link href={`/recipes`}>
+        <a className={css.back}>
+          <img className={css.icon} src={`/images/icons/back.svg`} alt="" />
+        </a>
+      </Link>
+      <h1 className={css.title}>Création d'une recette</h1>
+      <RecipeForm recipe={STARTING_RECIPE} mode={ERecipeFormMode.ADD} />
     </div>
   )
 }

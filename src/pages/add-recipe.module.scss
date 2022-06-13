@@ -1,34 +1,36 @@
+@import '../styles/references';
+
 .root {
-  .container {
-    width: 100%;
+  .back {
+    cursor: pointer;
+    position: absolute;
+    top: 48px;
+    left: 48px;
+    z-index: 2;
+    display: flex;
+    width: fit-content;
+    padding: 12px;
+    border-radius: 50%;
+    border: 1px solid $color-primary-darker;
+
+    .icon {
+      margin: auto;
+    }
   }
+
   .title {
+    position: relative;
+    z-index: 1;
+    margin-top: 48px;
+    margin-bottom: 32px;
+    color: $color-primary;
     text-align: center;
   }
-  .actions {
-    margin-top: 24px;
 
-    button {
-      margin-right: 24px;
-    }
-  }
-
-  .btn {
-    transition: all 0.3s ease-in-out;
-
-    &:hover {
-      color: white;
-      background-color: #4b6659;
-    }
-
-    &-finish {
-      color: #cb6d4d;
-      border-color: #cb6d4d;
-
-      &:hover {
-        color: white;
-        background-color: #cb6d4d;
-      }
-    }
+  .ripped {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
   }
 }

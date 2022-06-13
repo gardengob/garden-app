@@ -6,25 +6,7 @@ class TagService {
     if (!label) return alert('Renseigner un label')
 
     try {
-      let { data } = await supabase
-        .from('tag_type')
-        .select('id, label')
-        .eq('label', 'diet')
 
-      console.log(data)
-
-      // // We create the family with the asked name
-      // let { error } = await supabase.from('tag').insert([
-      //     {
-      //     label,
-      //     type_id: '',
-      //     family_id: localStorage.getItem('familyId'),
-      //     },
-      // ])
-
-      // if (error) {
-      //     throw error
-      // }
     } catch (error) {
       alert(`${error.message}`)
     } finally {
@@ -61,6 +43,28 @@ class TagService {
         .from('tag_type')
         .select('id, label')
         .eq('label', 'difficulty')
+      id = data[0].id
+    } catch (error) {
+      alert(`${error.message}`)
+    } finally {
+      // Then we get all difficulty tags and return them
+      let { data } = await supabase
+        .from('tag')
+        .select('id, label, type_id, family_id')
+        .eq('type_id', id)
+
+      return data
+    }
+  }
+
+  public async getDishes(): Promise<ITag[]> {
+    let id
+    try {
+      // First we get the id of difficulty tags
+      let { data } = await supabase
+        .from('tag_type')
+        .select('id, label')
+        .eq('label', 'dish')
       id = data[0].id
     } catch (error) {
       alert(`${error.message}`)

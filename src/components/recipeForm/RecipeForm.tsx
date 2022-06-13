@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 import css from './RecipeForm.module.scss'
 import { useEffect, useState } from 'react'
@@ -53,6 +54,8 @@ export default function RecipeForm(props: IProps) {
 
   const [diet, setDiet] = useState<ITag>(recipe.diet)
 
+  const [dish, setDish] = useState<ITag>(recipe.dish)
+
   const [tags, setTags] = useState<ITag[]>(recipe.tags)
 
   // ------------------------------------------------------------------- USE
@@ -75,6 +78,7 @@ export default function RecipeForm(props: IProps) {
       imageUrl,
       difficulty,
       diet,
+      dish,
       tags,
     })
   }, [
@@ -89,6 +93,7 @@ export default function RecipeForm(props: IProps) {
     imageUrl,
     difficulty,
     diet,
+    dish,
     tags,
   ])
 
@@ -119,8 +124,6 @@ export default function RecipeForm(props: IProps) {
   return (
     <div className={css.root}>
       <div className={css.container}>
-        <h2 className={css.title}>Créez votre recette</h2>
-
         {step === 1 && (
           <RecipeInformationsStep
             name={name}
@@ -151,6 +154,8 @@ export default function RecipeForm(props: IProps) {
             difficultyChange={(dif) => setDifficulty(dif)}
             diet={diet}
             dietChange={(dt) => setDiet(dt)}
+            dish={dish}
+            dishChange={(ds) => setDish(ds)}
             tags={tags}
             tagsChange={(newTags) => setTags(newTags)}
           />
@@ -180,8 +185,8 @@ export default function RecipeForm(props: IProps) {
           />
         )}
         {step === MAX_FORM_STEP + 1 && (
-          <div>
-            <p className={css.congrats}>Vous avez ajouté une recette bravo !</p>
+          <div className={css.finish}>
+            <p className={css.congrats}>{mode === ERecipeFormMode.ADD ? 'Vous avez ajouté une recette bravo !' : 'Vous avez modifié votre recette bravo !'}</p>
             <button
               className={css.btn}
               name="button"
@@ -195,6 +200,11 @@ export default function RecipeForm(props: IProps) {
         <div className={css.actions}>
           {step > 1 && step < MAX_FORM_STEP + 1 && (
             <button className={css.btn} name="button" onClick={prevForm}>
+              <img
+                className={merge([css.icon, css['icon-back']])}
+                src={`/images/icons/back.svg`}
+                alt=""
+              />{' '}
               Précédent
             </button>
           )}
@@ -209,7 +219,12 @@ export default function RecipeForm(props: IProps) {
           )}
           {step < MAX_FORM_STEP && (
             <button className={css.btn} name="button" onClick={nextForm}>
-              Suivant
+              Suivant{' '}
+              <img
+                className={merge([css.icon, css['icon-next']])}
+                src={`/images/icons/next.svg`}
+                alt=""
+              />
             </button>
           )}
         </div>
