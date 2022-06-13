@@ -6,6 +6,7 @@ class RoutingCameraService {
   public signal = StateSignal<{ corespondingTime: number; name: string }>(
     undefined
   )
+  public with3Dsignal = StateSignal<boolean>(false)
 
   routeSpaceDictionnary: { [key: string]: string } = {
     recipes: 'kitchen',
@@ -14,7 +15,7 @@ class RoutingCameraService {
     family: 'portal',
     garden: 'start',
     encyclopedia: 'vegetable_garden',
-    notification: 'mail_box',
+    mailbox: 'mail_box',
     media: 'memories',
   }
   public cameraTimedPositions: { [key: string]: number } = {
@@ -28,12 +29,18 @@ class RoutingCameraService {
     portal: 14.5,
   }
 
-  public goTo(spaceName: Component3dName | 'start') {
-    const camTargetedPosition = this.cameraTimedPositions[spaceName]
+  public goTo(spaceName: Component3dName | 'start' | 'continue') {
+    const camTargetedPosition =
+      spaceName !== 'continue' ? this.cameraTimedPositions[spaceName] : 0
     this.signal.dispatch({
       corespondingTime: camTargetedPosition,
       name: spaceName,
     })
+  }
+
+  public toggle3D(state: boolean) {
+    console.log('ee')
+    this.with3Dsignal.dispatch(state)
   }
 }
 

@@ -34,10 +34,15 @@ export default function Garden3d({ className }) {
     height: 0,
   })
   const [elementNear, setElementNear] = useState(null)
+  const [need3D, setneed3D] = useState(true)
 
   const router = useRouter()
 
   useEffect(() => {
+    RoutingCameraService.with3Dsignal.on((needs3d) => {
+      console.log('3d?', needs3d)
+      setneed3D(needs3d)
+    })
     console.log('init garden3D')
     const loadingManager = LoadingManager.getInstance()
     const appManager = AppManager.getInstance()
@@ -72,19 +77,10 @@ export default function Garden3d({ className }) {
 
     const scene = new THREE.Scene()
 
-    // Object
-    // const geometry = new THREE.BoxGeometry(1, 1, 1)
-    // const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
-    // const mesh = new THREE.Mesh(geometry, material)
-
-    // appManager.scene.add(mesh)
     appManager.canvas = canvasRef.current
 
     const axesHelper = new THREE.AxesHelper(5)
     appManager.scene.add(axesHelper)
-
-    // const helper = new THREE.CameraHelper(appManager.camera)
-    // appManager.scene.add(helper)
 
     appManager.camera.lookAt(new THREE.Vector3(0, 0, 0))
 
@@ -102,6 +98,18 @@ export default function Garden3d({ className }) {
 
     render()
   }, [])
+
+  useEffect(() => {
+    const appManager = AppManager.getInstance()
+
+    if (need3D === false) {
+      canvasRef.current.style.visibility = 'hidden'
+      appManager.appState = AppStateEnum.PAUSED
+    } else {
+      canvasRef.current.style.visibility = 'visible'
+      appManager.appState = AppStateEnum.RUNNING
+    }
+  }, [need3D])
 
   function render() {
     const currentTime = Date.now()
@@ -152,6 +160,7 @@ export default function Garden3d({ className }) {
           position: 'absolute',
           height: '100vh',
           width: '100vw',
+          zIndex: 2,
           top: 0,
           left: 0,
         }}
@@ -162,6 +171,8 @@ export default function Garden3d({ className }) {
           position: 'absolute',
           height: '100vh',
           width: '100vw',
+          zIndex: 3,
+
           top: 0,
           left: 0,
         }}
@@ -189,6 +200,7 @@ export default function Garden3d({ className }) {
           }}
           style={{
             position: 'absolute',
+            zIndex: 3,
             top: '75%',
             left: '50%',
             transform: 'translateX(-50%)',

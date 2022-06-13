@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import FamilyService from '../../services/FamilyService'
 import UserService from '../../services/UserService'
@@ -12,6 +13,7 @@ export default function Account({ session }) {
   const [username, setUsername] = useState(null)
   const [avatar_url, setAvatarUrl] = useState(null)
   const [families, setFamilies] = useState([])
+  const router = useRouter()
 
   useEffect(() => {
     const subscription = supabase
@@ -34,7 +36,7 @@ export default function Account({ session }) {
   }, [session])
 
   return (
-    <div className={css.root}>
+    <div className={`${css.root} garden-ui`}>
       <h1>Bienvenue {username},</h1>
       {/* <Avatar
         url={avatar_url}
@@ -47,7 +49,21 @@ export default function Account({ session }) {
 
       <label>Familles</label>
       {families.map(function (item, i) {
-        return <li className={css.family} key={i} onClick={() => FamilyService.store(item.family.name)}>{item.family.name}</li>
+        return (
+          <li
+            className={css.family}
+            key={i}
+            onClick={() => {
+              FamilyService.store(item.family.name)
+              router.push({
+                pathname: '/garden',
+                query: { withIntro: true },
+              })
+            }}
+          >
+            {item.family.name}
+          </li>
+        )
       })}
 
       {/* <div>

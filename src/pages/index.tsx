@@ -5,6 +5,8 @@ import Auth from '../components/auth/Auth'
 import Account from '../components/account/Account'
 import { useRouter } from 'next/router'
 import UserService from '../services/UserService'
+import RoutingCameraService from '../services/events/RoutingCameraService'
+import UiService from '../services/events/UiService'
 
 export default function Home() {
   const router = useRouter()
@@ -13,7 +15,8 @@ export default function Home() {
 
   useEffect(() => {
     setSession(supabase.auth.session())
-
+    RoutingCameraService.toggle3D(false)
+    console.log('fart')
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
     })

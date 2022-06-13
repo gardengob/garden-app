@@ -1,5 +1,6 @@
 import { Object3D } from 'three'
 import { GLTF } from 'three-stdlib'
+import UiService from '../../../services/events/UiService'
 import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
 import { Component3d } from '../../webGLArchitecture/Classes/Compoment3d/Component3d'
 import { LoadingManager } from '../../webGLArchitecture/Classes/LoadingManager/LoadingManager'
@@ -34,6 +35,7 @@ vegetableGardenComponent3d.onInit = () => {
 
   vegetableGardenComponent3d.poiArray.push({
     onclick: () => {
+      UiService.toggleUi(true)
       console.log('vegetableGarden')
     },
     holder: vegetableGardenPOIHolder,

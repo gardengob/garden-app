@@ -1,5 +1,6 @@
 export enum AppStateEnum {
-    LOADING = 'loading',
-    INITIALIZING = 'initializing',
-    RUNNING = 'running'
+  LOADING = 'loading',
+  INITIALIZING = 'initializing',
+  RUNNING = 'running',
+  PAUSED = 'paused',
 }

@@ -1,7 +1,9 @@
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import RoutingCameraService from '../services/events/RoutingCameraService'
 import SpaceEntryService from '../services/events/SpaceEntryService'
+import { AppManager } from '../webGL/webGLArchitecture/Classes/AppManager/AppManager'
 
 const Garden3d = dynamic(import('../components/garden3d/Garden3d'), {
   ssr: false,
@@ -10,8 +12,13 @@ const Garden3d = dynamic(import('../components/garden3d/Garden3d'), {
 export default function Garden() {
   const [intro, setIntro] = useState<boolean>(false)
   const CAMERA_POSITION = 'start'
+  const router = useRouter()
   useEffect(() => {
-    RoutingCameraService.goTo(CAMERA_POSITION)
+    console.log('router.query', router.query.withIntro)
+
+    RoutingCameraService.goTo(
+      router.query.withIntro ? CAMERA_POSITION : 'continue'
+    )
 
     SpaceEntryService.gardenEntrySignal.on(() => {
       setIntro(true)
@@ -19,7 +26,7 @@ export default function Garden() {
   }, [])
   return (
     <>
-      {!intro && (
+      {!intro && router.query.withIntro && (
         <>
           <div
             style={{

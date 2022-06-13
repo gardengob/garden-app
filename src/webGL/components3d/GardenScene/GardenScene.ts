@@ -108,6 +108,7 @@ gardenScene.onInit = (scene) => {
       }
     })
   })
+  console.log('gardenBase', gardenBase)
 
   // ============= CAMERA ============= //
 
@@ -135,10 +136,10 @@ gardenScene.onInit = (scene) => {
   const clipsCam = (gardenBase as GLTFObject).GLTF.animations
 
   // CLIPS
-  const clip: AnimationClip = AnimationClip.findByName(clipsCam, 'Action')
+  const clip: AnimationClip = AnimationClip.findByName(clipsCam, 'CaméraAction')
   const entrPathClip: AnimationClip = AnimationClip.findByName(
     clipsCam,
-    'Action.001'
+    'Caméra.001Action'
   )
   const portalClip: AnimationClip = AnimationClip.findByName(
     clipsPortal,
@@ -178,34 +179,45 @@ ScrollService.signal.on((e) => {
 })
 
 RoutingCameraService.signal.on((routingData) => {
-  const animationTime = {
-    value: mixerCam.time,
+  console.log('routting triggered')
+  if (routingData.name !== 'start') {
+    AppManager.getInstance().camera = cameraTest
+    AppManager.getInstance().onWindowResize()
   }
-  gsap
-    .to(animationTime, {
-      value:
-        cameraLoopNumber * cameraPathDuration + routingData.corespondingTime,
-      onUpdate: (tween) => {
-        console.log('tween', tween)
-        mixerCam.setTime(animationTime.value)
-      },
-      ease: 'power1.inOut',
-      duration: 2.5,
-    })
-    .then(() => {
-      const component = gardenScene.components.find(
-        (comp) => comp.name === routingData.name
-      )
-      if (component) {
-        component.poiArray.forEach((poi) => {
-          const children = poi.css2dObject.element.querySelectorAll('.poi')
-          children.forEach((child) => {
-            ;(child as HTMLElement).style.display = 'block'
+  if (routingData.name !== 'continue') {
+    const animationTime = {
+      value: mixerCam.time,
+    }
+    gsap
+      .to(animationTime, {
+        value:
+          cameraLoopNumber * cameraPathDuration + routingData.corespondingTime,
+        onUpdate: (tween) => {
+          console.log('tween', tween)
+          mixerCam.setTime(animationTime.value)
+        },
+        ease: 'power1.inOut',
+        duration: 2.5,
+      })
+      .then(() => {
+        const component = gardenScene.components.find(
+          (comp) => comp.name === routingData.name
+        )
+        if (component) {
+          component.poiArray.forEach((poi) => {
+            const children = poi.css2dObject.element.querySelectorAll('.poi')
+            children.forEach((child) => {
+              ;(child as HTMLElement).style.display = 'block'
+            })
+            // component.root.add(poi.css2dObject)
           })
-          // component.root.add(poi.css2dObject)
-        })
-      }
-    })
+        }
+      })
+  } else {
+    console.log('continuous')
+    AppManager.getInstance().camera = cameraTest
+    AppManager.getInstance().onWindowResize()
+  }
 })
 
 SpaceEntryService.spaceSignal.on((name) => {
@@ -225,6 +237,7 @@ SpaceEntryService.spaceSignal.on((name) => {
 
 // =========================== Animation loop =========================== //
 gardenScene.onAnimationLoop = (ellapsedTime) => {
+  console.log("updatin' like crazy")
   introFrameCount++
   stats.update()
   const appManager = AppManager.getInstance()
