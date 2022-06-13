@@ -135,10 +135,10 @@ gardenScene.onInit = (scene) => {
   const clipsCam = (gardenBase as GLTFObject).GLTF.animations
 
   // CLIPS
-  const clip: AnimationClip = AnimationClip.findByName(clipsCam, 'Action')
+  const clip: AnimationClip = AnimationClip.findByName(clipsCam, 'CaméraAction')
   const entrPathClip: AnimationClip = AnimationClip.findByName(
     clipsCam,
-    'Action.001'
+    'Caméra.001Action'
   )
   const portalClip: AnimationClip = AnimationClip.findByName(
     clipsPortal,
