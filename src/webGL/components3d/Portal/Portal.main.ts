@@ -5,6 +5,8 @@ import { GLTF } from 'three-stdlib'
 import { LoadingManager } from '../../webGLArchitecture/Classes/LoadingManager/LoadingManager'
 import { PortalGraphConstruction } from './Portal.graphConstruction'
 import { PortalInitialization } from './Portal.initialization'
+import { Object3D } from 'three'
+import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
 
 const loadingManager = LoadingManager.getInstance()
 
@@ -17,6 +19,27 @@ portalComponent3d.onInit = () => {
   const gltfMap: Map<string, GLTF> = loadingManager.getFromList(
     portalComponent3d.expectedObjects
   )
+
+  const appManager = AppManager.getInstance()
+
+  const portalPOIHolder = new Object3D()
+
+  portalPOIHolder.position.y = 0.5
+  portalPOIHolder.position.x = 0.04
+  portalPOIHolder.position.z = 0
+
+  portalComponent3d.root.add(portalPOIHolder)
+
+  // portalComponent3d.root.getWorldPosition(rootWorldPos)
+
+  portalComponent3d.poiArray.push({
+    onclick: () => {
+      console.log('portal')
+    },
+    holder: portalPOIHolder,
+  })
+
+  portalComponent3d.drawPOIs()
 
   portalComponent3d.assignLoadedSceneObjects(gltfMap)
   const portalModel = portalComponent3d.getObject('portal_space')

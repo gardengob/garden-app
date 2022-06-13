@@ -5,6 +5,8 @@ import { ContestInitialization } from './Contest.intialization'
 import { GLTF } from 'three-stdlib'
 
 import { LoadingManager } from '../../webGLArchitecture/Classes/LoadingManager/LoadingManager'
+import { Object3D } from 'three'
+import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
 
 const loadingManager = LoadingManager.getInstance()
 
@@ -18,12 +20,34 @@ contestComponent3d.onInit = () => {
     contestComponent3d.expectedObjects
   )
 
+  // contestComponent3d.root.getWorldPosition(rootWorldPos)
+
   contestComponent3d.assignLoadedSceneObjects(gltfMap)
-  const pocHouse = contestComponent3d.getObject('table_space')
+  const table = contestComponent3d.getObject('table_space')
 
   // const light = new AmbientLight(0x404040) // soft white light
   // contestComponent3d.root.add(light)
-  contestComponent3d.root.add(pocHouse.getModel())
+  const tableModel = table.getModel()
+  contestComponent3d.root.add(tableModel)
+  console.log('tableModel', tableModel)
+  const pizza = tableModel.getObjectByName('center')
+  const quenelles = tableModel.getObjectByName('plat')
+  contestComponent3d.poiArray.push(
+    {
+      onclick: () => {
+        console.log('contest')
+      },
+      holder: pizza,
+    },
+    {
+      onclick: () => {
+        console.log('guess')
+      },
+      holder: quenelles,
+    }
+  )
+
+  contestComponent3d.drawPOIs()
   // contestComponent3d.root.position.set(6, 0, 6)
   // console.log('cegetableGardenComponent initialized')
   ContestGraphConstruction(contestComponent3d)

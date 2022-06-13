@@ -18,6 +18,7 @@ import Stats from 'three/examples/jsm/libs/stats.module'
 import ScrollService from '../../services/events/ScrollService'
 import { merge } from '../../utils/arrayUtils'
 import LoadingService from '../../services/events/LoadingService'
+import RoutingCameraService from '../../services/events/RoutingCameraService'
 export interface IWindowSize {
   width: number
   height: number
@@ -37,11 +38,11 @@ export default function Garden3d({ className }) {
   const router = useRouter()
 
   useEffect(() => {
+    console.log('init garden3D')
     const loadingManager = LoadingManager.getInstance()
     const appManager = AppManager.getInstance()
 
     SpaceEntryService.spaceSignal.on((name) => {
-      console.log('papapasdsofsfo')
       setElementNear(name)
     })
 
@@ -146,10 +147,22 @@ export default function Garden3d({ className }) {
     <div className={merge([className, css.webgl])}>
       {/* <div>{stats.domElement}</div> */}
       <div
-        className="img-debug-holder"
+        className="img-holder"
         style={{
           position: 'absolute',
-          top: '100px',
+          height: '100vh',
+          width: '100vw',
+          top: 0,
+          left: 0,
+        }}
+      ></div>
+      <div
+        className="css-render-target"
+        style={{
+          position: 'absolute',
+          height: '100vh',
+          width: '100vw',
+          top: 0,
           left: 0,
         }}
       ></div>
@@ -166,6 +179,14 @@ export default function Garden3d({ className }) {
       </button>
       {elementNear && (
         <div
+          onClick={() => {
+            for (const key in RoutingCameraService.routeSpaceDictionnary) {
+              const element = RoutingCameraService.routeSpaceDictionnary[key]
+              if (element === elementNear) {
+                router.push(key)
+              }
+            }
+          }}
           style={{
             position: 'absolute',
             top: '75%',

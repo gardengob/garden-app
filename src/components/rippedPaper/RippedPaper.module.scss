@@ -1,0 +1,9 @@
+.root {
+  .image {
+    width: 100%;
+  }
+
+  &-reverse {
+    transform: rotate(180deg);
+  }
+}

@@ -6,7 +6,7 @@ import { Component3dName } from '../webGL/webGLArchitecture/Types/Component3dNam
 import css from './family.module.scss'
 
 export default function Family() {
-  const CAMERA_POSITION: Component3dName = 'contest'
+  const CAMERA_POSITION: Component3dName = 'portal'
   useEffect(() => {
     RoutingCameraService.goTo(CAMERA_POSITION)
   }, [])
