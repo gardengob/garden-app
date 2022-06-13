@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import css from './RecipeInformationsStep.module.scss'
 import { useEffect, useRef, useState } from 'react'
@@ -36,16 +37,21 @@ export default function RecipeInformationsStep({
   const peopleInputRef = useRef(null)
   const [inputPeopleAmount, setInputPeopleAmount] =
     useState<number>(peopleAmount)
-  const changeEvent = new Event('change')
+
+  let changeEvent
 
   useEffect(() => {
+    if(!changeEvent) {
+      changeEvent = new Event('change')
+    }
+
     peopleInputRef.current.addEventListener('change', (e) => {
       peopleAmountChange(parseInt(e.target.value))
     })
   }, [])
 
   useEffect(() => {
-    peopleInputRef.current.dispatchEvent(changeEvent)
+    if (changeEvent) peopleInputRef.current.dispatchEvent(changeEvent)
   }, [inputPeopleAmount])
 
   return (
