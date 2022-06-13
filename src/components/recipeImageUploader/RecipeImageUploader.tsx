@@ -1,10 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 import css from './RecipeImageUploader.module.scss'
-import { useEffect, useRef, useState } from 'react'
-import { ETimeUnit, IMeasurable } from '../../types/recipe'
+import { useEffect, useState } from 'react'
 import { supabase } from '../../utils/supabaseClient'
 import Image from 'next/image'
+import { merge } from '../../utils/arrayUtils'
 
-export default function RecipeImageUploader({ url, size, onUpload }) {
+export default function RecipeImageUploader({ url, onUpload }) {
   const [recipeImageUrl, setRecipeImageUrl] = useState(null)
   const [uploading, setUploading] = useState(false)
 
@@ -58,24 +59,11 @@ export default function RecipeImageUploader({ url, size, onUpload }) {
   }
 
   return (
-    <div className={css.root}>
-      {recipeImageUrl ? (
-        <Image
-          src={recipeImageUrl}
-          alt="Recipe"
-          className="recipe image"
-          width={size}
-          height={size}
-        />
-      ) : (
-        <div
-          className="avatar no-image"
-          style={{ height: size, width: size }}
-        />
-      )}
-      <div style={{ width: size }}>
-        <label className="button primary block" htmlFor="single">
-          {uploading ? 'Uploading ...' : 'Upload'}
+    <div className={merge([css.root, uploading ? css['root-uploading'] : ''])}>
+      <div className={css.input}>
+        <label className={css.label} htmlFor="single">
+          <img className={css.icon} src={`/images/icons/plus.svg`} alt="" />{' '}
+          {uploading ? 'En cours ...' : 'Ajouter une photo'}
         </label>
         <input
           style={{
@@ -89,6 +77,20 @@ export default function RecipeImageUploader({ url, size, onUpload }) {
           disabled={uploading}
         />
       </div>
+      {recipeImageUrl ? (
+        <Image
+          className={css.image}
+          src={recipeImageUrl}
+          alt="Recipe"
+          width={150}
+          height={50}
+          objectFit={'cover'}
+        />
+      ) : (
+        <div className={merge([ css.image, css['image-no']])} style={{ width: 150, height: 50 }}>
+          <img className={css.placeholder} src={`/images/icons/notes.svg`} alt="" />
+        </div>
+      )}
     </div>
   )
 }

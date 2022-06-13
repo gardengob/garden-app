@@ -81,7 +81,6 @@ class FamilyService {
         .single()
 
       const user_id = supabase.auth.user().id
-      // TODO: Créer un utils pour reformater correctment les résultats de fetch
       const familyId = data.id
 
       localStorage.setItem('familyId', familyId)
@@ -98,7 +97,7 @@ class FamilyService {
     try {
       let { data, error, status } = await supabase
         .from('recipe')
-        .select(`*`)
+        .select(`id, name, imageUrl`)
         .eq('familyId', familyId)
 
       if (error && status !== 406) {

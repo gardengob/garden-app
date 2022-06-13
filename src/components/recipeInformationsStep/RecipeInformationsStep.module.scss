@@ -1,9 +1,22 @@
 @import '../../styles/references';
 
 .root {
+  max-width: 575px;
+  margin: auto;
+  color: $color-primary-darker;
+
+  .title {
+    margin: 0 auto 40px auto;
+    text-align: center;
+    font-size: 24px;
+    font-weight: normal;
+  }
+
   .group {
     display: flex;
-    margin-bottom: 24px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 0;
   }
 
   // Disable arrow button inside number input
@@ -15,5 +28,92 @@
   /* Firefox */
   input[type='number'] {
     -moz-appearance: textfield;
+  }
+
+  .name {
+    width: 100%;
+    padding: 12px 24px;
+    font-size: 30px;
+    color: $color-primary;
+    border: 1px solid $color-primary-lighter;
+    border-radius: 8px;
+  }
+
+  .amount {
+    display: flex;
+    align-items: center;
+
+    .btn {
+      cursor: pointer;
+      display: flex;
+      width: 40px;
+      height: 40px;
+      border: 1px solid $color-primary-darker;
+      background-color: $color-primary-darker;
+      border-radius: 50%;
+
+      .icon {
+        margin: auto;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+      }
+    }
+
+    .value {
+      max-width: 100px;
+      margin: 0 24px;
+      padding: 12px;
+      font-size: 24px;
+      color: $color-primary;
+      border: 1px solid $color-primary-lighter;
+      border-radius: 8px;
+    }
+  }
+
+  .prep {
+    .value {
+      // max-width: 60px;
+      margin-right: 12px;
+      padding: 12px 24px;
+      font-size: 18px;
+      color: $color-primary;
+      border: 1px solid $color-primary;
+      border-radius: 8px;
+    }
+    .drop {
+      // max-width: 100px;
+      padding: 12px 24px;
+      font-size: 18px;
+      color: $color-primary;
+      border: 1px solid $color-primary;
+      border-radius: 8px;
+    }
+  }
+
+  .cook {
+    .value {
+      // max-width: 60px;
+      margin-right: 12px;
+      padding: 12px 24px;
+      font-size: 18px;
+      color: $color-primary;
+      border: 1px solid $color-primary;
+      border-radius: 8px;
+    }
+    .drop {
+      // max-width: 100px;
+      padding: 12px 24px;
+      font-size: 18px;
+      color: $color-primary;
+      border: 1px solid $color-primary;
+      border-radius: 8px;
+    }
+  }
+
+  label {
+    font-size: 18px;
+    color: $color-primary-darker;
   }
 }

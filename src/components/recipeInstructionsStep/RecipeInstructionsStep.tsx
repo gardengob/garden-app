@@ -1,6 +1,8 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react-hooks/exhaustive-deps */
 import css from './RecipeInstructionsStep.module.scss'
 import { useEffect, useRef, useState } from 'react'
+import { merge } from '../../utils/arrayUtils'
 
 export default function RecipeInstructionsStep({
   instructions,
@@ -82,45 +84,61 @@ export default function RecipeInstructionsStep({
   }
 
   const removeInstructionHandler = (i: number) => {
-    instructionsChange(instructions.slice(0,i).concat(instructions.slice(i+1)))
+    instructionsChange(
+      instructions.slice(0, i).concat(instructions.slice(i + 1))
+    )
   }
 
   return (
     <div className={css.root}>
       <h3 className={css.title}>Étapes</h3>
 
-      <div className={css.instructions}>
-        {instructions.map(function (inst, i) {
-          return (
-            <li key={i} onClick={() => removeInstructionHandler(i)}>
-              Étape {i + 1} {inst}
-            </li>
-          )
-        })}
-      </div>
-
-      <div className={''}>
-        <button onClick={onAir ? stopRecognition : startRecognition}>
-          {onAir ? 'Stop' : 'Start'}
-        </button>
-        <p className={onAir ? css.green : css.red}>
-          {onAir ? 'On Air' : 'Off Air'}
-        </p>
+      <div className={css.entry}>
         <textarea
+          className={css.input}
           ref={inputRef}
           id="instruction"
           placeholder="Étape à ajouter"
+          maxLength={100}
           onChange={(e) => {
             setFullText(e.target.value)
             recognitionRef.current.stop()
           }}
         ></textarea>
-        <button
-          className={css.button}
-          onClick={() => addInstructionHandler(inputRef.current.value)}
-        >
-          Ajouter étape
-        </button>
+
+        <div className={css.control}>
+          <button
+            className={merge([
+              css.button,
+              css['button-speech'],
+              onAir ? css['button-onair'] : '',
+            ])}
+            onClick={onAir ? stopRecognition : startRecognition}
+          >
+            {onAir ? 'Stop' : 'Start'}
+          </button>
+
+          <button
+            className={css.button}
+            onClick={() => addInstructionHandler(inputRef.current.value)}
+          >
+            Ajouter l'étape
+          </button>
+        </div>
+      </div>
+
+      <div className={css.instructions}>
+        {instructions.map(function (inst, i) {
+          return (
+            <div
+              className={css.instruction}
+              key={i}
+              onClick={() => removeInstructionHandler(i)}
+            >
+              Étape {i + 1} {inst}
+            </div>
+          )
+        })}
       </div>
     </div>
   )

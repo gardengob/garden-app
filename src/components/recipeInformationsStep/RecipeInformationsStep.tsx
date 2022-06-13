@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import css from './RecipeInformationsStep.module.scss'
 import { useEffect, useRef, useState } from 'react'
 import { ETimeUnit, IMeasurable } from '../../types/recipe'
@@ -53,6 +54,7 @@ export default function RecipeInformationsStep({
 
       <div className={css.group}>
         <input
+          className={css.name}
           name="name"
           id="name"
           type="text"
@@ -65,89 +67,101 @@ export default function RecipeInformationsStep({
       {/* Update amount state when input is changing */}
       <div className={css.group}>
         <label htmlFor="people">Nombre de personnes</label>
-        <button
-          disabled={inputPeopleAmount <= 0}
-          onClick={() => {
-            setInputPeopleAmount(inputPeopleAmount - 1)
-          }}
-        >
-          -
-        </button>
-        <input
-          ref={peopleInputRef}
-          name="people"
-          id="people"
-          type="number"
-          placeholder="Nombre de personnes"
-          value={inputPeopleAmount}
-          readOnly
-          onChange={(e) => peopleAmountChange(parseInt(e.target.value))}
-        />
-        <button
-          onClick={() => {
-            setInputPeopleAmount(inputPeopleAmount + 1)
-          }}
-        >
-          +
-        </button>
+        <div className={css.amount}>
+          <button
+            className={css.btn}
+            disabled={inputPeopleAmount <= 0}
+            onClick={() => {
+              setInputPeopleAmount(inputPeopleAmount - 1)
+            }}
+          >
+            <img className={css.icon} src={`/images/icons/minus.svg`} alt="" />
+          </button>
+          <input
+            className={css.value}
+            ref={peopleInputRef}
+            name="people"
+            id="people"
+            type="number"
+            placeholder="Nombre de personnes"
+            value={inputPeopleAmount}
+            readOnly
+            onChange={(e) => peopleAmountChange(parseInt(e.target.value))}
+          />
+          <button
+            className={css.btn}
+            onClick={() => {
+              setInputPeopleAmount(inputPeopleAmount + 1)
+            }}
+          >
+            <img className={css.icon} src={`/images/icons/plus.svg`} alt="" />
+          </button>
+        </div>
       </div>
 
       <div className={css.group}>
         <label htmlFor="preparationTimeAmount">Temps de préparation</label>
-        <input
-          name="preparationTimeAmount"
-          id="preparationTimeAmount"
-          type="number"
-          value={preparationTime.amount}
-          onChange={preparationTimeAmountChange}
-        />
-        <select
-          name="preparationTimeUnit"
-          id="preparationTimeUnit"
-          value={preparationTime.unit}
-          onChange={preparationTimeUnitChange}
-        >
-          {(Object.keys(ETimeUnit) as Array<keyof typeof ETimeUnit>).map(
-            (key, i) => {
-              return (
-                <option key={i} value={ETimeUnit[key]}>
-                  {ETimeUnit[key]}
-                </option>
-              )
-            }
-          )}
-        </select>
+        <div className={css.prep}>
+          <input
+            className={css.value}
+            name="preparationTimeAmount"
+            id="preparationTimeAmount"
+            type="number"
+            value={preparationTime.amount}
+            onChange={preparationTimeAmountChange}
+          />
+          <select
+            className={css.drop}
+            name="preparationTimeUnit"
+            id="preparationTimeUnit"
+            value={preparationTime.unit}
+            onChange={preparationTimeUnitChange}
+          >
+            {(Object.keys(ETimeUnit) as Array<keyof typeof ETimeUnit>).map(
+              (key, i) => {
+                return (
+                  <option key={i} value={ETimeUnit[key]}>
+                    {ETimeUnit[key]}
+                  </option>
+                )
+              }
+            )}
+          </select>
+        </div>
       </div>
 
       <div className={css.group}>
         <label htmlFor="cookingTimeAmount">Temps de cuisson</label>
-        <input
-          name="cookingTimeAmount"
-          id="cookingTimeAmount"
-          type="number"
-          value={cookingTime.amount}
-          onChange={cookingTimeAmountChange}
-        />
-        <select
-          name="cookingTimeType"
-          id="cookingTimeType"
-          onChange={cookingTimeUnitChange}
-          value={cookingTime.unit}
-        >
-          {(Object.keys(ETimeUnit) as Array<keyof typeof ETimeUnit>).map(
-            (key, i) => {
-              return (
-                <option key={i} value={ETimeUnit[key]}>
-                  {ETimeUnit[key]}
-                </option>
-              )
-            }
-          )}
-        </select>
+        <div className={css.cook}>
+          <input
+            className={css.value}
+            name="cookingTimeAmount"
+            id="cookingTimeAmount"
+            type="number"
+            value={cookingTime.amount}
+            onChange={cookingTimeAmountChange}
+          />
+          <select
+            className={css.drop}
+            name="cookingTimeType"
+            id="cookingTimeType"
+            onChange={cookingTimeUnitChange}
+            value={cookingTime.unit}
+          >
+            {(Object.keys(ETimeUnit) as Array<keyof typeof ETimeUnit>).map(
+              (key, i) => {
+                return (
+                  <option key={i} value={ETimeUnit[key]}>
+                    {ETimeUnit[key]}
+                  </option>
+                )
+              }
+            )}
+          </select>
+        </div>
       </div>
       <RecipeImageUploader
         url={imageUrl}
-        size={150}
         onUpload={(url) => {
           imageUrlChange(url)
         }}

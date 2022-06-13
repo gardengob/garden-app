@@ -1,6 +1,11 @@
+@import '../styles/references';
+
 .root {
-  display: flex;
-  justify-content: space-between;
+  padding: 48px 48px 0 48px;
+
+  .title {
+    color: $color-primary;
+  }
 
   .head {
     display: flex;
@@ -9,22 +14,35 @@
     margin-bottom: 24px;
   }
 
-  .column {
-    width: 45%;
+  .back {
+    display: flex;
+    padding: 12px;
+    border-radius: 50%;
+    border: 1px solid $color-primary-darker;
+
+    .icon {
+      margin: auto;
+    }
+  }
+
+  .add {
+    display: flex;
+    padding: 12px;
+    border-radius: 50%;
+    background-color: $color-primary-darker;
+
+    .icon {
+      margin: auto;
+    }
   }
 
   .recipe {
-    cursor: pointer;
-    list-style-type: none;
-    padding: 12px;
-    border: 1px solid #4b6659;
-    border-radius: 4px;
-    margin-bottom: 12px;
-    transition: all 0.3s ease-in-out;
+    width: 20%;
+  }
 
-    &:hover {
-      color: white;
-      background-color: #4b6659;
-    }
+  .ripped {
+    position: absolute;
+    left: 0;
+    bottom: 0;
   }
 }

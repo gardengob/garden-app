@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import css from './RecipeQuantitiesStep.module.scss'
 import { ECookingUnit, IIngredient, IRecipe } from '../../types/recipe'
 
@@ -28,7 +29,9 @@ export default function RecipeQuantitiesStep({
   }
 
   const removeIngredientHandler = (i: number) => {
-    ingredientsQuantitiesChange((ingredients) => ingredients.splice(0, i))
+    ingredientsQuantitiesChange(
+      ingredients.slice(0, i).concat(ingredients.slice(i + 1))
+    )
   }
 
   return (
@@ -37,10 +40,11 @@ export default function RecipeQuantitiesStep({
       <div className={css.ingredients}>
         {ingredients.map(function (item: IIngredient, i) {
           return (
-            <li key={i}>
-              <p onClick={() => removeIngredientHandler(i)}>{item.name}</p>
+            <div className={css.ingredient} key={i}>
+              <p className={css.name}>{item.name}</p>
               <div className={css.quantity}>
                 <input
+                  className={css.value}
                   name="ingredientAmount"
                   id="ingredientAmount"
                   type="number"
@@ -48,6 +52,7 @@ export default function RecipeQuantitiesStep({
                   onChange={(e) => changeIngredientAmountHandler(e, i)}
                 />
                 <select
+                  className={css.drop}
                   name="ingredientCookingUnit"
                   id="ingredientCookingUnit"
                   value={item.unit}
@@ -66,7 +71,18 @@ export default function RecipeQuantitiesStep({
                   })}
                 </select>
               </div>
-            </li>
+
+              <div
+                className={css.delete}
+                onClick={() => removeIngredientHandler(i)}
+              >
+                <img
+                  className={css.icon}
+                  src={`/images/icons/cross.svg`}
+                  alt=""
+                />
+              </div>
+            </div>
           )
         })}
       </div>
