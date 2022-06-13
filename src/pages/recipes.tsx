@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import RecipeCard from '../components/recipeCard/RecipeCard'
 import RoutingCameraService from '../services/events/RoutingCameraService'
 import { useEffect, useState } from 'react'
 import RecipePreview from '../components/recipePreview/RecipePreview'
