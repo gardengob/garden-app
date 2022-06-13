@@ -43,6 +43,16 @@ export default function Garden3d({ className }) {
       console.log('3d?', needs3d)
       setneed3D(needs3d)
     })
+
+    console.log('router.query', router.pathname)
+    // if (router.pathname == '/') {
+    //   setneed3D(false)
+    //   console.log('root')
+    // }
+    // if (router.pathname == '/garden') {
+    //   setneed3D(true)
+    //   console.log('root')
+    // }
     console.log('init garden3D')
     const loadingManager = LoadingManager.getInstance()
     const appManager = AppManager.getInstance()
@@ -146,6 +156,17 @@ export default function Garden3d({ className }) {
     const appManager = AppManager.getInstance()
 
     appManager.appState = AppStateEnum.INITIALIZING
+    setTimeout(() => {
+      console.log('router.query', router.pathname)
+      if (router.pathname == '/') {
+        setneed3D(false)
+        console.log('root')
+      }
+      if (router.pathname == '/garden') {
+        setneed3D(true)
+        console.log('root')
+      }
+    }, 100)
   }
   function onLoadingFunction(xhr: ProgressEvent<EventTarget>): void {
     console.log(Math.round((xhr.loaded * 100) / xhr.total))

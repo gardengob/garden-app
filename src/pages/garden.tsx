@@ -14,12 +14,10 @@ export default function Garden() {
   const CAMERA_POSITION = 'start'
   const router = useRouter()
   useEffect(() => {
-    console.log('router.query', router.query.withIntro)
-
     RoutingCameraService.goTo(
       router.query.withIntro ? CAMERA_POSITION : 'continue'
     )
-
+    RoutingCameraService.toggle3D(true)
     SpaceEntryService.gardenEntrySignal.on(() => {
       setIntro(true)
     })
