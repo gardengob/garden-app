@@ -38,7 +38,11 @@ function MyApp({ Component, pageProps }) {
         </div>
       )}
       <Garden3d className={css.webgl} />
-      <Component {...pageProps} className={css.content} />
+      <Component
+        {...pageProps}
+        className={css.content}
+        style={{ position: 'relative', zIndex: '10' }}
+      />
     </>
   )
 }

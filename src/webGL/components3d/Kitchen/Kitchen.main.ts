@@ -1,5 +1,7 @@
 import { AmbientLight, Object3D, Vector3 } from 'three'
 import { GLTF } from 'three-stdlib'
+import UiService from '../../../services/events/UiService'
+import WebglService from '../../../services/events/WebglService'
 import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
 import { Component3d } from '../../webGLArchitecture/Classes/Compoment3d/Component3d'
 import { LoadingManager } from '../../webGLArchitecture/Classes/LoadingManager/LoadingManager'
@@ -34,6 +36,7 @@ kitchenComponent3d.onInit = () => {
 
   kitchenComponent3d.poiArray.push({
     onclick: () => {
+      WebglService.ActivatePOI('recipes')
       console.log('kitchen')
     },
     holder: kitchenPOIHolder,

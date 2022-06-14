@@ -9,6 +9,7 @@ import { CSS2DObject } from '../../renderers/CSS2DRenderer'
 import { LoadingManager } from '../../webGLArchitecture/Classes/LoadingManager/LoadingManager'
 import { Object3D, Vector3 } from 'three'
 import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
+import WebglService from '../../../services/events/WebglService'
 const loadingManager = LoadingManager.getInstance()
 
 export const mailboxComponent3d = new Component3d()
@@ -42,6 +43,7 @@ mailboxComponent3d.onInit = () => {
     {
       onclick: () => {
         console.log('mailBox')
+        WebglService.ActivatePOI('mailBox')
       },
       holder: mailBoxPOIHolder,
     },

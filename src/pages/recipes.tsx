@@ -9,15 +9,21 @@ import FamilyService from '../services/FamilyService'
 import { supabase } from '../utils/supabaseClient'
 import { Component3dName } from '../webGL/webGLArchitecture/Types/Component3dNameType'
 import css from './recipes.module.scss'
+import { merge } from '../utils/arrayUtils'
+import UiService from '../services/events/UiService'
+import WebglService from '../services/events/WebglService'
 
 export default function Recipes() {
   const CAMERA_POSITION: Component3dName = 'kitchen'
 
   const router = useRouter()
   const [recipes, setRecipes] = useState([])
-
+  // const [displayUI, setDisplayUI] = useState<boolean>(false)
   useEffect(() => {
     RoutingCameraService.goTo(CAMERA_POSITION)
+    WebglService.disable3D()
+
+    localStorage.setItem('display3D', 'false')
   }, [])
 
   useEffect(() => {
@@ -40,9 +46,9 @@ export default function Recipes() {
   }, [])
 
   return (
-    <div className={css.root}>
+    <div className={merge([css.root, 'garden-ui'])}>
       <div className={css.head}>
-        <Link href={`/`}>
+        <Link href={`/garden`}>
           <a className={css.back}>
             <img className={css.icon} src={`/images/icons/back.svg`} alt="" />
           </a>

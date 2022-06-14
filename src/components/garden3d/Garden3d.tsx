@@ -19,6 +19,7 @@ import ScrollService from '../../services/events/ScrollService'
 import { merge } from '../../utils/arrayUtils'
 import LoadingService from '../../services/events/LoadingService'
 import RoutingCameraService from '../../services/events/RoutingCameraService'
+import WebglService from '../../services/events/WebglService'
 export interface IWindowSize {
   width: number
   height: number
@@ -34,10 +35,31 @@ export default function Garden3d({ className }) {
     height: 0,
   })
   const [elementNear, setElementNear] = useState(null)
+  const [need3D, setneed3D] = useState(true)
 
   const router = useRouter()
 
   useEffect(() => {
+    WebglService.with3Dsignal.on((with3D) => {
+      setneed3D(with3D)
+    })
+
+    WebglService.PoiSignal.on((activePoi) => {
+      router.push(activePoi)
+    })
+  }, [])
+
+  useEffect(() => {
+    setneed3D(true)
+    console.log('router.query', router.pathname)
+    // if (router.pathname == '/') {
+    //   setneed3D(false)
+    //   console.log('root')
+    // }
+    // if (router.pathname == '/garden') {
+    //   setneed3D(true)
+    //   console.log('root')
+    // }
     console.log('init garden3D')
     const loadingManager = LoadingManager.getInstance()
     const appManager = AppManager.getInstance()
@@ -72,19 +94,10 @@ export default function Garden3d({ className }) {
 
     const scene = new THREE.Scene()
 
-    // Object
-    // const geometry = new THREE.BoxGeometry(1, 1, 1)
-    // const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
-    // const mesh = new THREE.Mesh(geometry, material)
-
-    // appManager.scene.add(mesh)
     appManager.canvas = canvasRef.current
 
     const axesHelper = new THREE.AxesHelper(5)
     appManager.scene.add(axesHelper)
-
-    // const helper = new THREE.CameraHelper(appManager.camera)
-    // appManager.scene.add(helper)
 
     appManager.camera.lookAt(new THREE.Vector3(0, 0, 0))
 
@@ -102,6 +115,18 @@ export default function Garden3d({ className }) {
 
     render()
   }, [])
+
+  useEffect(() => {
+    const appManager = AppManager.getInstance()
+
+    if (need3D === false) {
+      canvasRef.current.style.visibility = 'hidden'
+      appManager.appState = AppStateEnum.PAUSED
+    } else {
+      canvasRef.current.style.visibility = 'visible'
+      appManager.appState = AppStateEnum.RUNNING
+    }
+  }, [need3D])
 
   function render() {
     const currentTime = Date.now()
@@ -136,7 +161,13 @@ export default function Garden3d({ className }) {
   function onAllLoadedFunction(): void {
     LoadingService.loadingFinished()
     const appManager = AppManager.getInstance()
-
+    if (router.pathname !== '/') {
+      localStorage.setItem('intro', 'false')
+    }
+    setneed3D(localStorage.getItem('display3D') === 'true' ? true : false)
+    // if (router.pathname === '/garden') {
+    //   SpaceEntryService.shallPlayIntro(false)
+    // }
     appManager.appState = AppStateEnum.INITIALIZING
   }
   function onLoadingFunction(xhr: ProgressEvent<EventTarget>): void {
@@ -152,6 +183,7 @@ export default function Garden3d({ className }) {
           position: 'absolute',
           height: '100vh',
           width: '100vw',
+          zIndex: 2,
           top: 0,
           left: 0,
         }}
@@ -162,6 +194,8 @@ export default function Garden3d({ className }) {
           position: 'absolute',
           height: '100vh',
           width: '100vw',
+          zIndex: 3,
+
           top: 0,
           left: 0,
         }}
@@ -169,6 +203,7 @@ export default function Garden3d({ className }) {
       <button
         style={{
           position: 'absolute',
+          zIndex: '4',
           top: '100px',
         }}
         onClick={() => {
@@ -179,16 +214,9 @@ export default function Garden3d({ className }) {
       </button>
       {elementNear && (
         <div
-          onClick={() => {
-            for (const key in RoutingCameraService.routeSpaceDictionnary) {
-              const element = RoutingCameraService.routeSpaceDictionnary[key]
-              if (element === elementNear) {
-                router.push(key)
-              }
-            }
-          }}
           style={{
             position: 'absolute',
+            zIndex: 3,
             top: '75%',
             left: '50%',
             transform: 'translateX(-50%)',

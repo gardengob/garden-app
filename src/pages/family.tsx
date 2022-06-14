@@ -7,6 +7,11 @@ import css from './family.module.scss'
 
 export default function Family() {
   const CAMERA_POSITION: Component3dName = 'portal'
+
+  useEffect(() => {
+    localStorage.setItem('display3D', 'true')
+  }, [])
+
   useEffect(() => {
     RoutingCameraService.goTo(CAMERA_POSITION)
   }, [])
