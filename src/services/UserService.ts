@@ -58,11 +58,29 @@ class UserService {
       }
 
       let { error } = await supabase.from('user').upsert(updates, {
-        returning: 'minimal', // Don't return the value after inserting
+        returning: 'minimal',
       })
 
       if (error) {
         throw error
+      }
+    } catch (error) {
+      alert(error.message)
+    }
+  }
+
+  public async getUser(userId) {
+    try {
+      let { data, error, status } = await supabase
+        .from('user')
+        .select(`username, avatar_url`)
+        .eq('id', userId)
+        .single()
+      if (error && status !== 406) {
+        throw error
+      }
+      if (data) {
+        return data
       }
     } catch (error) {
       alert(error.message)

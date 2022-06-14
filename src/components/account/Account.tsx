@@ -1,4 +1,8 @@
+import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
+import RoutingCameraService from '../../services/events/RoutingCameraService'
+import SpaceEntryService from '../../services/events/SpaceEntryService'
+import WebglService from '../../services/events/WebglService'
 import FamilyService from '../../services/FamilyService'
 import UserService from '../../services/UserService'
 import { supabase } from '../../utils/supabaseClient'
@@ -12,6 +16,7 @@ export default function Account({ session }) {
   const [username, setUsername] = useState(null)
   const [avatar_url, setAvatarUrl] = useState(null)
   const [families, setFamilies] = useState([])
+  const router = useRouter()
 
   useEffect(() => {
     const subscription = supabase
@@ -28,13 +33,14 @@ export default function Account({ session }) {
     })
     UserService.getFamilies().then((families) => setFamilies(families))
 
+    RoutingCameraService.goTo('start')
     return () => {
       supabase.removeSubscription(subscription)
     }
   }, [session])
 
   return (
-    <div className={css.root}>
+    <div className={`${css.root} garden-ui`}>
       <h1>Bienvenue {username},</h1>
       {/* <Avatar
         url={avatar_url}
@@ -47,7 +53,26 @@ export default function Account({ session }) {
 
       <label>Familles</label>
       {families.map(function (item, i) {
-        return <li className={css.family} key={i} onClick={() => FamilyService.store(item.family.name)}>{item.family.name}</li>
+        return (
+          <li
+            className={css.family}
+            key={i}
+            onClick={() => {
+              FamilyService.store(item.family.name)
+              router.push({
+                pathname: '/garden',
+                query: {
+                  withIntro: true,
+                },
+              })
+              WebglService.enable3D()
+
+              localStorage.setItem('intro', 'running')
+            }}
+          >
+            {item.family.name}
+          </li>
+        )
       })}
 
       {/* <div>

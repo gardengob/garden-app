@@ -23,6 +23,7 @@ import {
   RenderPass,
   SMAAPass,
 } from 'three-stdlib'
+import { CSS2DRenderer } from '../../../renderers/CSS2DRenderer'
 
 import { AppModeEnum } from '../../Enums/AppModeEnum'
 import { AppStateEnum } from '../../Enums/AppStateEnum'
@@ -53,6 +54,9 @@ export class AppManager {
   appMode: AppModeEnum = AppModeEnum.STORY
   loaderState: LoaderStateEnum = LoaderStateEnum.LOADING
 
+  //Css2d renderer
+  public labelRenderer: CSS2DRenderer
+
   //Dev tools
   devMode: boolean = false
   loaderDisplay: boolean = true
@@ -69,6 +73,7 @@ export class AppManager {
     this.loader = document.querySelector('.loader') as HTMLElement
     this.scene = this.buildScene()
     this.renderer = this.buildRender()
+    this.labelRenderer = this.buildLabelRenderer()
     const cameraHolder = new Group()
 
     //Camera initialization
@@ -85,7 +90,10 @@ export class AppManager {
 
     // this.camera.position.z = 10
 
-    this.devControls = new OrbitControls(this.devCamera, this.canvas)
+    this.devControls = new OrbitControls(
+      this.devCamera,
+      this.labelRenderer.domElement
+    )
     this.devControls.enableDamping = true
     this.devControls.enableZoom = false
     this.devCamera.position.set(0, 20, 0)
@@ -124,18 +132,18 @@ export class AppManager {
     renderPass.setSize(window.innerWidth, window.innerHeight)
     this.composer.addPass(renderPass)
 
-    this.outlinePass = new OutlinePass(
-      new Vector2(window.innerWidth, window.innerHeight),
-      this.scene,
-      this.camera
-    )
-    this.composer.addPass(this.outlinePass)
-    this.outlinePass.edgeStrength = 1.2
-    this.outlinePass.selectedObjects = []
-    this.outlinePass.edgeGlow = 0.2
-    this.outlinePass.edgeThickness = 1
-    this.outlinePass.pulsePeriod = 0
-    this.outlinePass.visibleEdgeColor = new Color(0xdb4a48)
+    // this.outlinePass = new OutlinePass(
+    //   new Vector2(window.innerWidth, window.innerHeight),
+    //   this.scene,
+    //   this.camera
+    // )
+    // this.composer.addPass(this.outlinePass)
+    // this.outlinePass.edgeStrength = 1.2
+    // this.outlinePass.selectedObjects = []
+    // this.outlinePass.edgeGlow = 0.2
+    // this.outlinePass.edgeThickness = 1
+    // this.outlinePass.pulsePeriod = 0
+    // this.outlinePass.visibleEdgeColor = new Color(0xdb4a48)
 
     if (
       this.renderer.getPixelRatio() === 1 &&
@@ -170,8 +178,13 @@ export class AppManager {
   }
 
   buildRender(): WebGLRenderer {
-    const renderer = new WebGLRenderer({ canvas: this.canvas, alpha: true })
+    const renderer = new WebGLRenderer({
+      canvas: this.canvas,
+      alpha: true,
+      antialias: true,
+    })
     const DPR = window.devicePixelRatio ? window.devicePixelRatio : 1
+    renderer.outputEncoding = sRGBEncoding
     renderer.setPixelRatio(DPR)
     renderer.setClearColor(0x000000, 0) // the default
     renderer.setSize(this.canvas.width, this.canvas.height)
@@ -182,6 +195,22 @@ export class AppManager {
     // renderer.toneMappingExposure = 1.4
 
     return renderer
+  }
+
+  /**
+   * build renderer for ui-components in three.js space
+   *
+   * @public
+   */
+  buildLabelRenderer(): CSS2DRenderer {
+    const labelRenderer = new CSS2DRenderer({
+      element: document.querySelector('.css-render-target')! as HTMLElement,
+    })
+    labelRenderer.setSize(window.innerWidth, window.innerHeight)
+    labelRenderer.domElement.style.position = 'absolute'
+    labelRenderer.domElement.style.top = '0px'
+    // document.body.appendChild(labelRenderer.domElement);
+    return labelRenderer
   }
 
   buildCamera(): PerspectiveCamera {
@@ -195,7 +224,7 @@ export class AppManager {
       nearPlane,
       farPlane
     )
-    camera.zoom = 0.8
+    // camera.zoom = 0.8
     return camera
   }
 
@@ -224,10 +253,12 @@ export class AppManager {
       //dev - normal view mode switch
       if (this.devMode) {
         this.renderer.render(this.scene, this.devCamera)
+        this.labelRenderer.render(this.scene, this.devCamera)
         this.devControls.update()
       } else {
-        this.composer.render()
+        // this.composer.render()
         this.renderer.render(this.scene, this.camera)
+        this.labelRenderer.render(this.scene, this.camera)
       }
     }
   }
@@ -240,5 +271,6 @@ export class AppManager {
 
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     this.composer.setSize(window.innerWidth, window.innerHeight)
+    this.labelRenderer.setSize(window.innerWidth, window.innerHeight)
   }
 }

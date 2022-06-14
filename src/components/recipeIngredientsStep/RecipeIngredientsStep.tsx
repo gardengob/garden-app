@@ -1,5 +1,7 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @next/next/no-img-element */
 import css from './RecipeIngredientsStep.module.scss'
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 
 export default function RecipeIngredientsStep({
   ingredients,
@@ -7,25 +9,27 @@ export default function RecipeIngredientsStep({
 }) {
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const addIngredientHandler = (ingredient_name: string) => {
-    if (ingredient_name === '' || ingredient_name.trim().length === 0) return
+  const addIngredientHandler = (name: string) => {
+    if (name === '' || name.trim().length === 0) return
 
-    ingredientsChange((ingredients) => [...ingredients, ingredient_name])
+    ingredientsChange((ingredients) => [
+      ...ingredients,
+      { name: name, amount: '', unit: '' },
+    ])
     inputRef.current.value = ''
+  }
+
+  const removeIngredientHandler = (i: number) => {
+    ingredientsChange(ingredients.slice(0, i).concat(ingredients.slice(i + 1)))
   }
 
   return (
     <div className={css.root}>
       <h3 className={css.title}>Ingrédients</h3>
 
-      <div className={css.ingredients}>
-        {ingredients.map(function (item, i) {
-          return <li key={i}>{item}</li>
-        })}
-      </div>
-
       <div className={css.combo}>
         <input
+          className={css.input}
           id="ingredient"
           type="text"
           placeholder="Ingrédient à ajouter"
@@ -33,10 +37,31 @@ export default function RecipeIngredientsStep({
         />
         <button
           className={css.button}
-          onClick={(e) => addIngredientHandler(inputRef.current.value)}
+          onClick={() => addIngredientHandler(inputRef.current.value)}
         >
-          Ajouter ingrédient
+          Ajouter l'ingrédient
         </button>
+      </div>
+
+      <div className={css.ingredients}>
+        {ingredients.map(function (item, i) {
+          return (
+            <div
+              className={css.ingredient}
+              key={i}
+              onClick={() => removeIngredientHandler(i)}
+            >
+              <div className={css.delete}>
+                <img
+                  className={css.icon}
+                  src={`/images/icons/cross.svg`}
+                  alt=""
+                />
+              </div>
+              <span>{item.name}</span>
+            </div>
+          )
+        })}
       </div>
     </div>
   )

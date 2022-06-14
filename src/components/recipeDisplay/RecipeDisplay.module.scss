@@ -1,0 +1,113 @@
+@import '../../styles/references';
+
+.root {
+  position: relative;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 140px;
+  }
+
+  .left {
+    position: relative;
+    width: calc(33% - 32px);
+  }
+
+  .right {
+    width: calc(66% - 32px);
+  }
+
+  .title {
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 24px;
+    font-size: 24px;
+    color: $color-primary;
+  }
+
+  .author {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    margin-bottom: 40px;
+
+    .image {
+      border-radius: 50%;
+    }
+
+    .username {
+      margin-left: 12px;
+      color: $color-primary-darker;
+    }
+  }
+
+  .types {
+    display: flex;
+    margin-bottom: 24px;
+
+    .label {
+      &:not(:last-child) {
+        margin-right: 12px;
+      }
+    }
+  }
+
+  .label {
+    display: block;
+    width: fit-content;
+    padding: 8px 24px;
+    border-radius: 8px;
+    color: white;
+    background-color: $color-primary;
+
+    &-difficulty {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+    }
+
+    &-diet {
+      background-color: $color-secondary;
+    }
+  }
+
+  .image {
+    object-fit: cover;
+  }
+
+  .no-image {
+    background-color: gray;
+  }
+
+  .stars {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(25%) translateY(-45%);
+  }
+
+  .details {
+    display: flex;
+    justify-content: center;
+    background-color: $color-primary;
+    border-radius: 8px;
+    margin-bottom: 40px;
+
+    p {
+      color: white;
+      &:not(:last-child) {
+        margin-right: 36px;
+      }
+    }
+  }
+
+  .detail {
+    display: flex;
+    align-items: center;
+
+    label {
+      margin-right: 12px;
+    }
+  }
+}

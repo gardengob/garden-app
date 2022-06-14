@@ -1,6 +1,9 @@
+import { useRouter } from 'next/router'
 import { useEffect, useRef } from 'react'
 import ContestService from '../services/ContestService'
+import RoutingCameraService from '../services/events/RoutingCameraService'
 import UserService from '../services/UserService'
+import { Component3dName } from '../webGL/webGLArchitecture/Types/Component3dNameType'
 
 export default function Contest() {
   const timerRef = useRef(null)
@@ -31,6 +34,17 @@ export default function Contest() {
       }
     }, 1000)
   }
+  const CAMERA_POSITION: Component3dName = 'contest'
+
+  const router = useRouter()
+  useEffect(() => {
+    localStorage.setItem('display3D', 'true')
+  }, [])
+
+  useEffect(() => {
+    RoutingCameraService.goTo(CAMERA_POSITION)
+  }, [])
+
   useEffect(() => {
     const test = ContestService.getAll().then((data) => {
       console.log('getall', data)

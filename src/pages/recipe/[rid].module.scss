@@ -1,0 +1,43 @@
+@import '../../styles/references';
+
+.root {
+  min-height: 100vh;
+
+  background-image: url('/images/ui/noise-texture.png');
+  background-size: cover;
+  background-color: $color-cream-darker;
+
+  .head {
+    display: flex;
+    justify-content: space-between;
+    padding: 48px;
+  }
+
+  .back {
+    display: flex;
+    padding: 12px;
+    border-radius: 50%;
+    border: 1px solid $color-primary-darker;
+
+    .icon {
+      margin: auto;
+    }
+  }
+
+  .edit {
+    display: flex;
+    padding: 12px;
+    border-radius: 50%;
+    background-color: $color-primary-darker;
+
+    .icon {
+      margin: auto;
+    }
+  }
+
+  .ripped {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+}

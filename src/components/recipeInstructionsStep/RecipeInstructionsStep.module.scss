@@ -1,10 +1,82 @@
 @import '../../styles/references';
 
 .root {
+  color: $color-primary-darker;
+
+  .title {
+    margin: 0 auto 40px auto;
+    text-align: center;
+    font-size: 24px;
+    font-weight: normal;
+  }
+
+  .entry {
+    margin-bottom: 40px;
+
+    .control {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 24px;
+
+      .button {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 16px 32px;
+        border: 1px solid $color-primary-darker;
+        border-radius: 8px;
+        color: $color-primary-darker;
+        background-color: transparent;
+
+        &-speech {
+          margin: 0;
+          color: white;
+          background-color: $color-primary;
+          border: 1px solid $color-primary;
+        }
+
+        &-onair {
+          background-color: $color-secondary;
+          border: 1px solid $color-secondary;
+        }
+      }
+    }
+
+    .input {
+      width: 100%;
+      margin-bottom: 24px;
+      padding: 12px 24px;
+      font-size: 18px;
+      font-family: Arial, Helvetica, sans-serif;
+      color: $color-primary;
+      border: 1px solid $color-primary-lighter;
+      border-radius: 8px;
+      resize: none;
+    }
+  }
+
   .instructions {
+    max-height: 500px;
+    overflow-y: scroll;
     margin-bottom: 24px;
+
+    .instruction {
+      padding: 24px;
+      background-color: white;
+      border: 1px solid $color-primary-lighter;
+
+      &:not(:last-child) {
+        margin-bottom: 24px;
+      }
+    }
   }
   input {
     margin-bottom: 24px;
+  }
+  .red {
+    color: red;
+  }
+  .green {
+    color: green;
   }
 }

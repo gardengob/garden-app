@@ -17,17 +17,14 @@ export class Scene implements IUpdatable {
     IObject3DWrapper
   >()
 
+  statesDictionnary: Map<String, any> = new Map()
+  animationFunctions: Map<string, () => void> = new Map<string, () => void>()
+
   onAnimationLoop: (ellapsedTime) => void
 
   onInit: ((scene: Scene) => void) | undefined
 
   init() {
-    this.components.sort((a: Component3d, b: Component3d) => {
-      if (a.index && b.index) {
-        return a.index - b.index
-      }
-      return -1
-    })
     for (let i = 0; i < this.components.length; i++) {
       const component3d = this.components[i]
       if (component3d.onInit) {
@@ -79,6 +76,13 @@ export class Scene implements IUpdatable {
     })
   }
 
+  assignPoints(): void {
+    for (let i = 0; i < this.components.length; i++) {
+      const element = this.components[i]
+      this.entryPoints.push({ object: new Object3D(), component: element })
+    }
+  }
+
   update(elapsedTime: number): void {
     if (this.onAnimationLoop) {
       this.onAnimationLoop(elapsedTime)
@@ -89,36 +93,5 @@ export class Scene implements IUpdatable {
         component3d.update(elapsedTime)
       }
     }
-  }
-
-  getComponentsPathPoints(): Vector3[] {
-    const pathPoints: Vector3[] = []
-    for (let i = 0; i < this.components.length; i++) {
-      const element = this.components[i]
-      pathPoints.push(...element.points)
-    }
-    return pathPoints
-  }
-
-  assignPoints(): Object3D[] {
-    const camPoints = []
-    this.sceneBase.traverse((obj) => {
-      if (
-        obj.name.includes('cameraPathPoint') ||
-        obj.name.includes('entryPersoPoint')
-      ) {
-        camPoints.push(obj)
-      }
-    })
-
-    for (let i = 0; i < this.components.length; i++) {
-      const element = this.components[i]
-      element.root.traverse((obj) => {
-        if (obj.name.includes('entryPersoPoint')) {
-          this.entryPoints.push({ object: obj, component: element })
-        }
-      })
-    }
-    return camPoints
   }
 }

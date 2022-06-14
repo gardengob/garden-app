@@ -1,7 +1,8 @@
-import { BoxGeometry, Mesh, MeshBasicMaterial, Object3D, Vector3 } from 'three'
+import { DOMElement } from 'react'
+import { Object3D, PerspectiveCamera, Vector3 } from 'three'
 import { GLTF } from 'three-stdlib/loaders/GLTFLoader'
+import { CSS2DObject } from '../../../renderers/CSS2DRenderer'
 import { IObject3DWrapper } from '../../Interfaces/IObject3DWrapper'
-import { IPathable } from '../../Interfaces/IPathable'
 import { IUpdatable } from '../../Interfaces/IUpdatable'
 import { Component3dName } from '../../Types/Component3dNameType'
 import { GLTFObject } from '../GLTFObject/GLTFObject'
@@ -12,11 +13,9 @@ export enum Component3dStateEnum {
   IDLE = 'IDLE',
 }
 
-export class Component3d implements IUpdatable, IPathable {
-  index: number
-  points: Vector3[] = []
+export class Component3d implements IUpdatable {
   name: Component3dName
-  cameraLookAtTarget: Object3D = new Object3D()
+  placeHolderName: string
 
   root: Object3D = new Object3D()
   position: Vector3
@@ -33,9 +32,13 @@ export class Component3d implements IUpdatable, IPathable {
     IObject3DWrapper
   >()
 
-  constructor() {
-    this.root.add(this.cameraLookAtTarget)
-  }
+  showPoi: boolean = true
+  poiArray: {
+    onclick: () => void
+    holder: Object3D
+    css2dObject?: CSS2DObject
+  }[] = []
+
   //closure called on component3d init
   onInit: ((component3d: Component3d) => void) | undefined
 
@@ -74,6 +77,33 @@ export class Component3d implements IUpdatable, IPathable {
     }
   }
 
+  drawPOIs() {
+    this.poiArray.forEach((element) => {
+      // element.position.project(camera)
+      const poi = document.createElement('div')
+      const poiInnerCircle = document.createElement('div')
+      const poiOuterCircle = document.createElement('div')
+      const poiMiddleCircle = document.createElement('div')
+
+      poi.classList.add('poi-circle')
+      poiInnerCircle.classList.add('poi-inner-circle', 'poi')
+      poiMiddleCircle.classList.add('poi-middle-circle', 'poi')
+      poiOuterCircle.classList.add('poi-outer-circle', 'poi')
+
+      poi.append(poiInnerCircle)
+      poi.append(poiMiddleCircle)
+      poi.append(poiOuterCircle)
+
+      // document.querySelector('.poi-holder').appendChild(poi)
+      poi.style.display = 'none'
+      poi.onclick = element.onclick
+      const poiObject = new CSS2DObject(poi)
+
+      element.css2dObject = poiObject
+      element.holder.add(poiObject)
+    })
+  }
+
   /**
    * add all needed loaded GLTF to the scene loaded objects array,
    * if the name of a gltf is included in the playlet's expectedObjects, it will be added to the playlet's loadedObjects
@@ -104,39 +134,6 @@ export class Component3d implements IUpdatable, IPathable {
       }
     }
   }
-
-  getPoints(): Object3D[] {
-    const camPoints = []
-    this.root.traverse((obj) => {
-      if (
-        obj.name.includes('cameraPathPoint') ||
-        obj.name.includes('entryPoint')
-      ) {
-        camPoints.push(obj)
-      }
-    })
-    return camPoints
-  }
-  // buildPoints(): Object3D[] {
-  //   const camPointsObjectArray: Object3D[] = []
-  //   for (let i = 0; i < this.points.length; i++) {
-  //     const point = this.points[i]
-  //     const cubeGeometery = new BoxGeometry(0.1, 0.1, 0.1)
-  //     const cubeMaterial = new MeshBasicMaterial({ color: 0xffff00 })
-
-  //     const cube = new Mesh(cubeGeometery, cubeMaterial)
-  //     cube.name = 'pathPoint-' + i
-  //     this.root.add(cube)
-  //     cube.position.set(
-  //       this.root.position.x + point.x,
-  //       this.root.position.y + point.y,
-  //       this.root.position.z + point.z
-  //     )
-
-  //     camPointsObjectArray.push(cube)
-  //   }
-  //   return camPointsObjectArray
-  // }
 
   toGlobalView(): void {
     this.status = Component3dStateEnum.GLOBAL_ONGOING
