@@ -11,6 +11,7 @@ import { Component3dName } from '../webGL/webGLArchitecture/Types/Component3dNam
 import css from './recipes.module.scss'
 import { merge } from '../utils/arrayUtils'
 import UiService from '../services/events/UiService'
+import WebglService from '../services/events/WebglService'
 
 export default function Recipes() {
   const CAMERA_POSITION: Component3dName = 'kitchen'
@@ -20,6 +21,8 @@ export default function Recipes() {
   // const [displayUI, setDisplayUI] = useState<boolean>(false)
   useEffect(() => {
     RoutingCameraService.goTo(CAMERA_POSITION)
+    WebglService.disable3D()
+
     localStorage.setItem('display3D', 'false')
   }, [])
 

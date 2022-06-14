@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import RoutingCameraService from '../services/events/RoutingCameraService'
 import UiService from '../services/events/UiService'
+import WebglService from '../services/events/WebglService'
 import { Component3dName } from '../webGL/webGLArchitecture/Types/Component3dNameType'
 
 export default function Profils() {
@@ -10,6 +11,7 @@ export default function Profils() {
   const router = useRouter()
 
   useEffect(() => {
+    WebglService.disable3D()
     console.log('tree useEffect Triggered')
     RoutingCameraService.goTo(CAMERA_POSITION)
     localStorage.setItem('lockScroll', 'true')

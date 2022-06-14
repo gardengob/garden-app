@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import RoutingCameraService from '../../services/events/RoutingCameraService'
 import SpaceEntryService from '../../services/events/SpaceEntryService'
+import WebglService from '../../services/events/WebglService'
 import FamilyService from '../../services/FamilyService'
 import UserService from '../../services/UserService'
 import { supabase } from '../../utils/supabaseClient'
@@ -64,6 +65,8 @@ export default function Account({ session }) {
                   withIntro: true,
                 },
               })
+              WebglService.enable3D()
+
               localStorage.setItem('intro', 'running')
             }}
           >

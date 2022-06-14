@@ -37,7 +37,8 @@ portalComponent3d.onInit = () => {
   portalComponent3d.poiArray.push({
     onclick: () => {
       UiService.toggleUi(true)
-      WebglService.ActivatePOI('portal')
+      WebglService.ActivatePOI('/')
+      WebglService.disable3D()
     },
     holder: portalPOIHolder,
   })
