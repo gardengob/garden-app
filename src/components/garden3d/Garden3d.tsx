@@ -157,6 +157,12 @@ export default function Garden3d({ className }) {
 
     appManager.appState = AppStateEnum.INITIALIZING
     setTimeout(() => {
+      console.log('withIntro', router.query.withIntro)
+      if (router.query.withIntro && router.pathname != '/') {
+        RoutingCameraService.toggleCamera('intro')
+      } else {
+        RoutingCameraService.toggleCamera('garden')
+      }
       console.log('router.query', router.pathname)
       if (router.pathname == '/') {
         setneed3D(false)
@@ -201,6 +207,7 @@ export default function Garden3d({ className }) {
       <button
         style={{
           position: 'absolute',
+          zIndex: '4',
           top: '100px',
         }}
         onClick={() => {

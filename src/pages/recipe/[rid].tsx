@@ -4,15 +4,19 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import RecipeDisplay from '../../components/recipeDisplay/RecipeDisplay'
 import RippedPaper from '../../components/rippedPaper/RippedPaper'
+import RoutingCameraService from '../../services/events/RoutingCameraService'
 import RecipeService from '../../services/RecipeService'
 import { IRecipe } from '../../types/recipe'
+import { merge } from '../../utils/arrayUtils'
 import css from './[rid].module.scss'
 
 const Recipe = () => {
   const router = useRouter()
   const { rid } = router.query
   const [recipe, setRecipe] = useState<IRecipe>(null)
-
+  useEffect(() => {
+    RoutingCameraService.toggle3D(false)
+  }, [])
   useEffect(() => {
     if (rid) {
       RecipeService.getRecipe(rid).then((reci) => setRecipe(reci))
@@ -24,7 +28,7 @@ const Recipe = () => {
   }, [recipe])
 
   return (
-    <div className={css.root}>
+    <div className={merge([css.root, 'garden-ui'])}>
       {recipe && (
         <>
           <div className={css.head}>

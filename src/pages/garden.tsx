@@ -14,6 +14,10 @@ export default function Garden() {
   const CAMERA_POSITION = 'start'
   const router = useRouter()
   useEffect(() => {
+    router.query.withIntro
+      ? RoutingCameraService.toggleCamera('intro')
+      : RoutingCameraService.toggleCamera('garden')
+
     RoutingCameraService.goTo(
       router.query.withIntro ? CAMERA_POSITION : 'continue'
     )

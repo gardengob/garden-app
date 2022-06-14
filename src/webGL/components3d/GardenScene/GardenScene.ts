@@ -177,7 +177,13 @@ gardenScene.onInit = (scene) => {
 ScrollService.signal.on((e) => {
   scrolling = e !== null ? e.deltaY : 0
 })
-
+RoutingCameraService.cameraSignal.on((camera) => {
+  AppManager.getInstance().camera =
+    camera === 'intro' ? cameraEntry : cameraTest
+  if (camera === 'garden') {
+    gardenScene.statesDictionnary['introPlayed'] = true
+  }
+})
 RoutingCameraService.signal.on((routingData) => {
   console.log('routting triggered')
   if (routingData.name !== 'start') {

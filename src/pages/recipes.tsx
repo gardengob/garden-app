@@ -9,15 +9,21 @@ import FamilyService from '../services/FamilyService'
 import { supabase } from '../utils/supabaseClient'
 import { Component3dName } from '../webGL/webGLArchitecture/Types/Component3dNameType'
 import css from './recipes.module.scss'
+import { merge } from '../utils/arrayUtils'
+import UiService from '../services/events/UiService'
 
 export default function Recipes() {
   const CAMERA_POSITION: Component3dName = 'kitchen'
 
   const router = useRouter()
   const [recipes, setRecipes] = useState([])
-
+  const [displayUI, setDisplayUI] = useState<boolean>(false)
   useEffect(() => {
     RoutingCameraService.goTo(CAMERA_POSITION)
+    UiService.displayUisignal.on((uiTodisplay) => {
+      setDisplayUI(true)
+      RoutingCameraService.toggle3D(false)
+    })
   }, [])
 
   useEffect(() => {
@@ -40,31 +46,33 @@ export default function Recipes() {
   }, [])
 
   return (
-    <div className={css.root}>
-      <div className={css.head}>
-        <Link href={`/`}>
-          <a className={css.back}>
-            <img className={css.icon} src={`/images/icons/back.svg`} alt="" />
-          </a>
-        </Link>
-        <h1 className={css.title}>Les recettes de la famille</h1>
-        <Link href={`/add-recipe`}>
-          <a className={css.add}>
-            <img className={css.icon} src={`/images/icons/plus.svg`} alt="" />
-          </a>
-        </Link>
-      </div>
+    displayUI && (
+      <div className={merge([css.root, 'garden-ui'])}>
+        <div className={css.head}>
+          <Link href={`/garden`}>
+            <a className={css.back}>
+              <img className={css.icon} src={`/images/icons/back.svg`} alt="" />
+            </a>
+          </Link>
+          <h1 className={css.title}>Les recettes de la famille</h1>
+          <Link href={`/add-recipe`}>
+            <a className={css.add}>
+              <img className={css.icon} src={`/images/icons/plus.svg`} alt="" />
+            </a>
+          </Link>
+        </div>
 
-      {recipes.map(function (recipe, i) {
-        return (
-          <div className={css.recipe} key={i}>
-            <RecipePreview recipe={recipe} />
-          </div>
-        )
-      })}
-      <div className={css.ripped}>
-        <RippedPaper />
+        {recipes.map(function (recipe, i) {
+          return (
+            <div className={css.recipe} key={i}>
+              <RecipePreview recipe={recipe} />
+            </div>
+          )
+        })}
+        <div className={css.ripped}>
+          <RippedPaper />
+        </div>
       </div>
-    </div>
+    )
   )
 }

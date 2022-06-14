@@ -4,6 +4,7 @@ class ScrollService {
   public signal = StateSignal<WheelEvent>(undefined)
 
   public scrolling(event: WheelEvent) {
+    console.log('scrolling')
     this.signal.dispatch(event)
   }
 
