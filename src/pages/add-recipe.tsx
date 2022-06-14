@@ -2,6 +2,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import RecipeForm, {
   ERecipeFormMode,
 } from '../components/recipeForm/RecipeForm'
@@ -51,6 +52,9 @@ const STARTING_RECIPE: IRecipe = {
 export default function AddRecipe() {
   // ------------------------------------------------------------------- USE
   const router = useRouter()
+  useEffect(() => {
+    localStorage.setItem('display3D', 'false')
+  }, [])
   // ------------------------------------------------------------------- METHODS
 
   // ------------------------------------------------------------------- RENDER

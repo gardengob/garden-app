@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import RoutingCameraService from '../services/events/RoutingCameraService'
 import SpaceEntryService from '../services/events/SpaceEntryService'
+import WebglService from '../services/events/WebglService'
 import { AppManager } from '../webGL/webGLArchitecture/Classes/AppManager/AppManager'
 
 const Garden3d = dynamic(import('../components/garden3d/Garden3d'), {
@@ -11,17 +12,21 @@ const Garden3d = dynamic(import('../components/garden3d/Garden3d'), {
 
 export default function Garden() {
   const [intro, setIntro] = useState<boolean>(false)
+  const [routeHasIntro, setRouteHasIntro] = useState<boolean>(true)
   const CAMERA_POSITION = 'start'
   const router = useRouter()
   useEffect(() => {
-    router.query.withIntro
-      ? RoutingCameraService.toggleCamera('intro')
-      : RoutingCameraService.toggleCamera('garden')
-
-    RoutingCameraService.goTo(
-      router.query.withIntro ? CAMERA_POSITION : 'continue'
+    WebglService.enable3D()
+    console.log('gardenInit')
+    localStorage.setItem(
+      'lockScroll',
+      router.query.withIntro ? 'true' : 'false'
     )
-    RoutingCameraService.toggle3D(true)
+    localStorage.setItem('display3D', 'true')
+
+    SpaceEntryService.routeEntrySignal.on((shallPlayIntro) => {
+      setRouteHasIntro(shallPlayIntro)
+    })
     SpaceEntryService.gardenEntrySignal.on(() => {
       setIntro(true)
     })

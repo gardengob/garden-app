@@ -15,8 +15,12 @@ export default function Home() {
   const [username, setUsername] = useState(null)
 
   useEffect(() => {
+    localStorage.setItem('display3D', 'false')
+    localStorage.setItem('lockScroll', 'true')
+  }, [])
+
+  useEffect(() => {
     setSession(supabase.auth.session())
-    RoutingCameraService.toggle3D(false)
     console.log('fart')
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)

@@ -9,6 +9,10 @@ export default function MailBox() {
   const router = useRouter()
 
   useEffect(() => {
+    localStorage.setItem('display3D', 'true')
+  }, [])
+
+  useEffect(() => {
     RoutingCameraService.goTo(CAMERA_POSITION)
   }, [])
 }

@@ -7,7 +7,9 @@ export default function Encyclopedia() {
   const CAMERA_POSITION: Component3dName = 'vegetable_garden'
 
   const router = useRouter()
-
+  useEffect(() => {
+    localStorage.setItem('display3D', 'true')
+  }, [])
   useEffect(() => {
     RoutingCameraService.goTo(CAMERA_POSITION)
   }, [])

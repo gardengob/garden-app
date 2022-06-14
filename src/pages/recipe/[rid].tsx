@@ -15,7 +15,7 @@ const Recipe = () => {
   const { rid } = router.query
   const [recipe, setRecipe] = useState<IRecipe>(null)
   useEffect(() => {
-    RoutingCameraService.toggle3D(false)
+    localStorage.setItem('display3D', 'false')
   }, [])
   useEffect(() => {
     if (rid) {

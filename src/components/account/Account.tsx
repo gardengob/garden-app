@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
+import RoutingCameraService from '../../services/events/RoutingCameraService'
+import SpaceEntryService from '../../services/events/SpaceEntryService'
 import FamilyService from '../../services/FamilyService'
 import UserService from '../../services/UserService'
 import { supabase } from '../../utils/supabaseClient'
@@ -30,6 +32,7 @@ export default function Account({ session }) {
     })
     UserService.getFamilies().then((families) => setFamilies(families))
 
+    RoutingCameraService.goTo('start')
     return () => {
       supabase.removeSubscription(subscription)
     }
@@ -57,8 +60,11 @@ export default function Account({ session }) {
               FamilyService.store(item.family.name)
               router.push({
                 pathname: '/garden',
-                query: { withIntro: true },
+                query: {
+                  withIntro: true,
+                },
               })
+              localStorage.setItem('intro', 'running')
             }}
           >
             {item.family.name}

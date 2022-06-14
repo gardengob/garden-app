@@ -19,6 +19,7 @@ import ScrollService from '../../services/events/ScrollService'
 import { merge } from '../../utils/arrayUtils'
 import LoadingService from '../../services/events/LoadingService'
 import RoutingCameraService from '../../services/events/RoutingCameraService'
+import WebglService from '../../services/events/WebglService'
 export interface IWindowSize {
   width: number
   height: number
@@ -39,11 +40,17 @@ export default function Garden3d({ className }) {
   const router = useRouter()
 
   useEffect(() => {
-    RoutingCameraService.with3Dsignal.on((needs3d) => {
-      console.log('3d?', needs3d)
-      setneed3D(needs3d)
+    WebglService.with3Dsignal.on((with3D) => {
+      setneed3D(with3D)
     })
 
+    WebglService.PoiSignal.on((activePoi) => {
+      router.push(activePoi)
+    })
+  }, [])
+
+  useEffect(() => {
+    setneed3D(true)
     console.log('router.query', router.pathname)
     // if (router.pathname == '/') {
     //   setneed3D(false)
@@ -154,25 +161,14 @@ export default function Garden3d({ className }) {
   function onAllLoadedFunction(): void {
     LoadingService.loadingFinished()
     const appManager = AppManager.getInstance()
-
+    if (router.pathname !== '/') {
+      localStorage.setItem('intro', 'false')
+    }
+    setneed3D(localStorage.getItem('display3D') === 'true' ? true : false)
+    // if (router.pathname === '/garden') {
+    //   SpaceEntryService.shallPlayIntro(false)
+    // }
     appManager.appState = AppStateEnum.INITIALIZING
-    setTimeout(() => {
-      console.log('withIntro', router.query.withIntro)
-      if (router.query.withIntro && router.pathname != '/') {
-        RoutingCameraService.toggleCamera('intro')
-      } else {
-        RoutingCameraService.toggleCamera('garden')
-      }
-      console.log('router.query', router.pathname)
-      if (router.pathname == '/') {
-        setneed3D(false)
-        console.log('root')
-      }
-      if (router.pathname == '/garden') {
-        setneed3D(true)
-        console.log('root')
-      }
-    }, 100)
   }
   function onLoadingFunction(xhr: ProgressEvent<EventTarget>): void {
     console.log(Math.round((xhr.loaded * 100) / xhr.total))
@@ -218,14 +214,6 @@ export default function Garden3d({ className }) {
       </button>
       {elementNear && (
         <div
-          onClick={() => {
-            for (const key in RoutingCameraService.routeSpaceDictionnary) {
-              const element = RoutingCameraService.routeSpaceDictionnary[key]
-              if (element === elementNear) {
-                router.push(key)
-              }
-            }
-          }}
           style={{
             position: 'absolute',
             zIndex: 3,

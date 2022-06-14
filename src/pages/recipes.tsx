@@ -17,13 +17,10 @@ export default function Recipes() {
 
   const router = useRouter()
   const [recipes, setRecipes] = useState([])
-  const [displayUI, setDisplayUI] = useState<boolean>(false)
+  // const [displayUI, setDisplayUI] = useState<boolean>(false)
   useEffect(() => {
     RoutingCameraService.goTo(CAMERA_POSITION)
-    UiService.displayUisignal.on((uiTodisplay) => {
-      setDisplayUI(true)
-      RoutingCameraService.toggle3D(false)
-    })
+    localStorage.setItem('display3D', 'false')
   }, [])
 
   useEffect(() => {
@@ -46,33 +43,31 @@ export default function Recipes() {
   }, [])
 
   return (
-    displayUI && (
-      <div className={merge([css.root, 'garden-ui'])}>
-        <div className={css.head}>
-          <Link href={`/garden`}>
-            <a className={css.back}>
-              <img className={css.icon} src={`/images/icons/back.svg`} alt="" />
-            </a>
-          </Link>
-          <h1 className={css.title}>Les recettes de la famille</h1>
-          <Link href={`/add-recipe`}>
-            <a className={css.add}>
-              <img className={css.icon} src={`/images/icons/plus.svg`} alt="" />
-            </a>
-          </Link>
-        </div>
-
-        {recipes.map(function (recipe, i) {
-          return (
-            <div className={css.recipe} key={i}>
-              <RecipePreview recipe={recipe} />
-            </div>
-          )
-        })}
-        <div className={css.ripped}>
-          <RippedPaper />
-        </div>
+    <div className={merge([css.root, 'garden-ui'])}>
+      <div className={css.head}>
+        <Link href={`/garden`}>
+          <a className={css.back}>
+            <img className={css.icon} src={`/images/icons/back.svg`} alt="" />
+          </a>
+        </Link>
+        <h1 className={css.title}>Les recettes de la famille</h1>
+        <Link href={`/add-recipe`}>
+          <a className={css.add}>
+            <img className={css.icon} src={`/images/icons/plus.svg`} alt="" />
+          </a>
+        </Link>
       </div>
-    )
+
+      {recipes.map(function (recipe, i) {
+        return (
+          <div className={css.recipe} key={i}>
+            <RecipePreview recipe={recipe} />
+          </div>
+        )
+      })}
+      <div className={css.ripped}>
+        <RippedPaper />
+      </div>
+    </div>
   )
 }

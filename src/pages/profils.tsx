@@ -12,32 +12,28 @@ export default function Profils() {
   useEffect(() => {
     console.log('tree useEffect Triggered')
     RoutingCameraService.goTo(CAMERA_POSITION)
-    UiService.displayUisignal.on((uiTodisplay) => {
-      setDisplayUI(true)
-      RoutingCameraService.toggle3D(false)
-    })
-  }, [])
+    localStorage.setItem('lockScroll', 'true')
+    localStorage.setItem('display3D', 'false')
+  })
+
   return (
-    displayUI && (
-      <div style={{ position: 'relative', zIndex: '10' }}>
-        testpoii
-        <div>testpoii</div>
-        <div>testpoii</div>
-        <div>testpoii</div>
-        <div>testpoii</div>
-        <div>testpoii</div>
-        <div>testpoii</div>
-        <div>testpoii</div>
-        <div>testpoii</div>
-        <button
-          onClick={() => {
-            RoutingCameraService.toggle3D(true)
-            router.push('garden')
-          }}
-        >
-          quitter
-        </button>
-      </div>
-    )
+    <div style={{ position: 'relative', zIndex: '10' }}>
+      testpoii
+      <div>testpoii</div>
+      <div>testpoii</div>
+      <div>testpoii</div>
+      <div>testpoii</div>
+      <div>testpoii</div>
+      <div>testpoii</div>
+      <div>testpoii</div>
+      <div>testpoii</div>
+      <button
+        onClick={() => {
+          router.push('garden')
+        }}
+      >
+        quitter
+      </button>
+    </div>
   )
 }

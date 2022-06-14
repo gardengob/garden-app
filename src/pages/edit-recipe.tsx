@@ -17,7 +17,9 @@ export default function AddRecipe() {
   const [recipe, setRecipe] = useState<IRecipe>(null)
 
   // ------------------------------------------------------------------- USE
-
+  useEffect(() => {
+    localStorage.setItem('display3D', 'false')
+  }, [])
   useEffect(() => {
     if (rid) {
       RecipeService.getRecipe(rid).then((reci) =>

@@ -2,6 +2,7 @@ import { Object3D, Vector3 } from 'three'
 import { GLTF } from 'three-stdlib'
 import { AmbientLight } from 'three/src/lights/AmbientLight'
 import UiService from '../../../services/events/UiService'
+import WebglService from '../../../services/events/WebglService'
 import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
 import { Component3d } from '../../webGLArchitecture/Classes/Compoment3d/Component3d'
 import { LoadingManager } from '../../webGLArchitecture/Classes/LoadingManager/LoadingManager'
@@ -38,6 +39,7 @@ treeComponent3d.onInit = () => {
     onclick: () => {
       UiService.toggleUi(true)
       console.log('tree')
+      WebglService.ActivatePOI('profils')
     },
     holder: treePOIHolder,
   })

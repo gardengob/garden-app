@@ -7,6 +7,9 @@ export default function Contest() {
   const CAMERA_POSITION: Component3dName = 'contest'
 
   const router = useRouter()
+  useEffect(() => {
+    localStorage.setItem('display3D', 'true')
+  }, [])
 
   useEffect(() => {
     RoutingCameraService.goTo(CAMERA_POSITION)
