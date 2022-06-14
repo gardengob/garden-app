@@ -7,6 +7,7 @@ import { GLTF } from 'three-stdlib'
 import { LoadingManager } from '../../webGLArchitecture/Classes/LoadingManager/LoadingManager'
 import { Object3D } from 'three'
 import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
+import WebglService from '../../../services/events/WebglService'
 
 const loadingManager = LoadingManager.getInstance()
 
@@ -36,6 +37,7 @@ contestComponent3d.onInit = () => {
     {
       onclick: () => {
         console.log('contest')
+        WebglService.ActivatePOI('contest')
       },
       holder: pizza,
     },

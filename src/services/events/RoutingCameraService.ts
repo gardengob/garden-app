@@ -14,7 +14,7 @@ class RoutingCameraService {
     family: 'portal',
     garden: 'start',
     encyclopedia: 'vegetable_garden',
-    notification: 'mail_box',
+    mailbox: 'mail_box',
     media: 'memories',
   }
   public cameraTimedPositions: { [key: string]: number } = {
@@ -28,12 +28,15 @@ class RoutingCameraService {
     portal: 14.5,
   }
 
-  public goTo(spaceName: Component3dName | 'start') {
-    const camTargetedPosition = this.cameraTimedPositions[spaceName]
+  public goTo(spaceName: Component3dName | 'start' | 'continue') {
+    const camTargetedPosition =
+      spaceName !== 'continue' ? this.cameraTimedPositions[spaceName] : 0
     this.signal.dispatch({
       corespondingTime: camTargetedPosition,
       name: spaceName,
     })
+
+    localStorage.setItem('position', camTargetedPosition + '')
   }
 }
 

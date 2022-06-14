@@ -3,6 +3,10 @@
 .root {
   min-height: 100vh;
 
+  background-image: url('/images/ui/noise-texture.png');
+  background-size: cover;
+  background-color: $color-cream-darker;
+
   .head {
     display: flex;
     justify-content: space-between;

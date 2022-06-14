@@ -69,6 +69,8 @@ const stats = Stats()
 
 // =========================== Init =========================== //
 gardenScene.onInit = (scene) => {
+  localStorage.setItem('intro', 'false')
+
   document.body.appendChild(stats.dom)
   const appManager = AppManager.getInstance()
   gardenScene.statesDictionnary['introPlayed'] = false
@@ -108,6 +110,7 @@ gardenScene.onInit = (scene) => {
       }
     })
   })
+  console.log('gardenBase', gardenBase)
 
   // ============= CAMERA ============= //
 
@@ -122,7 +125,7 @@ gardenScene.onInit = (scene) => {
   cameraTest.zoom = 0.93
   cameraEntry.zoom = 0.93
 
-  appManager.camera = cameraEntry
+  appManager.camera = cameraTest
   appManager.onWindowResize()
 
   //ANIMATION MIXERs
@@ -177,36 +180,42 @@ ScrollService.signal.on((e) => {
   scrolling = e !== null ? e.deltaY : 0
 })
 
-RoutingCameraService.signal.on((routingData) => {
-  const animationTime = {
-    value: mixerCam.time,
-  }
-  gsap
-    .to(animationTime, {
-      value:
-        cameraLoopNumber * cameraPathDuration + routingData.corespondingTime,
-      onUpdate: (tween) => {
-        console.log('tween', tween)
-        mixerCam.setTime(animationTime.value)
-      },
-      ease: 'power1.inOut',
-      duration: 2.5,
-    })
-    .then(() => {
-      const component = gardenScene.components.find(
-        (comp) => comp.name === routingData.name
-      )
-      if (component) {
-        component.poiArray.forEach((poi) => {
-          const children = poi.css2dObject.element.querySelectorAll('.poi')
-          children.forEach((child) => {
-            ;(child as HTMLElement).style.display = 'block'
-          })
-          // component.root.add(poi.css2dObject)
-        })
-      }
-    })
-})
+// RoutingCameraService.signal.on((routingData) => {
+//   gardenScene.statesDictionnary['introPlayed'] = true
+
+//   console.log('routting triggered')
+
+//   if (routingData.name !== 'continue') {
+//     const animationTime = {
+//       value: mixerCam.time,
+//     }
+//     gsap
+//       .to(animationTime, {
+//         value:
+//           cameraLoopNumber * cameraPathDuration + routingData.corespondingTime,
+//         onUpdate: (tween) => {
+//           console.log('tween', tween)
+//           mixerCam.setTime(animationTime.value)
+//         },
+//         ease: 'power1.inOut',
+//         duration: 2.5,
+//       })
+//       .then(() => {
+//         const component = gardenScene.components.find(
+//           (comp) => comp.name === routingData.name
+//         )
+//         if (component) {
+//           component.poiArray.forEach((poi) => {
+//             const children = poi.css2dObject.element.querySelectorAll('.poi')
+//             children.forEach((child) => {
+//               ;(child as HTMLElement).style.display = 'block'
+//             })
+//             // component.root.add(poi.css2dObject)
+//           })
+//         }
+//       })
+//   }
+// })
 
 SpaceEntryService.spaceSignal.on((name) => {
   console.log('name', name)
@@ -224,10 +233,31 @@ SpaceEntryService.spaceSignal.on((name) => {
 })
 
 // =========================== Animation loop =========================== //
+let introState = 'false'
+let positionState = '0'
+
 gardenScene.onAnimationLoop = (ellapsedTime) => {
+  const appManager = AppManager.getInstance()
+
+  if (localStorage.getItem('position') != positionState) {
+    const newPositionState = localStorage.getItem('position')
+    positionState = newPositionState
+    mixerCam.setTime(parseFloat(newPositionState))
+    gardenScene.statesDictionnary['introPlayed'] = true
+  }
+
+  if (localStorage.getItem('intro') != introState) {
+    const newIntroState = localStorage.getItem('intro')
+    appManager.camera = newIntroState === 'running' ? cameraEntry : cameraTest
+    if (newIntroState === 'running') {
+      SpaceEntryService.shallPlayIntro(true)
+    }
+    appManager.onWindowResize()
+    introState = newIntroState
+  }
+  console.log("updatin' like crazy")
   introFrameCount++
   stats.update()
-  const appManager = AppManager.getInstance()
 
   //mixer Update
   mixerEntryCam.update((1 / 60) * 0.8)
@@ -250,9 +280,14 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
     appManager.onWindowResize()
     introFrameCount = 0
     gardenScene.statesDictionnary['introPlayed'] = true
+    localStorage.setItem('intro', 'false')
+    localStorage.setItem('lockScroll', 'false')
   }
 
-  if (gardenScene.statesDictionnary['introPlayed']) {
+  if (
+    // gardenScene.statesDictionnary['introPlayed'] &&
+    localStorage.getItem('lockScroll') == 'false'
+  ) {
     if (scrolling < -0.1 || scrolling > 0.1) {
       if (scrolling > 0) {
         mixerCam.update(
@@ -292,7 +327,18 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
         closeElement = element.component
         notCloseToAnyThing = false
         SpaceEntryService.setNearElement(element.component.name)
-
+        const component = gardenScene.components.find(
+          (comp) => comp.name === element.component.name
+        )
+        if (component) {
+          component.poiArray.forEach((poi) => {
+            const children = poi.css2dObject.element.querySelectorAll('.poi')
+            children.forEach((child) => {
+              ;(child as HTMLElement).style.display = 'block'
+            })
+            // component.root.add(poi.css2dObject)
+          })
+        }
         //ACTION : in front of element
       }
     }
@@ -300,6 +346,7 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
   if (notCloseToAnyThing && closeElement !== null) {
     closeElement = null
     SpaceEntryService.setNearElement(null)
+
     //ACTION : not front of element
   }
 }

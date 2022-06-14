@@ -46,7 +46,7 @@ memoryComponent3d.onInit = () => {
     const frameObject = tonel.getModel().getObjectByName(`${frameName}_2`)
     const imgUrl = MediaService.getRandomMedias()[index]
 
-    console.log('frameName', frameName)
+    //console.log('frameName', frameName)
     const frameType = frameName.split('_')[0]
     const sizes = {
       portrait: { x: 2, y: 2 },
@@ -82,7 +82,7 @@ memoryComponent3d.onInit = () => {
       img.height = img.height
       ctx.drawImage(img, 0, 0)
       smartcrop.crop(img, frameSizes[frameType]).then(function (result) {
-        console.log('croped ', result)
+        //console.log('croped ', result)
         croppedCtx.drawImage(
           img,
           result.topCrop.x,
@@ -112,7 +112,7 @@ memoryComponent3d.onInit = () => {
         const frameSize = new Vector3()
 
         box.getSize(frameSize)
-        console.log('frameSize', frameSize)
+        //console.log('frameSize', frameSize)
 
         // let fitScaleX = (15 * frameSize.x) / texture.image.width
         // let fitScaleY = (15 * frameSize.y) / texture.image.height
@@ -139,14 +139,14 @@ memoryComponent3d.onInit = () => {
         // texture.repeat.x = repeatX
         // texture.repeat.y = repeatY
 
-        console.log('frameName', frameName)
+        //console.log('frameName', frameName)
         const sizes = {
           portrait: { x: 2, y: 2 },
           paysage: { x: 2, y: 2 },
           carre: { x: 2, y: 2 },
         }
 
-        console.log('frameType', frameType)
+        //console.log('frameType', frameType)
 
         const geometry = new PlaneGeometry(
           sizes[frameType].x,

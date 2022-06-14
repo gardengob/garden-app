@@ -7,6 +7,8 @@ import { PortalGraphConstruction } from './Portal.graphConstruction'
 import { PortalInitialization } from './Portal.initialization'
 import { Object3D } from 'three'
 import { AppManager } from '../../webGLArchitecture/Classes/AppManager/AppManager'
+import UiService from '../../../services/events/UiService'
+import WebglService from '../../../services/events/WebglService'
 
 const loadingManager = LoadingManager.getInstance()
 
@@ -34,7 +36,9 @@ portalComponent3d.onInit = () => {
 
   portalComponent3d.poiArray.push({
     onclick: () => {
-      console.log('portal')
+      UiService.toggleUi(true)
+      WebglService.ActivatePOI('/')
+      WebglService.disable3D()
     },
     holder: portalPOIHolder,
   })

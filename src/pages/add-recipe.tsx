@@ -1,11 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import RecipeForm, {
   ERecipeFormMode,
 } from '../components/recipeForm/RecipeForm'
 import RippedPaper from '../components/rippedPaper/RippedPaper'
+import UiService from '../services/events/UiService'
 import { ETimeUnit, IRecipe } from '../types/recipe'
+import { merge } from '../utils/arrayUtils'
 import css from './add-recipe.module.scss'
 
 const STARTING_RECIPE: IRecipe = {
@@ -47,21 +51,29 @@ const STARTING_RECIPE: IRecipe = {
 
 export default function AddRecipe() {
   // ------------------------------------------------------------------- USE
-
+  const router = useRouter()
+  useEffect(() => {
+    localStorage.setItem('display3D', 'false')
+  }, [])
   // ------------------------------------------------------------------- METHODS
 
   // ------------------------------------------------------------------- RENDER
 
   return (
-    <div className={css.root}>
+    <div className={merge([css.root, 'garden-ui'])}>
       <div className={css.ripped}>
         <RippedPaper reverse={true} />
       </div>
-      <Link href={`/recipes`}>
+      <button
+        onClick={() => {
+          router.push('recipes')
+          UiService.toggleUi('recipe')
+        }}
+      >
         <a className={css.back}>
           <img className={css.icon} src={`/images/icons/back.svg`} alt="" />
         </a>
-      </Link>
+      </button>
       <h1 className={css.title}>Création d'une recette</h1>
       <RecipeForm recipe={STARTING_RECIPE} mode={ERecipeFormMode.ADD} />
     </div>
