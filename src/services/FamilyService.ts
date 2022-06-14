@@ -111,6 +111,14 @@ class FamilyService {
       alert(error.message)
     }
   }
+
+  public async getUsers(familyId) {
+    try {
+      
+    } catch (error) {
+      alert(error.message)
+    }
+  }
 }
 
 export default new FamilyService()

@@ -1,0 +1,116 @@
+@import '../../styles/references';
+
+.root {
+  .tabs {
+    display: flex;
+    margin-bottom: 24px;
+
+    .tab {
+      cursor: pointer;
+      display: flex;
+      align-self: center;
+      margin: 0 40px 0 0;
+      font-size: 18px;
+      font-weight: normal;
+      color: $color-primary-darker;
+      opacity: 0.5;
+
+      .icon {
+        margin-right: 10px;
+      }
+
+      &-active {
+        opacity: 1;
+      }
+    }
+  }
+
+  .content {
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+
+  .category {
+    margin-bottom: 32px;
+
+    .subtitle {
+      margin: 0 0 16px 0;
+      color: $color-primary-darker;
+      font-size: 20px;
+      font-weight: normal;
+    }
+  }
+  .ingredients {
+    display: flex;
+
+    .ingredient {
+      display: block;
+      width: fit-content;
+      padding: 12px 24px;
+      background-color: white;
+      &-love {
+        color: $color-primary;
+      }
+
+      &-avoid {
+        color: $color-secondary;
+      }
+
+      &-allergy {
+        color: $color-secondary-darker;
+      }
+      &:not(:last-child) {
+        margin-right: 12px;
+      }
+    }
+  }
+
+  .dishes {
+    display: flex;
+
+    .dish {
+      display: block;
+      width: fit-content;
+      padding: 12px 24px;
+      background-image: url('/images/ui/post-it.png');
+      background-size: 210px;
+
+      &-love {
+        color: $color-primary;
+      }
+
+      &-avoid {
+        color: $color-secondary;
+      }
+
+      &:not(:last-child) {
+        margin-right: 12px;
+      }
+    }
+  }
+
+  .contests {
+    display: flex;
+
+    .contest {
+      display: block;
+      width: fit-content;
+      padding: 12px 24px;
+      text-align: center;
+      background-image: url('/images/ui/post-it.png');
+      background-size: 210px;
+
+      &-love {
+        color: $color-primary;
+      }
+
+      &-avoid {
+        color: $color-secondary;
+      }
+
+      &:not(:last-child) {
+        margin-right: 12px;
+      }
+    }
+  }
+}
