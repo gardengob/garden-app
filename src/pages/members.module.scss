@@ -1,0 +1,10 @@
+@import '../styles/references';
+
+.root {
+  min-height: 100vh;
+  background-color: $color-primary-darker-300;
+
+  .members {
+    display: flex;
+  }
+}

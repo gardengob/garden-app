@@ -1,0 +1,90 @@
+@import '../../styles/references';
+
+.root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+
+  .filter {
+    position: absolute;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $color-primary-darker-300;
+    opacity: 0.5;
+  }
+
+  .container {
+    position: relative;
+    width: 70vw;
+    height: 80vh;
+    margin: auto;
+    padding: 32px 64px;
+    border-radius: 24px;
+    background-color: $color-cream-lighter;
+    background-image: url('/images/ui/noise-texture.png');
+    background-size: contain;
+
+    .close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: translateX(50%) translateY(-50%);
+      display: flex;
+      padding: 12px;
+      border-radius: 50%;
+      background-color: $color-primary-darker-500;
+
+      .icon {
+        margin: auto;
+      }
+    }
+
+    .head {
+      display: flex;
+      margin-bottom: 32px;
+    }
+
+    .image {
+      width: 160px;
+      height: 160px;
+      margin-right: 54px;
+    }
+
+    .name {
+      margin: 0 0 32px 0;
+      color: $color-primary;
+      font-size: 36px;
+      font-weight: normal;
+    }
+
+    .tags {
+      display: flex;
+
+      .tag {
+        display: block;
+        width: fit-content;
+        font-size: 18px;
+        color: white;
+        background-color: $color-primary;
+        border-radius: 8px;
+        padding: 12px 24px;
+        transition: all 0.3s ease-in-out;
+
+        &:not(:last-child) {
+          margin-right: 12px;
+        }
+
+        &-diet {
+          background-color: $color-secondary;
+        }
+
+        &-birth {
+        }
+      }
+    }
+  }
+}
