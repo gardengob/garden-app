@@ -63,4 +63,19 @@
       }
     }
   }
+
+  .back {
+    cursor: pointer;
+    position: absolute;
+    top: 48px;
+    left: 48px;
+    display: flex;
+    padding: 12px;
+    border-radius: 50%;
+    border: 1px solid $color-primary-darker;
+
+    .icon {
+      margin: auto;
+    }
+  }
 }

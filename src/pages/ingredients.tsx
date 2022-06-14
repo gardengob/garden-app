@@ -11,6 +11,7 @@ import { Component3dName } from '../webGL/webGLArchitecture/Types/Component3dNam
 import css from './ingredients.module.scss'
 import Image from 'next/image'
 import IngredientPreview from '../components/ingredientPreview/IngredientPreview'
+import IngredientDisplay from '../components/ingredientDisplay/IngredientDisplay'
 
 export default function Ingredients() {
   const [ingredients, setIngredients] = useState([
@@ -57,41 +58,60 @@ export default function Ingredients() {
       imageUrl: '/images/user.png',
     },
   ])
-  const [currentIngredients, setCurrentIngredients] = useState(null)
+
+  const [currentIngredient, setCurrentIngredient] = useState(null)
 
   useEffect(() => {}, [])
 
   return (
     <div className={css.root}>
-      <div className={css.container}>
-        <div className={css.close}>
-          <Image
-            className={css.icon}
-            src={`/images/icons/cross.svg`}
-            alt={'close'}
-            width={24}
-            height={24}
+      {!currentIngredient && (
+        <div className={css.container}>
+          <div className={css.close}>
+            <Image
+              className={css.icon}
+              src={`/images/icons/cross.svg`}
+              alt={'close'}
+              width={24}
+              height={24}
+            />
+          </div>
+          <div className={css.head}>
+            <input
+              className={css.search}
+              name="ingredient"
+              id="ingredient"
+              type="text"
+              placeholder="Rechercher ..."
+            />
+          </div>
+          <div className={css.ingredients}>
+            {ingredients.map((ingredient, i) => {
+              return (
+                <div
+                  className={css.ingredient}
+                  key={i}
+                  onClick={() => setCurrentIngredient(ingredient)}
+                >
+                  <IngredientPreview ingredient={ingredient} />
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+      {currentIngredient && (
+        <>
+          <div className={css.back} onClick={() => setCurrentIngredient(null)}>
+            <img className={css.icon} src={`/images/icons/back.svg`} alt="" />
+          </div>
+
+          <IngredientDisplay
+            ingredient={currentIngredient}
+            backHandler={() => setCurrentIngredient(null)}
           />
-        </div>
-        <div className={css.head}>
-          <input
-            className={css.search}
-            name="ingredient"
-            id="ingredient"
-            type="text"
-            placeholder="Rechercher ..."
-          />
-        </div>
-        <div className={css.ingredients}>
-          {ingredients.map((ingredient, i) => {
-            return (
-              <div className={css.ingredient} key={i}>
-                <IngredientPreview ingredient={ingredient} />
-              </div>
-            )
-          })}
-        </div>
-      </div>
+        </>
+      )}
     </div>
   )
 }
