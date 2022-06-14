@@ -1,4 +1,156 @@
 @import '../../styles/references';
 
 .root {
+  position: absolute;
+  top: 50%;
+  right: 180px;
+  color: $color-primary-darker-300;
+  transform: translateY(-50%);
+
+  p {
+    margin: 0;
+  }
+
+  .background {
+    position: absolute;
+    width: 450px;
+    height: 550px;
+    background-color: $color-primary-lighter;
+    border-radius: 16px;
+    transform: rotate(8deg);
+  }
+
+  .card {
+    position: relative;
+    width: 450px;
+    height: 550px;
+
+    background-color: transparent;
+    perspective: 1000px;
+    border-radius: 16px;
+
+    .inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+
+      &-rotated {
+        transform: rotateY(180deg);
+      }
+    }
+
+    &-front,
+    &-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      padding: 48px;
+      border-radius: 16px;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+
+    &-front {
+      background-image: url('/images/ui/noise-texture.png');
+      background-size: cover;
+      background-color: white;
+    }
+
+    &-back {
+      background-image: url('/images/ui/noise-texture.png');
+      background-size: cover;
+      background-color: white;
+      transform: rotateY(180deg);
+    }
+  }
+
+  .head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+
+  .name {
+    margin: 0;
+    color: $color-primary;
+    font-size: 36px;
+    font-weight: normal;
+    margin-bottom: 16px;
+  }
+
+  .type {
+    color: $color-primary-darker;
+    font-size: 30px;
+  }
+
+  .image {
+    width: 100px;
+    height: 100px;
+  }
+
+  .details {
+    margin-bottom: 24px;
+    font-size: 16px;
+
+    .detail {
+      padding: 8px 0;
+
+      &:first-child {
+        border-top: 1px solid $color-primary-lighter;
+        border-bottom: 1px solid $color-primary-lighter;
+      }
+
+      &:last-child {
+        border-top: 1px solid $color-primary-lighter;
+        border-bottom: 1px solid $color-primary-lighter;
+      }
+    }
+  }
+
+  .relations {
+    font-size: 16px;
+
+    .relation {
+      padding: 8px 0;
+    }
+  }
+
+  .notes {
+    .note {
+      display: flex;
+      align-items: center;
+
+      .user {
+        flex-shrink: 0;
+        width: 32px;
+        height: 32px;
+        margin-right: 12px;
+      }
+
+      .comment {
+        padding: 8px;
+        border-radius: 8px;
+        color: $color-primary-darker-300;
+        background-color: #f5f5f0;
+      }
+    }
+  }
+
+  .rotate {
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(150%);
+    display: flex;
+    padding: 12px;
+    border-radius: 50%;
+    border: 1px solid $color-primary-darker-300;
+
+    .icon {
+      margin: auto;
+    }
+  }
 }
