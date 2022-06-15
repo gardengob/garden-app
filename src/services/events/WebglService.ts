@@ -4,6 +4,7 @@ class WebglService {
   public with3Dsignal = StateSignal<boolean>(undefined)
   public PoiSignal = StateSignal<string>(undefined)
 
+  public webGlInitialized = false
   public enable3D() {
     this.with3Dsignal.dispatch(true)
   }

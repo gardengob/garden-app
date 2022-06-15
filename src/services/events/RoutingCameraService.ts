@@ -20,7 +20,7 @@ class RoutingCameraService {
   public cameraTimedPositions: { [key: string]: number } = {
     start: 0,
     mail_box: 3,
-    vegetable_garden: 5.5,
+    vegetable_garden: 5,
     kitchen: 7,
     memories: 8.3,
     tree: 9.5,

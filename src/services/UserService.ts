@@ -23,6 +23,29 @@ class UserService {
     }
   }
 
+  public async getUserFamilyId(): Promise<string> {
+    try {
+      const user = supabase.auth.user()
+
+      let { data, error, status } = await supabase
+        .from('user_family')
+        .select(`id`)
+        .eq('user_id', user.id)
+        .eq('family_id', localStorage.getItem('familyId'))
+        .single()
+
+      if (error && status !== 406) {
+        throw error
+      }
+
+      if (data) {
+        return data.id
+      }
+    } catch (error) {
+      alert(error.message)
+    }
+  }
+
   public async updateProfile({ username, avatar_url }) {
     try {
       const user = supabase.auth.user()
