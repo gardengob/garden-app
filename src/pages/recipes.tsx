@@ -13,12 +13,24 @@ import { merge } from '../utils/arrayUtils'
 import UiService from '../services/events/UiService'
 import WebglService from '../services/events/WebglService'
 import RecipeService from '../services/RecipeService'
+import TagService from '../services/TagService'
+import { ITag } from '../types/recipe'
 
 export default function Recipes() {
   const CAMERA_POSITION: Component3dName = 'kitchen'
 
   const router = useRouter()
   const [recipes, setRecipes] = useState([])
+
+  const [dishes, setDishes] = useState([])
+  const [diets, setDiets] = useState([])
+
+  const [dishFilters, setDishFilters] = useState<(ITag | string)[]>([
+    'noFilters',
+  ])
+  const [dietFilters, setDietFilters] = useState<(ITag | string)[]>([
+    'noFilters',
+  ])
   // const [displayUI, setDisplayUI] = useState<boolean>(false)
   useEffect(() => {
     RoutingCameraService.goTo(CAMERA_POSITION)
@@ -41,10 +53,47 @@ export default function Recipes() {
       (familyRecipes) => setRecipes(familyRecipes)
     )
 
+    TagService.getDiets().then((data) => {
+      console.log('got test', data)
+
+      setDiets(data)
+    })
+    TagService.getDishes().then((data) => {
+      console.log('got test', data)
+
+      setDishes(data)
+    })
+
     return () => {
       supabase.removeSubscription(subscription)
     }
   }, [])
+
+  // useEffect(() => {
+  //   setRecipes(
+  //     recipes.filter((recipe) => {
+  //       console.log('recipe', recipe)
+
+  //       return recipe.dish.id == dishFilters
+  //     })
+  //   )
+  // }, [dishFilters, dishFilters])
+
+  function debounce(func, timeout = 300) {
+    let timer
+    return (...args) => {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        func.apply(this, args)
+      }, timeout)
+    }
+  }
+
+  const processChange = debounce((e) => {
+    RecipeService.searchRecipe(e.target.value).then((data) => {
+      setRecipes(data)
+    })
+  })
 
   return (
     <div className={merge([css.root, 'garden-ui'])}>
@@ -61,23 +110,122 @@ export default function Recipes() {
           </a>
         </Link>
       </div>
-      <div>
-        <span>search</span>
-        <input
-          type="text"
-          onChange={(e: ChangeEvent) => {
-            RecipeService.searchRecipe(e.target.value)
-            setRecipes([])
-          }}
-        />
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          margin: 'auto',
+        }}
+      >
+        <div>
+          <input
+            className={css.searchInput}
+            style={{
+              padding: '16px',
+              fontSize: '16px',
+              border: 'none',
+              borderRadius: '6px',
+              marginRight: '16px',
+            }}
+            placeholder="Rechercher..."
+            type="text"
+            onChange={(e: ChangeEvent) => {
+              processChange(e)
+            }}
+          />
+        </div>
+        <div>
+          <select
+            style={{
+              padding: '16px',
+              fontSize: '16px',
+              border: 'none',
+              borderRadius: '6px',
+              marginRight: '16px',
+            }}
+            onChange={(e) => {
+              console.log(e.target.value)
+              if (e.target.value == 'noFilters') {
+                setDietFilters(['noFilters'])
+              } else {
+                RecipeService.getTagRecipe(e.target.value).then((data) => {
+                  console.log('datazzzzzzzzzzzzzzz', data)
+                  setDietFilters(data)
+                })
+              }
+            }}
+          >
+            <option value="noFilters">Régime</option>
+            {diets &&
+              diets.map((diet, index) => {
+                console.log('diet', diets)
+                return (
+                  <option key={index} value={diet.id}>
+                    {diet.label}
+                  </option>
+                )
+              })}
+          </select>
+        </div>
+
+        <div>
+          <select
+            style={{
+              padding: '16px',
+              fontSize: '16px',
+              border: 'none',
+              borderRadius: '6px',
+              marginRight: '16px',
+            }}
+            onChange={(e) => {
+              console.log(e.target.value)
+              if (e.target.value == 'noFilters') {
+                setDishFilters(['noFilters'])
+              } else {
+                RecipeService.getTagRecipe(e.target.value).then((data) => {
+                  console.log('datazzzzzzzzzzzzzzz', data)
+                  setDishFilters(data)
+                })
+              }
+            }}
+          >
+            <option value="noFilters">type de Plat</option>
+            {dishes &&
+              dishes.map((diet, index) => {
+                console.log('diet', dishes)
+                return (
+                  <option key={index} value={diet.id}>
+                    {diet.label}
+                  </option>
+                )
+              })}
+          </select>
+        </div>
       </div>
-      {recipes.map(function (recipe, i) {
-        return (
-          <div className={css.recipe} key={i}>
-            <RecipePreview recipe={recipe} />
-          </div>
-        )
-      })}
+      {recipes
+        .filter((recipe) => {
+          return dishFilters !== null && dishFilters[0] !== 'noFilters'
+            ? dishFilters.find((tag) => {
+                return (tag as any).recipe_id == recipe.id
+              })
+            : true
+        })
+        .filter((recipe) => {
+          return dietFilters !== null && dietFilters[0] !== 'noFilters'
+            ? dietFilters.find((tag) => {
+                return (tag as any).recipe_id == recipe.id
+              })
+            : true
+        })
+        .map(function (recipe, i) {
+          return (
+            <div className={css.recipe} key={i}>
+              <RecipePreview recipe={recipe} />
+            </div>
+          )
+        })}
       <div className={css.ripped}>
         <RippedPaper />
       </div>

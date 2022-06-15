@@ -154,6 +154,8 @@ gardenScene.onInit = (scene) => {
   const portalAction: AnimationAction = mixerPortal.clipAction(portalClip)
 
   action.loop = LoopRepeat
+  action.zeroSlopeAtEnd = false
+  action.zeroSlopeAtStart = false
   action.play()
 
   entryAction.loop = LoopOnce
