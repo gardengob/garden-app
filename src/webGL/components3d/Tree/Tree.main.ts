@@ -39,7 +39,7 @@ treeComponent3d.onInit = () => {
     onclick: () => {
       UiService.toggleUi(true)
       console.log('tree')
-      WebglService.ActivatePOI('profils')
+      WebglService.ActivatePOI('members')
     },
     holder: treePOIHolder,
   })

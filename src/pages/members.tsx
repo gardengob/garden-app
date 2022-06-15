@@ -12,9 +12,12 @@ import css from './members.module.scss'
 import Image from 'next/image'
 import MemberPreview from '../components/memberPreview/MemberPreview'
 import MemberDetailsModal from '../components/memberDetailsModal/MemberDetailsModal'
+import WebglService from '../services/events/WebglService'
 
 export default function Members() {
+  const CAMERA_POSITION: Component3dName = 'tree'
   const user = supabase.auth.user()
+  const router = useRouter()
   const [members, setMembers] = useState([
     {
       id: '7b77f42f-64b0-4361-a9fb-3a9363e07be5',
@@ -39,7 +42,13 @@ export default function Members() {
   ])
   const [currentMember, setCurrentMember] = useState(null)
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    WebglService.disable3D()
+    console.log('tree useEffect Triggered')
+    RoutingCameraService.goTo(CAMERA_POSITION)
+    localStorage.setItem('lockScroll', 'true')
+    localStorage.setItem('display3D', 'false')
+  }, [])
 
   const closeModalHandler = () => {
     setCurrentMember(null)
@@ -47,7 +56,12 @@ export default function Members() {
 
   return (
     <div className={css.root}>
-      <div className={css.head}></div>
+      <div
+        className={css.head}
+        onClick={() => {
+          router.push('garden')
+        }}
+      ></div>
 
       <div className={css.members}>
         {members.map((member, i) => {
@@ -62,7 +76,12 @@ export default function Members() {
           )
         })}
       </div>
-      {currentMember && <MemberDetailsModal member={currentMember} closeHandler={() => closeModalHandler()} />}
+      {currentMember && (
+        <MemberDetailsModal
+          member={currentMember}
+          closeHandler={() => closeModalHandler()}
+        />
+      )}
     </div>
   )
 }
