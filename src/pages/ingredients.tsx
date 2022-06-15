@@ -69,7 +69,6 @@ export default function Ingredients() {
     localStorage.setItem('lockScroll', 'true')
     localStorage.setItem('display3D', 'true')
   }, [])
-  useEffect(() => {}, [])
 
   return (
     <div className={css.root}>
