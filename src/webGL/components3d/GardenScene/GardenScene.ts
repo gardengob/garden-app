@@ -34,6 +34,7 @@ import RoutingCameraService from '../../../services/events/RoutingCameraService'
 import gsap from 'gsap'
 import { portalComponent3d } from '../Portal/Portal.main'
 import Stats from 'three/examples/jsm/libs/stats.module'
+
 export const gardenScene = new Scene()
 const loadingManager = LoadingManager.getInstance()
 const STARTING_CAMERA_OFFSET = 4
@@ -74,7 +75,6 @@ gardenScene.onInit = (scene) => {
   document.body.appendChild(stats.dom)
   const appManager = AppManager.getInstance()
   gardenScene.statesDictionnary['introPlayed'] = false
-
   // ============= GLTF Loading ============= //
   const gltfMap: Map<string, GLTF> = loadingManager.getFromList(
     gardenScene.expectedObjects
@@ -255,7 +255,7 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
     appManager.onWindowResize()
     introState = newIntroState
   }
-  console.log("updatin' like crazy")
+  // console.log("updatin' like crazy")
   introFrameCount++
   stats.update()
 

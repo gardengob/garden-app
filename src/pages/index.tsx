@@ -17,6 +17,7 @@ export default function Home() {
   useEffect(() => {
     localStorage.setItem('display3D', 'false')
     localStorage.setItem('lockScroll', 'true')
+    localStorage.setItem('initiated', 'false')
   }, [])
 
   useEffect(() => {

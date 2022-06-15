@@ -14,7 +14,7 @@ class ContestService {
       let { error, data } = await supabase
         .from('family_contest')
         .select('*')
-        .eq('family_id', localStorage.getItem('family_id'))
+        .eq('family_id', localStorage.getItem('familyId'))
       return data
     } catch (error) {
       console.log('error', error)
@@ -34,7 +34,7 @@ class ContestService {
           )`
         )
 
-        .eq('family_id', localStorage.getItem('family_id'))
+        .eq('family_id', localStorage.getItem('familyId'))
         .eq('id', contestId)
         .limit(1)
         .single()
@@ -46,6 +46,10 @@ class ContestService {
   }
 
   async getCurrentContest(): Promise<IFamilyContest> {
+    console.log(
+      "localStorage.getItem('familyId')",
+      localStorage.getItem('familyId')
+    )
     try {
       let { error, data } = await supabase
         .from('family_contest')
@@ -58,7 +62,7 @@ class ContestService {
             )
           )`
         )
-        .eq('family_id', localStorage.getItem('family_id'))
+        .eq('family_id', localStorage.getItem('familyId'))
         .eq('finished', false)
         .limit(1)
         .single()
@@ -84,7 +88,7 @@ class ContestService {
             )
           )`
         )
-        .eq('family_id', localStorage.getItem('family_id'))
+        .eq('family_id', localStorage.getItem('familyId'))
         .eq('id', contestId)
         .eq('finished', true)
 
@@ -98,7 +102,7 @@ class ContestService {
       let { error, data } = await supabase
         .from('family_contest')
         .select('*')
-        .eq('family_id', localStorage.getItem('family_id'))
+        .eq('family_id', localStorage.getItem('familyId'))
         .eq('finished', true)
         .order('created_at')
         .limit(1)

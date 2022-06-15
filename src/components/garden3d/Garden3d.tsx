@@ -1,10 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import * as THREE from 'three'
-import { treeComponent3d } from '../../webGL/components3d/Tree/Tree.main'
-import { vegetableGardenComponent3d } from '../../webGL/components3d/VegetableGarden/VegetableGarden.main'
 import { AppManager } from '../../webGL/webGLArchitecture/Classes/AppManager/AppManager'
-import { Scene } from '../../webGL/webGLArchitecture/Classes/Scene/Scene'
 import { AppStateEnum } from '../../webGL/webGLArchitecture/Enums/AppStateEnum'
 import modelsToLoad from '../../../public/datas/modelsLocation.json'
 
@@ -18,7 +15,6 @@ import Stats from 'three/examples/jsm/libs/stats.module'
 import ScrollService from '../../services/events/ScrollService'
 import { merge } from '../../utils/arrayUtils'
 import LoadingService from '../../services/events/LoadingService'
-import RoutingCameraService from '../../services/events/RoutingCameraService'
 import WebglService from '../../services/events/WebglService'
 export interface IWindowSize {
   width: number
@@ -40,7 +36,10 @@ export default function Garden3d({ className }) {
   const router = useRouter()
 
   useEffect(() => {
+    WebglService.webGlInitialized = true
+    console.log('GARDEN INIIIIIIIIIIIIIIIIIITTTTTTTT')
     WebglService.with3Dsignal.on((with3D) => {
+      console.log('got signal')
       setneed3D(with3D)
     })
 
@@ -52,6 +51,7 @@ export default function Garden3d({ className }) {
   useEffect(() => {
     setneed3D(true)
     console.log('router.query', router.pathname)
+
     // if (router.pathname == '/') {
     //   setneed3D(false)
     //   console.log('root')
@@ -118,7 +118,7 @@ export default function Garden3d({ className }) {
 
   useEffect(() => {
     const appManager = AppManager.getInstance()
-
+    console.log('need3D Updated', need3D)
     if (need3D === false) {
       canvasRef.current.style.visibility = 'hidden'
       appManager.appState = AppStateEnum.PAUSED
@@ -156,19 +156,30 @@ export default function Garden3d({ className }) {
     appManager.onWindowResize()
   }
 
-  function onLoadErrorFunction(error: ErrorEvent): void {}
-  function onModelLoadedFunction(gltf: GLTF, loadingPercent: number): void {}
+  function onLoadErrorFunction(error: ErrorEvent): void {
+    console.log('error')
+  }
+  function onModelLoadedFunction(gltf: GLTF, loadingPercent: number): void {
+    console.log('loaded', gltf.scene.name)
+  }
   function onAllLoadedFunction(): void {
     LoadingService.loadingFinished()
+    console.log('loading finished')
     const appManager = AppManager.getInstance()
-    if (router.pathname !== '/') {
-      localStorage.setItem('intro', 'false')
-    }
-    setneed3D(localStorage.getItem('display3D') === 'true' ? true : false)
     // if (router.pathname === '/garden') {
     //   SpaceEntryService.shallPlayIntro(false)
     // }
     appManager.appState = AppStateEnum.INITIALIZING
+    setTimeout(() => {
+      if (router.pathname !== '/') {
+        localStorage.setItem('intro', 'false')
+      }
+      if (router.query.withIntro) {
+        localStorage.setItem('display3D', 'true')
+      }
+      console.log('display3D', localStorage.getItem('display3D'))
+      setneed3D(localStorage.getItem('display3D') === 'true' ? true : false)
+    }, 100)
   }
   function onLoadingFunction(xhr: ProgressEvent<EventTarget>): void {
     console.log(Math.round((xhr.loaded * 100) / xhr.total))

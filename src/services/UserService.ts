@@ -31,7 +31,7 @@ class UserService {
         .from('user_family')
         .select(`id`)
         .eq('user_id', user.id)
-        .eq('family_id', localStorage.getItem('family_id'))
+        .eq('family_id', localStorage.getItem('familyId'))
         .single()
 
       if (error && status !== 406) {

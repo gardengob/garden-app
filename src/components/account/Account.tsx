@@ -59,14 +59,18 @@ export default function Account({ session }) {
             key={i}
             onClick={() => {
               FamilyService.store(item.family.name)
-              router.push({
-                pathname: '/garden',
-                query: {
-                  withIntro: true,
-                },
-              })
+              localStorage.setItem('display3D', 'true')
               WebglService.enable3D()
-
+              router.replace(
+                {
+                  pathname: '/garden',
+                  query: {
+                    withIntro: true,
+                  },
+                },
+                null,
+                { shallow: true }
+              )
               localStorage.setItem('intro', 'running')
             }}
           >

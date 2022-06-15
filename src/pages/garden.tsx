@@ -6,14 +6,8 @@ import SpaceEntryService from '../services/events/SpaceEntryService'
 import WebglService from '../services/events/WebglService'
 import { AppManager } from '../webGL/webGLArchitecture/Classes/AppManager/AppManager'
 
-const Garden3d = dynamic(import('../components/garden3d/Garden3d'), {
-  ssr: false,
-})
-
 export default function Garden() {
   const [intro, setIntro] = useState<boolean>(false)
-  const [routeHasIntro, setRouteHasIntro] = useState<boolean>(true)
-  const CAMERA_POSITION = 'start'
   const router = useRouter()
   useEffect(() => {
     WebglService.enable3D()
@@ -24,9 +18,6 @@ export default function Garden() {
     )
     localStorage.setItem('display3D', 'true')
 
-    SpaceEntryService.routeEntrySignal.on((shallPlayIntro) => {
-      setRouteHasIntro(shallPlayIntro)
-    })
     SpaceEntryService.gardenEntrySignal.on(() => {
       setIntro(true)
     })
@@ -68,7 +59,6 @@ export default function Garden() {
           </button>
         </>
       )}
-      {/* <Garden3d /> */}
     </>
   )
 }
