@@ -325,6 +325,22 @@ class RecipeService {
       return tags
     }
   }
+
+  public async searchRecipe(searchString: string) {
+    try {
+      console.log('searchString', searchString)
+      const { data, error } = await supabase
+        .from('recipe')
+        .select('*')
+        .eq('familyId', localStorage.getItem('familyId'))
+        .textSearch('name', `'Crozziflette'`)
+
+      console.log('data', data)
+      console.log('error', error)
+    } catch (error) {
+      alert(`${error.message}`)
+    }
+  }
 }
 
 export default new RecipeService()

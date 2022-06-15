@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import RoutingCameraService from '../services/events/RoutingCameraService'
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import RecipePreview from '../components/recipePreview/RecipePreview'
 import RippedPaper from '../components/rippedPaper/RippedPaper'
 import FamilyService from '../services/FamilyService'
@@ -12,6 +12,7 @@ import css from './recipes.module.scss'
 import { merge } from '../utils/arrayUtils'
 import UiService from '../services/events/UiService'
 import WebglService from '../services/events/WebglService'
+import RecipeService from '../services/RecipeService'
 
 export default function Recipes() {
   const CAMERA_POSITION: Component3dName = 'kitchen'
@@ -60,7 +61,16 @@ export default function Recipes() {
           </a>
         </Link>
       </div>
-
+      <div>
+        <span>search</span>
+        <input
+          type="text"
+          onChange={(e: ChangeEvent) => {
+            RecipeService.searchRecipe(e.target.value)
+            setRecipes([])
+          }}
+        />
+      </div>
       {recipes.map(function (recipe, i) {
         return (
           <div className={css.recipe} key={i}>
