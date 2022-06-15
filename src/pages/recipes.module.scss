@@ -1,5 +1,13 @@
 @import '../styles/references';
 
+.search-input{
+  color: $color-primary;
+
+  ::placeholder{
+    color: $color-primary;
+
+  }
+}
 .root {
   padding: 48px 48px 0 48px;
   min-height: 100vh;
@@ -7,6 +15,8 @@
   background-image: url('/images/ui/noise-texture.png');
   background-size: cover;
   background-color: $color-cream-darker;
+
+  
 
   .title {
     color: $color-primary;

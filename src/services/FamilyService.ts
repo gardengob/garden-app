@@ -114,7 +114,6 @@ class FamilyService {
 
   public async getUsers(familyId) {
     try {
-      
     } catch (error) {
       alert(error.message)
     }

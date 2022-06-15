@@ -258,6 +258,7 @@ class RecipeService {
         .select('*, tag!inner(*, tag_type!inner(*))')
         .eq('recipe_id', `${recipeId}`)
         .eq('tag.tag_type.label', 'dish')
+
         .single()
 
       if (data) {
@@ -323,6 +324,41 @@ class RecipeService {
       alert(`${error.message}`)
     } finally {
       return tags
+    }
+  }
+
+  public async searchRecipe(searchString: string): Promise<IRecipe[]> {
+    try {
+      console.log('searchString', searchString)
+      const { data, error } = await supabase
+        .from('recipe')
+        .select()
+        .eq('familyId', localStorage.getItem('familyId'))
+        .ilike('name', '%' + searchString + '%')
+
+      console.log('data', data)
+      console.log('error', error)
+
+      return data
+    } catch (error) {
+      alert(`${error.message}`)
+    }
+  }
+
+  public async getTagRecipe(tagId: string): Promise<string[]> {
+    try {
+      const { data, error } = await supabase
+        .from('recipe_tag')
+        .select('*, recipe!inner(id)')
+        .eq('recipe.familyId', localStorage.getItem('familyId'))
+        .eq('tag_id', tagId)
+
+      console.log('data', data)
+      console.log('error', error)
+
+      return data
+    } catch (error) {
+      alert(`${error.message}`)
     }
   }
 }
