@@ -12,6 +12,7 @@ import css from './ingredients.module.scss'
 import Image from 'next/image'
 import IngredientPreview from '../components/ingredientPreview/IngredientPreview'
 import IngredientDisplay from '../components/ingredientDisplay/IngredientDisplay'
+import { merge } from '../utils/arrayUtils'
 
 export default function Ingredients() {
   const CAMERA_POSITION: Component3dName = 'vegetable_garden'
@@ -71,7 +72,7 @@ export default function Ingredients() {
   }, [])
 
   return (
-    <div className={css.root}>
+    <div className={merge([css.root, 'garden-ui'])}>
       {!currentIngredient && (
         <div className={css.container}>
           <div

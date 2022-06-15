@@ -9,6 +9,7 @@ import RecipeForm, {
 import RippedPaper from '../components/rippedPaper/RippedPaper'
 import RecipeService from '../services/RecipeService'
 import { IRecipe } from '../types/recipe'
+import { merge } from '../utils/arrayUtils'
 import css from './edit-recipe.module.scss'
 
 export default function AddRecipe() {
@@ -48,7 +49,7 @@ export default function AddRecipe() {
   // ------------------------------------------------------------------- RENDER
 
   return (
-    <div className={css.root}>
+    <div className={merge([css.root, 'garden-ui'])}>
       <div className={css.ripped}>
         <RippedPaper reverse={true} />
       </div>
