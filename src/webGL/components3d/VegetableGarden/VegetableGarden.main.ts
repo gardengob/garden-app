@@ -38,7 +38,7 @@ vegetableGardenComponent3d.onInit = () => {
     onclick: () => {
       UiService.toggleUi(true)
       console.log('vegetableGarden')
-      WebglService.ActivatePOI('encycopedia')
+      WebglService.ActivatePOI('ingredients')
     },
     holder: vegetableGardenPOIHolder,
   })

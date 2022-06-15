@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      {loading && (
+      {/* {loading && (
         <div
           style={{
             position: 'absolute',
@@ -36,13 +36,9 @@ function MyApp({ Component, pageProps }) {
         >
           Loading...
         </div>
-      )}
-      <Garden3d className={css.webgl} />
-      <Component
-        {...pageProps}
-        className={css.content}
-        style={{ position: 'relative', zIndex: '10' }}
-      />
+      )} */}
+      {/* <Garden3d className={css.webgl} /> */}
+      <Component {...pageProps} className={css.content} />
     </>
   )
 }
