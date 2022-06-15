@@ -23,7 +23,6 @@ export default function Notifications() {
 
   return (
     <div className={css.root}>
-      Notifications
       <div className={css.container}>
         <div
           className={css.close}
