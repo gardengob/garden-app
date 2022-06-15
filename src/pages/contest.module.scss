@@ -7,15 +7,22 @@
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
 
   padding: 24px;
 
   .contestName{
       text-align: center;
+      margin-bottom: 8px;
     }
   .contestSubject{
-    margin:  0 auto 0 auto ;
+    margin:  12px auto 32px auto ;
+    padding: 12px 42px;
+    border: none;
+    border-radius: 6px;
+    background-color: $color-primary;
+    color : $color-cream;
+    font-size: 16px;
   }
   .contestTimerHolder{
     display: flex;
@@ -26,6 +33,15 @@
   }
   .contestTimer{
     text-align: center;
+    font-size: 32px;
+    font-weight: 600;
+    color: $color-primary;
+    margin: 12px;
 
+
+  }
+  .contestInstruction{
+    font-size: 16px;
+    color : $color-primary-darker
   }
 }

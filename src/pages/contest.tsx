@@ -86,6 +86,7 @@ export default function Contest() {
       <div
         style={{
           position: 'absolute',
+          borderRadius: '24px',
           top: '50%',
           transform: 'translateY(-50%)',
           left: 'auto',
@@ -95,7 +96,23 @@ export default function Contest() {
           backgroundColor: 'white',
         }}
       >
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '12px',
+            backgroundColor: '#75A37D',
+            borderRadius: '24px 24px 0 0',
+          }}
+        >
+          <p style={{ fontSize: '30px', color: 'white', margin: '16px' }}>
+            Concours cuisine
+          </p>
+        </div>
         <button
+          style={{ position: 'absolute', top: 0, right: 0 }}
           onClick={() => {
             router.push('garden')
           }}
@@ -105,40 +122,61 @@ export default function Contest() {
         <div className={css.content}>
           {currentContest && (
             <>
-              <p className={css.contestName}>{currentContest.name}</p>
-              {contestSubject.id !== null ? (
-                <button
-                  className={css.contestSubject}
-                  onClick={() => {
-                    router.push(`${contestSubject.path}/${contestSubject.id}`)
-                  }}
-                >
-                  voir {contestSubject.particle + ' ' + contestSubject.label}
-                </button>
-              ) : (
-                <div>{contestSubject.label}</div>
-              )}
-              <p className={css.contestInstruction}>
-                {currentContest.instruction}
-              </p>
+              <div
+                style={{
+                  fontSize: '30px',
+                  color: '#75A37D',
+                  margin: ' 0 24px 24px 24px',
+                  backgroundColor: '#DBE0D1',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <p className={css.contestName}>{currentContest.name}</p>
+                <p className={css.contestInstruction}>
+                  {currentContest.instruction}
+                </p>
+                {contestSubject.id !== null ? (
+                  <button
+                    className={css.contestSubject}
+                    onClick={() => {
+                      router.push(`${contestSubject.path}/${contestSubject.id}`)
+                    }}
+                  >
+                    voir {contestSubject.particle + ' ' + contestSubject.label}
+                  </button>
+                ) : (
+                  <div>{contestSubject.label}</div>
+                )}
+              </div>
+
               <div className={css.contestTimerHolder}>
-                <span>Il reste enore</span>
+                <span style={{ textAlign: 'center' }}>Il reste enore</span>
                 <p className={css.contestTimer} ref={timerRef}></p>
               </div>
               <button className={css.contestSubject}>Participer</button>
 
-              <div>
+              <div
+                style={{
+                  display: 'flex',
+                  overflowY: 'hidden',
+                  justifyContent: 'space-evenly',
+                }}
+              >
                 {contestEntries &&
                   contestEntries.map((entry, index) => {
                     return (
                       <div key={index}>
-                        {entry.family_user_id}
                         <div className={css.image}>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
+                            style={{ objectFit: 'cover' }}
                             src={entry.image}
                             alt={entry.id}
-                            width={200}
-                            height={200}
+                            width={100}
+                            height={100}
                             // objectFit={'cover'}
                             // layout={'responsive'}
                           />
