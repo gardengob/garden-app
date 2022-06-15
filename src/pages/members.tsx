@@ -12,12 +12,18 @@ import css from './members.module.scss'
 import Image from 'next/image'
 import MemberPreview from '../components/memberPreview/MemberPreview'
 import MemberDetailsModal from '../components/memberDetailsModal/MemberDetailsModal'
+<<<<<<< HEAD
 import WebglService from '../services/events/WebglService'
 
 export default function Members() {
   const CAMERA_POSITION: Component3dName = 'tree'
   const user = supabase.auth.user()
   const router = useRouter()
+=======
+
+export default function Members() {
+  const user = supabase.auth.user()
+>>>>>>> 697bc5e3b0a3b395c8a82af349cdd3bed36797cf
   const [members, setMembers] = useState([
     {
       id: '7b77f42f-64b0-4361-a9fb-3a9363e07be5',
