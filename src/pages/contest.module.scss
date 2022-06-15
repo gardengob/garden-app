@@ -1,0 +1,31 @@
+@import '../styles/references';
+
+
+.content{
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 24px;
+
+  .contestName{
+      text-align: center;
+    }
+  .contestSubject{
+    margin:  0 auto 0 auto ;
+  }
+  .contestTimerHolder{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto
+
+  }
+  .contestTimer{
+    text-align: center;
+
+  }
+}

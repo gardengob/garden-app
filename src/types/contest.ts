@@ -1,10 +1,16 @@
 export interface IFamilyContest {
   id: string
-  family_id: string
-  name: string
   created_at: string
-  type: IContestType
   winner_id: string
+  family_id: string
+  type_id: string
+  instruction: string
+  finished: boolean
+  name: string
+  recipe_id: string
+  ingredient_id: string
+  theme_id: string
+  entries?: IContestEntry[]
 }
 export interface IContestCreationPayload {
   // id: string
@@ -19,6 +25,7 @@ export interface IContestUpdatePayload {
   winner_id: string
 }
 export interface IContestEntry {
+  id: string
   family_user_id: string
   family_contest_id: string
   response?: string
