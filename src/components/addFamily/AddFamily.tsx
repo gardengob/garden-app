@@ -113,7 +113,7 @@ export default function AddFamily(props: IProps) {
             <button
               className={css.button}
               onClick={() => FamilyService.create(name, () => {
-                router.push("/profile")
+                router.push("/")
               })}
             >
               <svg
