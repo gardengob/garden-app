@@ -14,6 +14,9 @@ import IngredientPreview from '../components/ingredientPreview/IngredientPreview
 import IngredientDisplay from '../components/ingredientDisplay/IngredientDisplay'
 
 export default function Ingredients() {
+  const CAMERA_POSITION: Component3dName = 'vegetable_garden'
+  const router = useRouter()
+
   const [ingredients, setIngredients] = useState([
     {
       id: '7b77f42f-64b0-4361-a9fb-3a9363e07be5',
@@ -61,13 +64,23 @@ export default function Ingredients() {
 
   const [currentIngredient, setCurrentIngredient] = useState(null)
 
+  useEffect(() => {
+    RoutingCameraService.goTo(CAMERA_POSITION)
+    localStorage.setItem('lockScroll', 'true')
+    localStorage.setItem('display3D', 'true')
+  }, [])
   useEffect(() => {}, [])
 
   return (
     <div className={css.root}>
       {!currentIngredient && (
         <div className={css.container}>
-          <div className={css.close}>
+          <div
+            className={css.close}
+            onClick={() => {
+              router.push('garden')
+            }}
+          >
             <Image
               className={css.icon}
               src={`/images/icons/cross.svg`}
