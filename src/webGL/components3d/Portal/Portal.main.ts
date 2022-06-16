@@ -40,6 +40,7 @@ portalComponent3d.onInit = () => {
       WebglService.ActivatePOI('/')
       WebglService.disable3D()
     },
+    icon: '05_arbre',
     holder: portalPOIHolder,
   })
 

@@ -39,12 +39,14 @@ contestComponent3d.onInit = () => {
         console.log('contest')
         WebglService.ActivatePOI('contest')
       },
+      icon: '07_concours',
       holder: pizza,
     },
     {
       onclick: () => {
         console.log('guess')
       },
+      icon: '06_défis',
       holder: quenelles,
     }
   )

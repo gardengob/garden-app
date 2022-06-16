@@ -39,6 +39,7 @@ kitchenComponent3d.onInit = () => {
       WebglService.ActivatePOI('recipes')
       console.log('kitchen')
     },
+    icon: '04_cuisine',
     holder: kitchenPOIHolder,
   })
 

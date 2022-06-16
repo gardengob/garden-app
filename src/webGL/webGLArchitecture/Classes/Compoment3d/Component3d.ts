@@ -35,6 +35,7 @@ export class Component3d implements IUpdatable {
   showPoi: boolean = true
   poiArray: {
     onclick: () => void
+    icon: string
     holder: Object3D
     css2dObject?: CSS2DObject
   }[] = []
@@ -84,12 +85,16 @@ export class Component3d implements IUpdatable {
       const poiInnerCircle = document.createElement('div')
       const poiOuterCircle = document.createElement('div')
       const poiMiddleCircle = document.createElement('div')
+      const poiIcon = document.createElement('img')
+      poiIcon.classList.add('poi-icon')
+      poiIcon.src = '/poi/' + element.icon + '.svg'
 
       poi.classList.add('poi-circle')
       poiInnerCircle.classList.add('poi-inner-circle', 'poi')
       poiMiddleCircle.classList.add('poi-middle-circle', 'poi')
       poiOuterCircle.classList.add('poi-outer-circle', 'poi')
 
+      poiInnerCircle.append(poiIcon)
       poi.append(poiInnerCircle)
       poi.append(poiMiddleCircle)
       poi.append(poiOuterCircle)

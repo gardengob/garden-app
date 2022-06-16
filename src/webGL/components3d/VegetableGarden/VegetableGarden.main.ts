@@ -40,6 +40,7 @@ vegetableGardenComponent3d.onInit = () => {
       console.log('vegetableGarden')
       WebglService.ActivatePOI('ingredients')
     },
+    icon: '03_potager',
     holder: vegetableGardenPOIHolder,
   })
 

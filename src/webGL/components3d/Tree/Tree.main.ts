@@ -41,6 +41,7 @@ treeComponent3d.onInit = () => {
       console.log('tree')
       WebglService.ActivatePOI('members')
     },
+    icon: '05_arbre',
     holder: treePOIHolder,
   })
 
