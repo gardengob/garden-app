@@ -19,46 +19,108 @@ export default function Ingredients() {
   const router = useRouter()
   const mock_Ingredients = [
     {
-      id: '7b77f42f-64b0-4361-a9fb-3a9363e07be5',
+      name: 'Abricot',
+      type: 'Fruit',
+      semance: '',
+      season: '',
+      origin: '',
+      imageUrl: '/images/ingredients/abricot.png',
+    },
+    {
+      name: 'Ananas',
+      type: 'Fruit',
+      semance: 'Été',
+      season: 'Décembre à Mars',
+      origin: 'Guadeloupe',
+      imageUrl: '/images/ingredients/ananas.png',
+    },
+    {
+      name: 'Artichaut',
+      type: 'Légume',
+      semance: '',
+      season: '',
+      origin: '',
+      imageUrl: '/images/ingredients/artichaut.png',
+    },
+    {
+      name: 'Asperge',
+      type: 'Légume',
+      semance: '',
+      season: '',
+      origin: '',
+      imageUrl: '/images/ingredients/asperge.png',
+    },
+    {
       name: 'Carotte',
       type: 'Légume',
-      imageUrl: '/images/user.png',
+      semance: '',
+      season: '',
+      origin: '',
+      imageUrl: '/images/ingredients/carotte.png',
     },
     {
-      id: '7b77f42f-64b0-4361-a9fb-3a9363e07be5',
-      name: 'Poireau',
+      name: 'Épinard',
       type: 'Légume',
-      imageUrl: '/images/user.png',
+      semance: '',
+      season: '',
+      origin: '',
+      imageUrl: '/images/ingredients/epinard.png',
     },
     {
-      id: '7b77f42f-64b0-4361-a9fb-3a9363e07be5',
+      name: 'Figue',
+      type: 'Fruit',
+      semance: '',
+      season: '',
+      origin: '',
+      imageUrl: '/images/ingredients/figue.png',
+    },
+    {
+      name: 'Fraise',
+      type: 'Fruit',
+      semance: '',
+      season: '',
+      origin: '',
+      imageUrl: '/images/ingredients/fraise.png',
+    },
+    {
+      name: 'Melon',
+      type: 'Fruit',
+      semance: '',
+      season: '',
+      origin: '',
+      imageUrl: '/images/ingredients/melon.png',
+    },
+    {
+      name: 'Oignons',
+      type: 'Légume',
+      semance: 'Août à Septembre',
+      season: 'Avril à Juin',
+      origin: 'Asie centrale',
+      imageUrl: '/images/ingredients/oignons.png',
+    },
+    {
+      name: 'Radis',
+      type: 'Légume',
+      semance: '',
+      season: '',
+      origin: '',
+      imageUrl: '/images/ingredients/radis.png',
+    },
+    {
+      name: 'Salade',
+      type: 'Légume',
+      semance: '',
+      season: '',
+      origin: '',
+      imageUrl: '/images/ingredients/salade.png',
+    },
+    {
       name: 'Tomate',
       type: 'Légume',
-      imageUrl: '/images/user.png',
-    },
-    {
-      id: '7b77f42f-64b0-4361-a9fb-3a9363e07be5',
-      name: 'Artichaut',
-      type: 'Légume',
-      imageUrl: '/images/user.png',
-    },
-    {
-      id: '7b77f42f-64b0-4361-a9fb-3a9363e07be5',
-      name: 'Artichaut',
-      type: 'Légume',
-      imageUrl: '/images/user.png',
-    },
-    {
-      id: '7b77f42f-64b0-4361-a9fb-3a9363e07be5',
-      name: 'Artichaut',
-      type: 'Légume',
-      imageUrl: '/images/user.png',
-    },
-    {
-      id: '7b77f42f-64b0-4361-a9fb-3a9363e07be5',
-      name: 'Artichaut',
-      type: 'Légume',
-      imageUrl: '/images/user.png',
+      semance: '',
+      season: '',
+      origin: '',
+      imageUrl: '/images/ingredients/tomate.png',
     },
   ]
   const [ingredients, setIngredients] = useState(mock_Ingredients)
@@ -147,7 +209,7 @@ export default function Ingredients() {
       {currentIngredient && (
         <>
           <div className={css.back} onClick={() => setCurrentIngredient(null)}>
-            <img className={css.icon} src={`/images/icons/back.svg`} alt="" />
+            <img className={css.icon} src={`/images/icons/back-white.svg`} alt="" />
           </div>
 
           <IngredientDisplay

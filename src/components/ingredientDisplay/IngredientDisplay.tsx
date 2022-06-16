@@ -24,22 +24,25 @@ export default function IngredientDisplay({ ingredient, backHandler }) {
 
               <div className={css.image}>
                 <Image
-                  src={'/images/fraise.png'}
+                  src={ingredient.imageUrl}
                   alt={''}
-                  width={100}
-                  height={100}
+                  width={150}
+                  height={150}
                 />
               </div>
             </div>
             <div className={css.details}>
               <div className={css.detail}>
                 <p>Semance</p>
+                <p className={css.value}>{ingredient.semance}</p>
               </div>
               <div className={css.detail}>
                 <p>Saisonalité</p>
+                <p className={css.value}>{ingredient.season}</p>
               </div>
               <div className={css.detail}>
-                <p>Provenance</p>
+                <p>Origine</p>
+                <p className={css.value}>{ingredient.origin}</p>
               </div>
             </div>
             <div className={css.relations}>
