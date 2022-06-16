@@ -1,22 +1,20 @@
 @import '../styles/references';
 
-.search-input{
+.search-input {
   color: $color-primary;
 
-  ::placeholder{
+  ::placeholder {
     color: $color-primary;
-
   }
 }
 .root {
   padding: 48px 48px 0 48px;
   min-height: 100vh;
+  overflow: scroll;
 
   background-image: url('/images/ui/noise-texture.png');
   background-size: cover;
   background-color: $color-cream-darker;
-
-  
 
   .title {
     color: $color-primary;
@@ -51,13 +49,22 @@
     }
   }
 
+  .recipes {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 48px;
+    justify-content: space-between;
+  }
+
   .recipe {
     width: 20%;
+    margin-right: 24px;
+    margin-bottom: 24px;
   }
 
   .ripped {
-    position: absolute;
+    position: fixed;
     left: 0;
-    bottom: 0;
+    bottom: -8px;
   }
 }

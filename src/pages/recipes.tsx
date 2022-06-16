@@ -191,7 +191,7 @@ export default function Recipes() {
               }
             }}
           >
-            <option value="noFilters">type de Plat</option>
+            <option value="noFilters">Type de Plat</option>
             {dishes &&
               dishes.map((diet, index) => {
                 console.log('diet', dishes)
@@ -204,28 +204,31 @@ export default function Recipes() {
           </select>
         </div>
       </div>
-      {recipes
-        .filter((recipe) => {
-          return dishFilters !== null && dishFilters[0] !== 'noFilters'
-            ? dishFilters.find((tag) => {
-                return (tag as any).recipe_id == recipe.id
-              })
-            : true
-        })
-        .filter((recipe) => {
-          return dietFilters !== null && dietFilters[0] !== 'noFilters'
-            ? dietFilters.find((tag) => {
-                return (tag as any).recipe_id == recipe.id
-              })
-            : true
-        })
-        .map(function (recipe, i) {
-          return (
-            <div className={css.recipe} key={i}>
-              <RecipePreview recipe={recipe} />
-            </div>
-          )
-        })}
+      <div className={css.recipes}>
+        {recipes
+          .filter((recipe) => {
+            return dishFilters !== null && dishFilters[0] !== 'noFilters'
+              ? dishFilters.find((tag) => {
+                  return (tag as any).recipe_id == recipe.id
+                })
+              : true
+          })
+          .filter((recipe) => {
+            return dietFilters !== null && dietFilters[0] !== 'noFilters'
+              ? dietFilters.find((tag) => {
+                  return (tag as any).recipe_id == recipe.id
+                })
+              : true
+          })
+          .map(function (recipe, i) {
+            return (
+              <div className={css.recipe} key={i}>
+                <RecipePreview recipe={recipe} />
+              </div>
+            )
+          })}
+      </div>
+
       <div className={css.ripped}>
         <RippedPaper />
       </div>
