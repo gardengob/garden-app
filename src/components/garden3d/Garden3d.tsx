@@ -163,7 +163,6 @@ export default function Garden3d({ className }) {
     console.log('loaded', gltf.scene.name)
   }
   function onAllLoadedFunction(): void {
-    LoadingService.loadingFinished()
     console.log('loading finished')
     const appManager = AppManager.getInstance()
     // if (router.pathname === '/garden') {
@@ -179,6 +178,7 @@ export default function Garden3d({ className }) {
       }
       console.log('display3D', localStorage.getItem('display3D'))
       setneed3D(localStorage.getItem('display3D') === 'true' ? true : false)
+      LoadingService.loadingFinished()
     }, 100)
   }
   function onLoadingFunction(xhr: ProgressEvent<EventTarget>): void {
