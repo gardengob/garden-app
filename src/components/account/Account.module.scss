@@ -1,17 +1,41 @@
+@import '../../styles/references';
+
 .root {
+  .families {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .family {
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
     width: fit-content;
     list-style-type: none;
     padding: 12px;
-    border: 1px solid #4b6659;
     border-radius: 4px;
     margin-bottom: 12px;
     transition: all 0.3s ease-in-out;
+    background-color: #fafaf9;
 
     &:hover {
-      color: white;
-      background-color: #4b6659;
+      // color: white;
+      // background-color: #4b6659;
+      transform: scale(1.1);
+    }
+
+    &:not(:last-child) {
+      margin-right: 48px;
+    }
+
+    .image {
+    }
+
+    .name {
+      font-size: 24px;
+      color: $color-primary-darker-300;
+      text-align: center;
     }
   }
 }

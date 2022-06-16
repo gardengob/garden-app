@@ -65,11 +65,6 @@ export default function Members() {
           closeHandler={() => closeModalHandler()}
         />
       )}
-
-      <button className={css.add}>
-        <img className={css.icon} src={`/images/icons/plus.svg`} alt="" />
-        Ajouter un membre
-      </button>
     </div>
   )
 }

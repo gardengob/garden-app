@@ -1,9 +1,44 @@
 @import '../styles/references';
 
 .root {
-  display: flex;
+  position: relative;
   height: 100vh;
   align-items: center;
   justify-content: center;
-  background-color: white;
+
+  background-image: url('/images/ui/noise-texture.png');
+  background-size: cover;
+  background-color: $color-cream-darker;
+
+  .title {
+    font-size: 64px;
+    color: $color-primary;
+    text-decoration: none;
+    text-align: center;
+  }
+
+  .add {
+    position: absolute;
+    left: 50%;
+    bottom: 72px;
+    display: flex;
+    padding: 12px 24px;
+    font-size: 20px;
+    color: white;
+    background-color: $color-primary;
+    border: 1px solid $color-primary;
+    border-radius: 8px;
+    transform: translate(-50%);
+
+    .icon {
+      width: 24px;
+      margin-right: 12px;
+    }
+  }
+
+  .ripped {
+    position: fixed;
+    left: 0;
+    bottom: -8px;
+  }
 }

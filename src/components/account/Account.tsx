@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import RoutingCameraService from '../../services/events/RoutingCameraService'
@@ -41,73 +42,35 @@ export default function Account({ session }) {
 
   return (
     <div className={`${css.root} garden-ui`}>
-      <h1>Bienvenue {username},</h1>
-      {/* <Avatar
-        url={avatar_url}
-        size={150}
-        onUpload={(url) => {
-          setAvatarUrl(url)
-          UserService.updateProfile({ username, avatar_url: url })
-        }}
-      /> */}
-
-      <label>Familles</label>
-      {families.map(function (item, i) {
-        return (
-          <li
-            className={css.family}
-            key={i}
-            onClick={() => {
-              FamilyService.store(item.family.name)
-              localStorage.setItem('display3D', 'true')
-              WebglService.enable3D()
-              router.replace(
-                {
-                  pathname: '/garden',
-                  query: {
-                    withIntro: true,
+      <div className={css.families}>
+        {families.map(function (item, i) {
+          return (
+            <div
+              className={css.family}
+              key={i}
+              onClick={() => {
+                FamilyService.store(item.family.name)
+                localStorage.setItem('display3D', 'true')
+                WebglService.enable3D()
+                router.replace(
+                  {
+                    pathname: '/garden',
+                    query: {
+                      withIntro: true,
+                    },
                   },
-                },
-                null,
-                { shallow: true }
-              )
-              localStorage.setItem('intro', 'running')
-            }}
-          >
-            {item.family.name}
-          </li>
-        )
-      })}
-
-      {/* <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={session.user.email} disabled />
-      </div> */}
-      {/* <div>
-        <label htmlFor="username">Name</label>
-        <input
-          id="username"
-          type="text"
-          value={username || ''}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+                  null,
+                  { shallow: true }
+                )
+                localStorage.setItem('intro', 'running')
+              }}
+            >
+              <img className={css.image} src="/images/family.png" alt="" />
+              <p className={css.name}>{item.family.name}</p>
+            </div>
+          )
+        })}
       </div>
-
-      <button
-        className="button block primary"
-        onClick={() => UserService.updateProfile({ username, avatar_url })}
-      >
-        Update
-      </button>
-
-      <div>
-        <button
-          className="button block"
-          onClick={() => supabase.auth.signOut()}
-        >
-          Sign Out
-        </button>
-      </div> */}
     </div>
   )
 }

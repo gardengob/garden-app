@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -5,6 +6,7 @@ import RoutingCameraService from '../services/events/RoutingCameraService'
 import SpaceEntryService from '../services/events/SpaceEntryService'
 import WebglService from '../services/events/WebglService'
 import { AppManager } from '../webGL/webGLArchitecture/Classes/AppManager/AppManager'
+import css from './garden.module.scss'
 
 export default function Garden() {
   const [intro, setIntro] = useState<boolean>(false)
@@ -26,37 +28,33 @@ export default function Garden() {
     <>
       {!intro && router.query.withIntro && (
         <>
+          <img
+            className={css.decors}
+            src="/images/ui/decors_plantes-big.png"
+            alt=""
+          />
           <div
+            className={css.garden}
             style={{
               position: 'absolute',
-              top: '33%',
+              top: '40%',
               left: '50%',
               transform: 'translateX(-50%)',
-              padding: '10px 20px',
-              color: 'black',
-              backgroundColor: 'white',
-              borderRadius: '32px',
             }}
           >
-            Famille gobelins
+            <img
+              className={css.scotch}
+              src="/images/ui/behind-garden.png"
+              alt=""
+            />
+            <p className={css.name}>Jardin Les Gobelins</p>
           </div>
           <button
-            style={{
-              position: 'absolute',
-              top: '66%',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              padding: '10px 20px',
-              color: 'black',
-              backgroundColor: 'white',
-              borderRadius: '32px',
-            }}
+            className={css.enter}
             onClick={() => {
               SpaceEntryService.enterGarden()
             }}
-          >
-            Entrer
-          </button>
+          ></button>
         </>
       )}
     </>

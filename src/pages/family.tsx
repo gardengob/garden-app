@@ -1,6 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 import { useEffect, useLayoutEffect, useState } from 'react'
 import Account from '../components/account/Account'
 import AddFamily from '../components/addFamily/AddFamily'
+import RippedPaper from '../components/rippedPaper/RippedPaper'
 import RoutingCameraService from '../services/events/RoutingCameraService'
 import { merge } from '../utils/arrayUtils'
 import { supabase } from '../utils/supabaseClient'
@@ -22,7 +24,17 @@ export default function Family() {
       className={merge([css.root, 'garden-ui'])}
       style={{ padding: '100px 50px' }}
     >
+      <h1 className={css.title}>Rejoindre un jardin</h1>
       {session && <Account key={session.user.id} session={session} />}
+
+      <button className={css.add}>
+        <img className={css.icon} src={`/images/icons/plus.svg`} alt="" />
+        Ajouter une famille
+      </button>
+
+      <div className={css.ripped}>
+        <RippedPaper />
+      </div>
     </div>
   )
 }

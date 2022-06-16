@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import css from './index.module.scss'
 import { useState, useEffect } from 'react'
 import { supabase } from '../utils/supabaseClient'
@@ -9,6 +10,7 @@ import RoutingCameraService from '../services/events/RoutingCameraService'
 import UiService from '../services/events/UiService'
 import { merge } from '../utils/arrayUtils'
 import Link from 'next/link'
+import RippedPaper from '../components/rippedPaper/RippedPaper'
 
 export default function Home() {
   const router = useRouter()
@@ -29,7 +31,7 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    console.log("session", session)
+    console.log('session', session)
     if (session) {
       UserService.getProfile().then((profile) => {
         setUsername(profile.username)
@@ -39,7 +41,7 @@ export default function Home() {
 
   return (
     <div
-      className={merge([css.container, 'garden-ui'])}
+      className={merge([css.root, 'garden-ui'])}
       style={{ padding: '100px 50px' }}
     >
       {!session ? (
@@ -53,20 +55,15 @@ export default function Home() {
             alignItems: 'center',
           }}
         >
-          <h1>Bienvenue {username},</h1>
-          <p
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
+          <img className={css.plants} src="/images/ui/decors_plantes.png" alt="" />
+          <h1 className={css.title}>Bienvenue {username},</h1>
+          <p className={css.description}>
             <span>
               Créez, découvrez, apprenez et participez à la vie culinaire de
               votre famille
             </span>
             <span>
-              avec FineBouche ! Partagez vos recettes, conseils et bien plus
+              avec Finebouche ! Partagez vos recettes, conseils et bien plus
               dans cette
             </span>
             <span>
@@ -88,6 +85,9 @@ export default function Home() {
           </Link>
         </div>
       )}
+      <div className={css.ripped}>
+        <RippedPaper />
+      </div>
     </div>
   )
 }
