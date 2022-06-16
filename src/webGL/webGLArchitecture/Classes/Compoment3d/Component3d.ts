@@ -38,7 +38,6 @@ export class Component3d implements IUpdatable {
     icon: string
     holder: Object3D
     css2dObject?: CSS2DObject
-    imageUrl: string
   }[] = []
 
   //closure called on component3d init
@@ -88,7 +87,7 @@ export class Component3d implements IUpdatable {
       const poiMiddleCircle = document.createElement('div')
       const poiIcon = document.createElement('img')
       poiIcon.classList.add('poi-icon')
-      poiIcon.src = '/poi/' + element.icon + '.svg'
+      poiIcon.src = '/images/icons/poi/' + element.icon + '.svg'
 
       poi.classList.add('poi-circle')
       poiInnerCircle.classList.add('poi-inner-circle', 'poi')
