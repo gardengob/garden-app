@@ -1,0 +1,65 @@
+@import '../styles/references';
+
+.root {
+  .container {
+    position: absolute;
+    top: 50%;
+    right: 180px;
+    width: 465px;
+    height: 600px;
+
+    background-image: url('/images/ui/noise-texture.png');
+    background-size: cover;
+    background-color: $color-cream-darker;
+
+    border-radius: 16px;
+    transform: translateY(-50%);
+  }
+
+  .close {
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    transform: translateX(50%) translateY(-50%);
+    display: flex;
+    padding: 12px;
+    border-radius: 50%;
+    background-color: $color-primary-darker-300;
+
+    .icon {
+      margin: auto;
+    }
+  }
+
+  .head {
+    position: relative;
+  }
+
+  .header {
+    width: 100%;
+  }
+
+  .title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 36px;
+    text-align: center;
+    margin: 0;
+    color: white;
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+  .notifications {
+    height: 80%;
+    padding: 16px;
+    overflow: scroll;
+    .notification {
+      margin: 0;
+      padding: 16px 0;
+      border-bottom: 1px solid $color-primary;
+    }
+  }
+}

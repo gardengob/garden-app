@@ -43,8 +43,7 @@ mailboxComponent3d.onInit = () => {
     {
       onclick: () => {
         console.log('mailBox')
-
-        WebglService.ActivatePOI('mailBox')
+        WebglService.ActivatePOI('notifications')
       },
       icon: '01_box_letter',
       holder: mailBoxPOIHolder,

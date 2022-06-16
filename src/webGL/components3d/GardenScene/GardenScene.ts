@@ -336,7 +336,7 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
           component.poiArray.forEach((poi) => {
             const children = poi.css2dObject.element.querySelectorAll('.poi')
             children.forEach((child) => {
-              ;(child as HTMLElement).style.display = 'block'
+              ;(child as HTMLElement).style.display = 'flex'
             })
             // component.root.add(poi.css2dObject)
           })
