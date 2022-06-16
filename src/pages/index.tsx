@@ -8,6 +8,7 @@ import UserService from '../services/UserService'
 import RoutingCameraService from '../services/events/RoutingCameraService'
 import UiService from '../services/events/UiService'
 import { merge } from '../utils/arrayUtils'
+import Link from 'next/link'
 
 export default function Home() {
   const router = useRouter()
@@ -44,7 +45,48 @@ export default function Home() {
       {!session ? (
         <Auth />
       ) : (
-        <Account key={session.user.id} session={session} />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <h1>Bienvenue</h1>
+          <p
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <span>
+              Créez, découvrez, apprenez et participez à la vie culinaire de
+              votre famille
+            </span>
+            <span>
+              avec FineBouche ! Partagez vos recettes, conseils et bien plus
+              dans cette
+            </span>
+            <span>
+              expérience entièrement familiale conçue pour chaque génération.
+            </span>
+          </p>
+          <Link href="family">
+            <a
+              style={{
+                padding: ' 12px 24px',
+                marginTop: '24px',
+                borderRadius: '6px',
+                backgroundColor: '#75a37d',
+                color: 'white',
+              }}
+            >
+              Commencer
+            </a>
+          </Link>
+        </div>
       )}
     </div>
   )
