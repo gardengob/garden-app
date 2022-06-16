@@ -12,7 +12,7 @@ export default function IngredientPreview({ ingredient }) {
         <p className={css.type}>{ingredient.type}</p>
         <div className={css.image}>
           <Image
-            src={'/images/fraise.png'}
+            src={ingredient.imageUrl}
             alt={''}
             width={100}
             height={100}

@@ -23,13 +23,13 @@ export default function Home() {
 
   useEffect(() => {
     setSession(supabase.auth.session())
-    console.log('fart')
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
     })
   }, [])
 
   useEffect(() => {
+    console.log("session", session)
     if (session) {
       UserService.getProfile().then((profile) => {
         setUsername(profile.username)
@@ -53,7 +53,7 @@ export default function Home() {
             alignItems: 'center',
           }}
         >
-          <h1>Bienvenue</h1>
+          <h1>Bienvenue {username},</h1>
           <p
             style={{
               display: 'flex',
