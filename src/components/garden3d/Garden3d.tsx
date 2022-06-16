@@ -223,7 +223,7 @@ export default function Garden3d({ className }) {
       >
         devMode
       </button>
-      {elementNear && (
+      {/* {elementNear && (
         <div
           style={{
             position: 'absolute',
@@ -239,7 +239,7 @@ export default function Garden3d({ className }) {
         >
           {elementNear}
         </div>
-      )}
+      )} */}
 
       <canvas className={css.canvas} ref={canvasRef} id="canvas" />
     </div>

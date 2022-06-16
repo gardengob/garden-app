@@ -38,7 +38,7 @@ export default function Garden() {
               borderRadius: '32px',
             }}
           >
-            Jardin machin bidule
+            Famille gobelins
           </div>
           <button
             style={{
