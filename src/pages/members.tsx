@@ -9,98 +9,22 @@ import MemberPreview from '../components/memberPreview/MemberPreview'
 import MemberDetailsModal from '../components/memberDetailsModal/MemberDetailsModal'
 import WebglService from '../services/events/WebglService'
 import { merge } from '../utils/arrayUtils'
+import FamilyService from '../services/FamilyService'
 
 export default function Members() {
   const CAMERA_POSITION: Component3dName = 'tree'
-  const user = supabase.auth.user()
   const router = useRouter()
-  const [members, setMembers] = useState([
-    {
-      name: 'Lou',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Adrien',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Florian',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Théo',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Mélanie',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Oriane',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Baptiste',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Camille',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Emeline',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Romain',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Sandra',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Aurélie',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Naël',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Amélie',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Léa',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Carla',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Laura',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Killian',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Yoan',
-      imageUrl: '/images/user.png',
-    },
-    {
-      name: 'Eva',
-      imageUrl: '/images/user.png',
-    },
-  ])
+  const [members, setMembers] = useState([])
   const [currentMember, setCurrentMember] = useState(null)
 
   useEffect(() => {
+    FamilyService.getUsers(localStorage.getItem('familyId')).then((users) =>
+      setMembers(users)
+    )
+  }, [])
+
+  useEffect(() => {
     WebglService.disable3D()
-    console.log('tree useEffect Triggered')
     RoutingCameraService.goTo(CAMERA_POSITION)
     localStorage.setItem('lockScroll', 'true')
     localStorage.setItem('display3D', 'false')
@@ -112,12 +36,15 @@ export default function Members() {
 
   return (
     <div className={merge([css.root, 'garden-ui'])}>
-      <div
-        className={css.head}
-        onClick={() => {
-          router.push('garden')
-        }}
-      ></div>
+      <div className={css.head}>
+        <div className={css.back} onClick={() => router.push('garden')}>
+          <img
+            className={css.icon}
+            src={`/images/icons/back-white.svg`}
+            alt=""
+          />
+        </div>
+      </div>
 
       <div className={css.members}>
         {members.map((member, i) => {
@@ -125,9 +52,9 @@ export default function Members() {
             <div
               className={css.member}
               key={i}
-              onClick={() => setCurrentMember(member)}
+              onClick={() => setCurrentMember(member.user)}
             >
-              <MemberPreview member={member} />
+              <MemberPreview member={member.user} />
             </div>
           )
         })}
@@ -138,6 +65,11 @@ export default function Members() {
           closeHandler={() => closeModalHandler()}
         />
       )}
+
+      <button className={css.add}>
+        <img className={css.icon} src={`/images/icons/plus.svg`} alt="" />
+        Ajouter un membre
+      </button>
     </div>
   )
 }

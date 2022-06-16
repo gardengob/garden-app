@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { supabase } from '../../utils/supabaseClient'
 import { merge } from '../../utils/arrayUtils'
 import MemberDetailsTabs from '../memberDetailsTabs/MemberDetailsTabs'
 import css from './MemberDetailsModal.module.scss'
@@ -8,7 +9,26 @@ import css from './MemberDetailsModal.module.scss'
 export default function MemberDetailsModal({ member, closeHandler }) {
   const [memberImageUrl, setMemberImageUrl] = useState(null)
 
-  useEffect(() => {}, [member])
+  useEffect(() => {
+    if (member) {
+      downloadUserImage(member.avatar_url)
+    }
+  }, [member])
+
+  async function downloadUserImage(path) {
+    try {
+      const { data, error } = await supabase.storage
+        .from('avatars')
+        .download(path)
+      if (error) {
+        throw error
+      }
+      const url = URL.createObjectURL(data)
+      setMemberImageUrl(url)
+    } catch (error) {
+      console.log('Error downloading image: ', error.message)
+    }
+  }
 
   return (
     <div className={css.root}>
@@ -16,7 +36,6 @@ export default function MemberDetailsModal({ member, closeHandler }) {
       {member && (
         <div className={css.container}>
           <div className={css.close} onClick={closeHandler}>
-            {/* <img className={css.icon} src={`/images/icons/cross.svg`} alt="" /> */}
             <Image
               className={css.icon}
               src={`/images/icons/cross.svg`}
@@ -27,19 +46,21 @@ export default function MemberDetailsModal({ member, closeHandler }) {
           </div>
           <div className={css.head}>
             <div className={css.image}>
-              <Image
-                src={member.imageUrl}
-                alt={member.name}
-                width={100}
-                height={100}
-                objectFit={'cover'}
-                layout={'responsive'}
-              />
+              {memberImageUrl && (
+                <Image
+                  src={memberImageUrl}
+                  alt={member.name}
+                  width={100}
+                  height={100}
+                  objectFit={'cover'}
+                  layout={'responsive'}
+                />
+              )}
             </div>
             <div className={css.about}>
-              <h1 className={css.name}>{member.name}</h1>
+              <h1 className={css.name}>{member.username}</h1>
               <div className={css.tags}>
-                <span className={css.tag}>12 avril 1978</span>
+                <span className={css.tag}>15 février 1996</span>
                 <span className={merge([css.tag, css['tag-diet']])}>
                   Régime : Végétarien
                 </span>

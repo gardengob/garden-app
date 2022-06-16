@@ -29,6 +29,7 @@
     background-size: contain;
 
     .close {
+      cursor: pointer;
       position: absolute;
       top: 0;
       right: 0;
@@ -52,6 +53,8 @@
       width: 160px;
       height: 160px;
       margin-right: 54px;
+      border-radius: 50%;
+      overflow: hidden;
     }
 
     .name {

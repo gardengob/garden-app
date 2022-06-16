@@ -114,6 +114,19 @@ class FamilyService {
 
   public async getUsers(familyId) {
     try {
+      let { data, error, status } = await supabase
+        .from('user_family')
+        .select(`*, user(*)`)
+        .eq('family_id', familyId)
+
+      if (error && status !== 406) {
+        throw error
+      }
+
+      if (data) {
+        console.log(data)
+        return data
+      }
     } catch (error) {
       alert(error.message)
     }

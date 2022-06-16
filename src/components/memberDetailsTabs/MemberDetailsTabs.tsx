@@ -56,17 +56,7 @@ export default function MemberDetailsTabs({}) {
                 <span
                   className={merge([css.ingredient, css['ingredient-love']])}
                 >
-                  Poireau
-                </span>
-                <span
-                  className={merge([css.ingredient, css['ingredient-love']])}
-                >
-                  Carotte
-                </span>
-                <span
-                  className={merge([css.ingredient, css['ingredient-love']])}
-                >
-                  Artichaut
+                  Épinards
                 </span>
               </div>
             </div>
@@ -74,13 +64,7 @@ export default function MemberDetailsTabs({}) {
               <h4 className={css.subtitle}>Plats que j'adore</h4>
               <div className={css.dishes}>
                 <span className={merge([css.dish, css['dish-love']])}>
-                  Lasagnes
-                </span>
-                <span className={merge([css.dish, css['dish-love']])}>
-                  Quiche Lorraine
-                </span>
-                <span className={merge([css.dish, css['dish-love']])}>
-                  Wrap au saumon
+                  Pâtes au beurre
                 </span>
               </div>
             </div>
@@ -91,20 +75,103 @@ export default function MemberDetailsTabs({}) {
             <div className={css.category}>
               <h4 className={css.subtitle}>Aliments que je n'aime pas</h4>
               <div className={css.ingredients}>
+                {/* // oignons, choux, carottes, mangue, cerises,
+//  artichaut, asperge, potiron, concombre , aubergine, brocoli, endive, 
+//  asperge,abrivot, pêche, litchi, ananas, fenouil, radis , lentilles, comcombre */}
                 <span
                   className={merge([css.ingredient, css['ingredient-avoid']])}
                 >
-                  Poireau
+                  Oignons
                 </span>
                 <span
                   className={merge([css.ingredient, css['ingredient-avoid']])}
                 >
-                  Carotte
+                  Choux
+                </span>
+                <span
+                  className={merge([css.ingredient, css['ingredient-avoid']])}
+                >
+                  Carottes
+                </span>
+                <span
+                  className={merge([css.ingredient, css['ingredient-avoid']])}
+                >
+                  Mangue
+                </span>
+                <span
+                  className={merge([css.ingredient, css['ingredient-avoid']])}
+                >
+                  Cerises
                 </span>
                 <span
                   className={merge([css.ingredient, css['ingredient-avoid']])}
                 >
                   Artichaut
+                </span>
+                <span
+                  className={merge([css.ingredient, css['ingredient-avoid']])}
+                >
+                  Asperge
+                </span>
+                <span
+                  className={merge([css.ingredient, css['ingredient-avoid']])}
+                >
+                  Potiron
+                </span>
+                <span
+                  className={merge([css.ingredient, css['ingredient-avoid']])}
+                >
+                  Concombre
+                </span>
+                <span
+                  className={merge([css.ingredient, css['ingredient-avoid']])}
+                >
+                  Aubergine
+                </span>
+                <span
+                  className={merge([css.ingredient, css['ingredient-avoid']])}
+                >
+                  Brocoli
+                </span>
+                <span
+                  className={merge([css.ingredient, css['ingredient-avoid']])}
+                >
+                  Endive
+                </span>
+                <span
+                  className={merge([css.ingredient, css['ingredient-avoid']])}
+                >
+                  Abricot
+                </span>
+                <span
+                  className={merge([css.ingredient, css['ingredient-avoid']])}
+                >
+                  Pêche
+                </span>
+                <span
+                  className={merge([css.ingredient, css['ingredient-avoid']])}
+                >
+                  Litchi
+                </span>
+                <span
+                  className={merge([css.ingredient, css['ingredient-avoid']])}
+                >
+                  Ananas
+                </span>
+                <span
+                  className={merge([css.ingredient, css['ingredient-avoid']])}
+                >
+                  Fenouil
+                </span>
+                <span
+                  className={merge([css.ingredient, css['ingredient-avoid']])}
+                >
+                  Radis
+                </span>
+                <span
+                  className={merge([css.ingredient, css['ingredient-avoid']])}
+                >
+                  Lentilles
                 </span>
               </div>
             </div>
@@ -112,13 +179,13 @@ export default function MemberDetailsTabs({}) {
               <h4 className={css.subtitle}>Plats dont je ne suis pas fan</h4>
               <div className={css.dishes}>
                 <span className={merge([css.dish, css['dish-avoid']])}>
-                  Lasagnes
+                  Salade de concombre
                 </span>
                 <span className={merge([css.dish, css['dish-avoid']])}>
-                  Quiche Lorraine
+                  Clafouti cerise
                 </span>
                 <span className={merge([css.dish, css['dish-avoid']])}>
-                  Wrap au saumon
+                  Gratin au brocoli
                 </span>
               </div>
             </div>

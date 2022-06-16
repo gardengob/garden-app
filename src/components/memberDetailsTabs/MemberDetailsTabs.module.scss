@@ -42,12 +42,15 @@
   }
   .ingredients {
     display: flex;
+    flex-wrap: wrap;
 
     .ingredient {
       display: block;
       width: fit-content;
       padding: 12px 24px;
       background-color: white;
+      margin-bottom: 12px;
+
       &-love {
         color: $color-primary;
       }

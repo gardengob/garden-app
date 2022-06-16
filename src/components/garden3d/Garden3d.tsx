@@ -21,7 +21,7 @@ export interface IWindowSize {
   height: number
 }
 
-const stats = Stats()
+// const stats = Stats()
 
 export default function Garden3d({ className }) {
   const canvasRef = useRef(null)
@@ -133,7 +133,7 @@ export default function Garden3d({ className }) {
     const deltaTime = currentTime - time
     time = currentTime
     const appManager = AppManager.getInstance()
-    stats.begin()
+    // stats.begin()
     // const elapsedTime = appManager.clock.getElapsedTime()
     // const deltaTime = elapsedTime - appManager.oldElapsedTime
     // appManager.oldElapsedTime = elapsedTime
@@ -141,7 +141,7 @@ export default function Garden3d({ className }) {
     appManager.update(deltaTime)
     requestAnimationFrame(render)
 
-    stats.end()
+    // stats.end()
   }
 
   function resizeCanvas() {
@@ -211,7 +211,7 @@ export default function Garden3d({ className }) {
           left: 0,
         }}
       ></div>
-      <button
+      {/* <button
         style={{
           position: 'absolute',
           zIndex: '4',
@@ -222,7 +222,7 @@ export default function Garden3d({ className }) {
         }}
       >
         devMode
-      </button>
+      </button> */}
       {/* {elementNear && (
         <div
           style={{

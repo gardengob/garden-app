@@ -66,13 +66,13 @@ let closeElement: Component3d = null
 
 let introFrameCount
 
-const stats = Stats()
+// const stats = Stats()
 
 // =========================== Init =========================== //
 gardenScene.onInit = (scene) => {
   localStorage.setItem('intro', 'false')
 
-  document.body.appendChild(stats.dom)
+  // document.body.appendChild(stats.dom)
   const appManager = AppManager.getInstance()
   gardenScene.statesDictionnary['introPlayed'] = false
   // ============= GLTF Loading ============= //
@@ -259,7 +259,7 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
   }
   // console.log("updatin' like crazy")
   introFrameCount++
-  stats.update()
+  // stats.update()
 
   //mixer Update
   mixerEntryCam.update((1 / 60) * 0.8)
