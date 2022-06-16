@@ -97,7 +97,7 @@ export default function Garden3d({ className }) {
     appManager.canvas = canvasRef.current
 
     const axesHelper = new THREE.AxesHelper(5)
-    appManager.scene.add(axesHelper)
+    // appManager.scene.add(axesHelper)
 
     appManager.camera.lookAt(new THREE.Vector3(0, 0, 0))
 

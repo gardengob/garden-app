@@ -17,8 +17,7 @@ import { merge } from '../utils/arrayUtils'
 export default function Ingredients() {
   const CAMERA_POSITION: Component3dName = 'vegetable_garden'
   const router = useRouter()
-
-  const [ingredients, setIngredients] = useState([
+  const mock_Ingredients = [
     {
       id: '7b77f42f-64b0-4361-a9fb-3a9363e07be5',
       name: 'Carotte',
@@ -61,15 +60,37 @@ export default function Ingredients() {
       type: 'Légume',
       imageUrl: '/images/user.png',
     },
-  ])
+  ]
+  const [ingredients, setIngredients] = useState(mock_Ingredients)
 
   const [currentIngredient, setCurrentIngredient] = useState(null)
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     RoutingCameraService.goTo(CAMERA_POSITION)
     localStorage.setItem('lockScroll', 'true')
     localStorage.setItem('display3D', 'true')
   }, [])
+
+  function debounce(func, timeout = 300) {
+    let timer
+    return (...args) => {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        func.apply(this, args)
+      }, timeout)
+    }
+  }
+
+  const processChange = debounce((e) => {
+    setSearch(e.target.value)
+    const filteredIngredients = mock_Ingredients.filter((ingredients) =>
+      ingredients.name
+        .toLocaleLowerCase()
+        .includes(e.target.value.toLocaleLowerCase())
+    )
+    setIngredients(filteredIngredients)
+  })
 
   return (
     <div className={merge([css.root, 'garden-ui'])}>
@@ -96,6 +117,9 @@ export default function Ingredients() {
               id="ingredient"
               type="text"
               placeholder="Rechercher ..."
+              onChange={(e) => {
+                processChange(e)
+              }}
             />
           </div>
           <div className={css.ingredients}>

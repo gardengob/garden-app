@@ -13,14 +13,9 @@
   position: relative;
   z-index: 0;
 
-  background: #93b2bf ; /* Old browsers */
-  background: -moz-linear-gradient(top,  #93b2bf  -25%, #fff 25%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top,  #93b2bf  -25%,#fff 25%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom,  #93b2bf  -25%,#fff 25%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#93b2bf ', endColorstr='#fff',GradientType=0 ); /* IE6-9 */
+  background: linear-gradient(#c3efed -20%, #ffffff 100%);
 }
 
-.img-holder{
+.img-holder {
   pointer-events: none;
-  
 }

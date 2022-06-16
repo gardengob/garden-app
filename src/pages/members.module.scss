@@ -14,5 +14,10 @@
 
   .members {
     display: flex;
+    width: 100vw;
+  }
+
+  .member {
+    height: auto;
   }
 }
