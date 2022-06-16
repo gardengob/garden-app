@@ -129,6 +129,9 @@ export default function Ingredients() {
   const [search, setSearch] = useState('')
 
   useEffect(() => {
+    setIngredients(mock_Ingredients)
+    setSearch('')
+    console.log('search', search)
     RoutingCameraService.goTo(CAMERA_POSITION)
     localStorage.setItem('lockScroll', 'true')
     localStorage.setItem('display3D', 'true')
@@ -190,7 +193,11 @@ export default function Ingredients() {
                 <div
                   className={css.ingredient}
                   key={i}
-                  onClick={() => setCurrentIngredient(ingredient)}
+                  onClick={() => {
+                    setSearch(null)
+                    setIngredients(mock_Ingredients)
+                    setCurrentIngredient(ingredient)
+                  }}
                 >
                   <IngredientPreview ingredient={ingredient} />
                 </div>
