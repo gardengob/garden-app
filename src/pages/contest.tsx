@@ -63,19 +63,20 @@ export default function Contest() {
 
     ContestService.getCurrentContest().then((data) => {
       console.log('get', data)
+      if (data) {
+        ContestService.getEntries(data.id).then((data) => {
+          console.log('data', data)
 
-      ContestService.getEntries(data.id).then((data) => {
-        console.log('data', data)
+          setcontestEntries(data)
+        })
 
-        setcontestEntries(data)
-      })
+        ContestService.getContestSubject(data).then((subject) => {
+          setcontestSubject(subject)
+        })
 
-      ContestService.getContestSubject(data).then((subject) => {
-        setcontestSubject(subject)
-      })
-
-      setCurrentContest(data)
-      timerInt = startTimer(data.created_at, 604800)
+        setCurrentContest(data)
+        timerInt = startTimer(data.created_at, 604800)
+      }
     })
     return () => {
       clearInterval(timerInt)
@@ -186,6 +187,19 @@ export default function Contest() {
                   })}
               </div>
             </>
+          )}
+          {!currentContest && (
+            <div
+              style={{
+                height: '85%',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <span>Pas de concours en cours</span>
+            </div>
           )}
         </div>
         {/* <button
