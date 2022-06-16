@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-unescaped-entities */
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -47,12 +48,15 @@ export default function IngredientDisplay({ ingredient, backHandler }) {
             </div>
             <div className={css.relations}>
               <div className={css.relation}>
+                <img src="/images/icons/love.svg" alt="" />
                 <p>Adoré par :</p>
               </div>
               <div className={css.relation}>
+                <img src="/images/icons/avoid.svg" alt="" />
                 <p>Pas au goût de :</p>
               </div>
               <div className={css.relation}>
+                <img src="/images/icons/allergies.svg" alt="" />
                 <p>Allergie :</p>
               </div>
             </div>
