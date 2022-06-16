@@ -13,7 +13,7 @@
   z-index: 30;
   height: 30px;
   width: 30px;
-  background-color: #db8670;
+  background-color: white;
 }
 
 @keyframes pulse {
@@ -41,7 +41,7 @@
   height: 80px;
   z-index: 20;
   width: 80px;
-  background-color: #db867098;
+  background-color: white;
   position: absolute;
   border-radius: 100%;
   top: 50%;
@@ -60,7 +60,7 @@
 
   height: 105px;
   width: 105px;
-  background-color: #db86703d;
+  background-color: white;
   animation: 2s ease-out infinite pulseOuter;
 }
 

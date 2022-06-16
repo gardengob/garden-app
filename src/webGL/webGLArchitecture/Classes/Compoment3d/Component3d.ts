@@ -38,6 +38,7 @@ export class Component3d implements IUpdatable {
     icon: string
     holder: Object3D
     css2dObject?: CSS2DObject
+    imageUrl: string
   }[] = []
 
   //closure called on component3d init
