@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import ContestService from '../services/ContestService'
@@ -83,58 +84,34 @@ export default function Contest() {
     }
   }, [])
   return (
-    <div style={{ height: '100vh', width: '100vw' }}>
-      <div
-        style={{
-          position: 'absolute',
-          borderRadius: '24px',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          left: 'auto',
-          right: '175px',
-          height: '752px',
-          width: '512px',
-          backgroundColor: 'white',
-        }}
-      >
+    <div className={css.root}>
+      <div className={css.container}>
         <div
-          style={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '12px',
-            backgroundColor: '#75A37D',
-            borderRadius: '24px 24px 0 0',
-          }}
-        >
-          <p style={{ fontSize: '30px', color: 'white', margin: '16px' }}>
-            Concours cuisine
-          </p>
-        </div>
-        <button
-          style={{ position: 'absolute', top: 0, right: 0 }}
+          className={css.close}
           onClick={() => {
             router.push('garden')
           }}
         >
-          X
-        </button>
+          <Image
+            className={css.icon}
+            src={`/images/icons/cross.svg`}
+            alt={'close'}
+            width={24}
+            height={24}
+          />
+        </div>
+        <div className={css.head}>
+          <img
+            className={css.header}
+            src="/images/ui/notification-header.png"
+            alt=""
+          />
+          <p className={css.title}>Concours cuisine</p>
+        </div>
         <div className={css.content}>
           {currentContest && (
             <>
-              <div
-                style={{
-                  fontSize: '30px',
-                  color: '#75A37D',
-                  margin: ' 0 24px 24px 24px',
-                  backgroundColor: '#DBE0D1',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
+              <div className={css.contest}>
                 <p className={css.contestName}>{currentContest.name}</p>
                 <p className={css.contestInstruction}>
                   {currentContest.instruction}
@@ -146,7 +123,7 @@ export default function Contest() {
                       router.push(`${contestSubject.path}/${contestSubject.id}`)
                     }}
                   >
-                    voir {contestSubject.particle + ' ' + contestSubject.label}
+                    Voir {contestSubject.particle + ' ' + contestSubject.label}
                   </button>
                 ) : (
                   <div>{contestSubject.label}</div>
@@ -154,7 +131,7 @@ export default function Contest() {
               </div>
 
               <div className={css.contestTimerHolder}>
-                <span style={{ textAlign: 'center' }}>Il reste enore</span>
+                <span style={{ textAlign: 'center' }}>Il reste encore</span>
                 <p className={css.contestTimer} ref={timerRef}></p>
               </div>
               <button className={css.contestSubject}>Participer</button>

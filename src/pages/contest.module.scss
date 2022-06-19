@@ -1,47 +1,117 @@
 @import '../styles/references';
 
+.root {
+  position: relative;
+  min-height: 100vh;
 
-.content{
+  .container {
+    position: absolute;
+    top: 50%;
+    right: 180px;
+
+    background-image: url('/images/ui/noise-texture.png');
+    background-size: cover;
+    background-color: $color-cream-darker;
+
+    border-radius: 16px;
+    transform: translateY(-50%);
+  }
+
+  .close {
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    transform: translateX(50%) translateY(-50%);
+    display: flex;
+    padding: 12px;
+    border-radius: 50%;
+    background-color: $color-primary-darker-300;
+
+    .icon {
+      margin: auto;
+    }
+  }
+
+  .head {
+    position: relative;
+  }
+
+  .header {
+    width: 100%;
+  }
+
+  .title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: fit-content;
+    font-size: 36px;
+    text-align: center;
+    margin: 0;
+    color: white;
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+  .contest {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 80%;
+    margin: 0 auto 24px auto;
+    background-image: url('/images/ui/post-it.png');
+    background-size: cover;
+    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.25);
+  }
+}
+
+.content {
   height: 100%;
   width: 100%;
 
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
 
   padding: 24px;
 
-  .contestName{
-      text-align: center;
-      margin-bottom: 8px;
-    }
-  .contestSubject{
-    margin:  12px auto 32px auto ;
+  .contestName {
+    color: $color-primary;
+    font-family: 'Tropiline Regular', sans-serif;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .contestSubject {
+    margin: 12px auto 32px auto;
     padding: 12px 42px;
     border: none;
     border-radius: 6px;
     background-color: $color-primary;
-    color : $color-cream;
+    color: $color-cream;
     font-size: 16px;
   }
-  .contestTimerHolder{
+
+  .contestTimerHolder {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0 auto
-
+    margin: 0 auto;
   }
-  .contestTimer{
+
+  .contestTimer {
     text-align: center;
     font-size: 32px;
     font-weight: 600;
     color: $color-primary;
     margin: 12px;
-
-
   }
-  .contestInstruction{
+
+  .contestInstruction {
     font-size: 16px;
-    color : $color-primary-darker
+    color: $color-primary-darker;
   }
 }
