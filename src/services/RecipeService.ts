@@ -374,17 +374,24 @@ class RecipeService {
 
       const { data, error } = await supabase
         .from('recipe_user')
-        .select('id')
+        .select('id,taste')
         .eq('recipe_id', recipeId)
         .eq('user_family_id', userFamilyId)
         .limit(1)
         .single()
 
       if (data) {
-        const update = await supabase
-          .from('recipe_user')
-          .update({ taste: 'LIKE' })
-          .match({ id: data.id })
+        if (data.taste !== 'LIKE') {
+          const update = await supabase
+            .from('recipe_user')
+            .update({ taste: 'LIKE' })
+            .match({ id: data.id })
+        } else {
+          const deleteLikes = await supabase
+            .from('recipe_user')
+            .delete()
+            .match({ id: data.id })
+        }
       } else {
         const insert = await supabase.from('recipe_user').insert({
           taste: 'LIKE',
@@ -407,17 +414,27 @@ class RecipeService {
 
       const { data, error } = await supabase
         .from('recipe_user')
-        .select('id')
+        .select('id,taste')
         .eq('recipe_id', recipeId)
         .eq('user_family_id', userFamilyId)
         .limit(1)
         .single()
 
       if (data) {
-        const update = await supabase
-          .from('recipe_user')
-          .update({ taste: 'DISLIKE' })
-          .match({ id: data.id })
+        if (data.taste !== 'DISLIKE') {
+          console.log('update', data)
+          const update = await supabase
+            .from('recipe_user')
+            .update({ taste: 'DISLIKE' })
+            .match({ id: data.id })
+        } else {
+          console.log('delete', data.taste)
+
+          const deleteDislikes = await supabase
+            .from('recipe_user')
+            .delete()
+            .match({ id: data.id })
+        }
       } else {
         const insert = await supabase.from('recipe_user').insert({
           taste: 'DISLIKE',
