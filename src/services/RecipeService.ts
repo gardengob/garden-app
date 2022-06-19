@@ -1,6 +1,8 @@
 import { IRecipe, IRecipeTag, ITag } from '../types/recipe'
 import { generateUUIDV4 } from '../utils/generateUUIDV4'
 import { supabase } from '../utils/supabaseClient'
+import FamilyService from './FamilyService'
+import UserService from './UserService'
 
 class RecipeService {
   public async addRecipe(
@@ -208,6 +210,8 @@ class RecipeService {
         diet: await this.getDiet(recipe_id),
         dish: await this.getDish(recipe_id),
         tags: await this.getTags(recipe_id),
+        likes: await this.getLikes(recipe_id),
+        dislikes: await this.getDislikes(recipe_id),
       }
 
       if (error) {
@@ -360,6 +364,111 @@ class RecipeService {
     } catch (error) {
       alert(`${error.message}`)
     }
+  }
+
+  public async likeRecipe(recipeId: string): Promise<void> {
+    try {
+      const userFamilyId = await UserService.getUserFamilyId()
+      console.log('userFamilyId', userFamilyId)
+      console.log('recipeId', recipeId)
+
+      const { data, error } = await supabase
+        .from('recipe_user')
+        .select('id')
+        .eq('recipe_id', recipeId)
+        .eq('user_family_id', userFamilyId)
+        .limit(1)
+        .single()
+
+      if (data) {
+        const update = await supabase
+          .from('recipe_user')
+          .update({ taste: 'LIKE' })
+          .match({ id: data.id })
+      } else {
+        const insert = await supabase.from('recipe_user').insert({
+          taste: 'LIKE',
+          recipe_id: recipeId,
+          user_family_id: userFamilyId,
+        })
+      }
+      console.log('data', data)
+      console.log('error', error)
+    } catch (error) {
+      alert(`${error.message}`)
+    }
+  }
+
+  public async dislikeRecipe(recipeId: string): Promise<void> {
+    try {
+      const userFamilyId = await UserService.getUserFamilyId()
+      console.log('userFamilyId', userFamilyId)
+      console.log('recipeId', recipeId)
+
+      const { data, error } = await supabase
+        .from('recipe_user')
+        .select('id')
+        .eq('recipe_id', recipeId)
+        .eq('user_family_id', userFamilyId)
+        .limit(1)
+        .single()
+
+      if (data) {
+        const update = await supabase
+          .from('recipe_user')
+          .update({ taste: 'DISLIKE' })
+          .match({ id: data.id })
+      } else {
+        const insert = await supabase.from('recipe_user').insert({
+          taste: 'DISLIKE',
+          recipe_id: recipeId,
+          user_family_id: userFamilyId,
+        })
+      }
+      console.log('data', data)
+      console.log('error', error)
+    } catch (error) {
+      alert(`${error.message}`)
+    }
+  }
+  public async getLikes(
+    recipeId: string
+  ): Promise<{ user_id: string; avatar_url: string }[]> {
+    try {
+      let { data, error } = await supabase
+        .from('recipe_user')
+        .select('user_family_id,user_family(user_id,user(avatar_url))')
+        .eq('recipe_id', recipeId)
+        .eq('taste', 'LIKE')
+
+      return data.map((row) => {
+        console.log('row', row)
+        return {
+          user_id: row.user_family.user_id,
+          avatar_url: row.user_family.user.avatar_url,
+        }
+      })
+    } catch (error) {}
+  }
+
+  public async getDislikes(
+    recipeId: string
+  ): Promise<{ user_id: string; avatar_url: string }[]> {
+    try {
+      let { data, error } = await supabase
+        .from('recipe_user')
+        .select('user_family_id,user_family(user_id,user(avatar_url))')
+        .eq('recipe_id', recipeId)
+        .eq('taste', 'DISLIKE')
+
+      return data.map((row) => {
+        console.log('row', row)
+        return {
+          user_id: row.user_family.user_id,
+          avatar_url: row.user_family.user.avatar_url,
+        }
+      })
+    } catch (error) {}
   }
 }
 
