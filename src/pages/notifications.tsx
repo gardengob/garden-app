@@ -30,6 +30,7 @@ export default function Notifications() {
             router.push('garden')
           }}
         >
+          <div className={css.background}></div>
           <Image
             className={css.icon}
             src={`/images/icons/cross.svg`}
@@ -48,23 +49,189 @@ export default function Notifications() {
         </div>
 
         <div className={css.notifications}>
-          <p className={css.notification}>Carla a rejoint l'aventure !</p>
-          <p className={css.notification}>
-            Adrien vient d'ajouter une nouvelle recette
-          </p>
-          <p className={css.notification}>
-            Plus que 37h avant la fin du concours en cours !
-          </p>
-          <p className={css.notification}>Laura a ajouté une note sur la recette Salade quinoa mangue avocat</p>
-          <p className={css.notification}>Adrien a ajouté l'ingrédient yaourt</p>
-          <p className={css.notification}>Amélie a rejoint l'aventure !</p>
-          <p className={css.notification}>Le concours sur le thème Asie est terminé</p>
-          <p className={css.notification}>Killian a rejoint l'aventure !</p>
-          <p className={css.notification}>Théo a gagné le défi Devine mon plat</p>
-          <p className={css.notification}>Laura a ajouté une note sur la recette Salade quinoa mangue avocat</p>
-          <p className={css.notification}>Adrien a ajouté l'ingrédient yaourt</p>
-          <p className={css.notification}>Amélie a rejoint l'aventure !</p>
-          <p className={css.notification}>Le concours sur le thème Asie est terminé</p>
+          <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
+                src="/images/icons/notif-user.svg"
+                alt=""
+              />
+              Carla a rejoint l'aventure !
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
+          <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
+                src="/images/icons/notif-recipe.svg"
+                alt=""
+              />
+              Adrien a ajouté la nouvelle recette Croziflette
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
+          <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
+                src="/images/icons/notif-time.svg"
+                alt=""
+              />
+              Plus que 37h avant la fin du concours en cours !
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
+          <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
+                src="/images/icons/notif-note.svg"
+                alt=""
+              />
+              Laura a ajouté une note sur la recette : Boeuf bourguignon à la
+              dijonnaise
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
+          <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
+                src="/images/icons/notif-recipe.svg"
+                alt=""
+              />
+              Amélie a ajouté la nouvelle recette Lasagnes
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
+          <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
+                src="/images/icons/notif-user.svg"
+                alt=""
+              />
+              Amélie a rejoint l'aventure !
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
+          <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
+                src="/images/icons/notif-winner.svg"
+                alt=""
+              />
+              <b>Eva</b> a gagné le concours avec le thème Asie
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
+          <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
+                src="/images/icons/notif-time.svg"
+                alt=""
+              />
+              Le concours avec le thème Asie est terminé
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
+          <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
+                src="/images/icons/notif-user.svg"
+                alt=""
+              />
+              Killian a rejoint l'aventure !
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
+
+          <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
+                src="/images/icons/notif-user.svg"
+                alt=""
+              />
+              Laura a ajouté une note sur la recette : Salade quinoa mangue
+              avocat
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
+          <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
+                src="/images/icons/notif-recipe.svg"
+                alt=""
+              />
+              Camille a ajouté la nouvelle recette Pizzananas
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
+          <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
+                src="/images/icons/notif-winner.svg"
+                alt=""
+              />
+              Théo a gagné le défi Devine mon plat
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
         </div>
       </div>
     </div>
