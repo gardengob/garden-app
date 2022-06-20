@@ -24,6 +24,7 @@ export default function Recipes() {
 
   const [dishes, setDishes] = useState([])
   const [diets, setDiets] = useState([])
+  const [people, setPeople] = useState([])
 
   const [dishFilters, setDishFilters] = useState<(ITag | string)[]>([
     'noFilters',
@@ -63,6 +64,10 @@ export default function Recipes() {
 
       setDishes(data)
     })
+    setPeople([
+      { user_id: 'f682af07-c306-4fac-be6f-7049ced85ec8', avatar_url: '' },
+      // { user_id: '7b77f42f-64b0-4361-a9fb-3a9363e07be5', avatar_url: '' },
+    ])
 
     return () => {
       supabase.removeSubscription(subscription)
@@ -210,6 +215,17 @@ export default function Recipes() {
             return dishFilters !== null && dishFilters[0] !== 'noFilters'
               ? dishFilters.find((tag) => {
                   return (tag as any).recipe_id == recipe.id
+                })
+              : true
+          })
+          .filter((recipe) => {
+            return people !== null && people[0] !== 'noFilters'
+              ? !people.find((user) => {
+                  console.log('user', user)
+                  console.log('recipe.dislikes', recipe.dislikes)
+                  return recipe.dislikes.find((dislike) => {
+                    return dislike.user_id === user.user_id
+                  })
                 })
               : true
           })

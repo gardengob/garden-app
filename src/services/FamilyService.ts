@@ -1,5 +1,6 @@
 import { generateCode } from '../utils/generateCode'
 import { supabase } from '../utils/supabaseClient'
+import RecipeService from './RecipeService'
 
 class FamilyService {
   public async getAll(): Promise<any[]> {
@@ -105,10 +106,22 @@ class FamilyService {
       }
 
       if (data) {
-        return data
+        const returnData = []
+        for (let i = 0; i < data.length; i++) {
+          const element = data[i]
+          returnData.push(await this.formatRecipeWIthDislike(element))
+        }
+        console.log('returnData', returnData)
+        return returnData
       }
     } catch (error) {
       alert(error.message)
+    }
+  }
+  private async formatRecipeWIthDislike(recipe) {
+    return {
+      ...recipe,
+      dislikes: await RecipeService.getDislikes(recipe.id),
     }
   }
 
