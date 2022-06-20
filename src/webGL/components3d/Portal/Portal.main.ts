@@ -37,7 +37,7 @@ portalComponent3d.onInit = () => {
   portalComponent3d.poiArray.push({
     onclick: () => {
       UiService.toggleUi(true)
-      WebglService.ActivatePOI('/')
+      WebglService.ActivatePOI('/family')
       WebglService.disable3D()
     },
     icon: '05_arbre',

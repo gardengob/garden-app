@@ -62,7 +62,7 @@ export default function Account({ session }) {
                   null,
                   { shallow: true }
                 )
-                localStorage.setItem('intro', 'running')
+                WebglService.resetIntro()
               }}
             >
               <img className={css.image} src="/images/family.png" alt="" />

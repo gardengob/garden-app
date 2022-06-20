@@ -34,6 +34,7 @@ import RoutingCameraService from '../../../services/events/RoutingCameraService'
 import gsap from 'gsap'
 import { portalComponent3d } from '../Portal/Portal.main'
 import Stats from 'three/examples/jsm/libs/stats.module'
+import WebglService from '../../../services/events/WebglService'
 
 export const gardenScene = new Scene()
 const loadingManager = LoadingManager.getInstance()
@@ -154,6 +155,7 @@ gardenScene.onInit = (scene) => {
   const portalAction: AnimationAction = mixerPortal.clipAction(portalClip)
 
   action.loop = LoopRepeat
+  action.clampWhenFinished = true
   action.zeroSlopeAtEnd = false
   action.zeroSlopeAtStart = false
   action.play()
@@ -174,6 +176,15 @@ gardenScene.onInit = (scene) => {
 
     console.log('pazpeapzepazep')
     gardenScene.statesDictionnary['introPlayed'] = 'shallPlay'
+  })
+
+  WebglService.resetSignal.on((reset) => {
+    localStorage.setItem('intro', 'running')
+    gardenScene.statesDictionnary['introPlayed'] = false
+    AppManager.getInstance().camera = cameraEntry
+    mixerEntryCam.setTime(0)
+    entryAction.stop()
+    portalAction.stop()
   })
 }
 
@@ -322,7 +333,8 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
       mixerCam.time <
         cameraLoopNumber * cameraPathDuration +
           RoutingCameraService.cameraTimedPositions[element.component.name] +
-          ENTRY_MARGIN
+          ENTRY_MARGIN &&
+      localStorage.getItem('intro') === 'false'
     ) {
       notCloseToAnyThing = false
       if (element.component != closeElement) {

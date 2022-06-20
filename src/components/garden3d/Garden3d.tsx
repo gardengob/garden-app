@@ -175,6 +175,7 @@ export default function Garden3d({ className }) {
       }
       if (router.query.withIntro) {
         localStorage.setItem('display3D', 'true')
+        WebglService.resetIntro()
       }
       console.log('display3D', localStorage.getItem('display3D'))
       setneed3D(localStorage.getItem('display3D') === 'true' ? true : false)

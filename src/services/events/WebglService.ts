@@ -3,6 +3,7 @@ import { StateSignal } from '@solid-js/signal'
 class WebglService {
   public with3Dsignal = StateSignal<boolean>(undefined)
   public PoiSignal = StateSignal<string>(undefined)
+  public resetSignal = StateSignal<boolean>(undefined)
 
   public webGlInitialized = false
   public enable3D() {
@@ -15,6 +16,10 @@ class WebglService {
 
   public ActivatePOI(name: string) {
     this.PoiSignal.dispatch(name)
+  }
+
+  public resetIntro() {
+    this.resetSignal.dispatch(true)
   }
 }
 
