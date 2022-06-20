@@ -24,6 +24,7 @@ export default function Family() {
       className={merge([css.root, 'garden-ui'])}
       style={{ padding: '100px 50px' }}
     >
+      <div className={css.pattern}></div>
       <h1 className={css.title}>Rejoindre un jardin</h1>
       {session && <Account key={session.user.id} session={session} />}
 
