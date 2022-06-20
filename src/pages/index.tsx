@@ -55,7 +55,12 @@ export default function Home() {
             alignItems: 'center',
           }}
         >
-          <img className={css.plants} src="/images/ui/decors_plantes.png" alt="" />
+          <img
+            className={css.plants}
+            src="/images/ui/decors_plantes.png"
+            alt=""
+          />
+          <img className={css.logo} src="/images/ui/logotype.png" alt="" />
           <h1 className={css.title}>Bienvenue {username},</h1>
           <p className={css.description}>
             <span>
@@ -71,17 +76,7 @@ export default function Home() {
             </span>
           </p>
           <Link href="family">
-            <a
-              style={{
-                padding: ' 12px 24px',
-                marginTop: '24px',
-                borderRadius: '6px',
-                backgroundColor: '#75a37d',
-                color: 'white',
-              }}
-            >
-              Commencer
-            </a>
+            <a className={css.button}>Commencer</a>
           </Link>
         </div>
       )}
