@@ -13,6 +13,8 @@ export interface IRecipe {
   diet: ITag
   dish: ITag
   tags: ITag[]
+  likes?: { user_id: string; avatar_url: string }[]
+  dislikes?: { user_id: string; avatar_url: string }[]
 }
 
 export interface ITag {

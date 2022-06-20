@@ -19,7 +19,9 @@ const Recipe = () => {
   }, [])
   useEffect(() => {
     if (rid) {
-      RecipeService.getRecipe(rid).then((reci) => setRecipe(reci))
+      RecipeService.getRecipe(rid).then((reci) => {
+        setRecipe(reci)
+      })
     }
   }, [rid])
 

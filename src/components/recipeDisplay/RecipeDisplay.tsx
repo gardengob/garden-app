@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import RecipeService from '../../services/RecipeService'
 import UserService from '../../services/UserService'
 import { merge } from '../../utils/arrayUtils'
 import { supabase } from '../../utils/supabaseClient'
@@ -15,6 +16,7 @@ export default function RecipeDisplay({ recipe }) {
     if (recipe) {
       downloadRecipeImage(recipe.imageUrl)
       UserService.getUser(recipe.authorId).then((author) => setAuthor(author))
+      console.log('recipe', recipe)
     }
   }, [recipe])
 
@@ -100,6 +102,22 @@ export default function RecipeDisplay({ recipe }) {
                 <div className={merge([css.image, css['no-image']])} />
               )}
               {author && <h3 className={css.username}>{author.username}</h3>}
+            </div>
+            <div>
+              <button
+                onClick={() => {
+                  RecipeService.likeRecipe(recipe.id)
+                }}
+              >
+                Miam
+              </button>
+              <button
+                onClick={() => {
+                  RecipeService.dislikeRecipe(recipe.id)
+                }}
+              >
+                Meh
+              </button>
             </div>
 
             <div className={css.types}>
