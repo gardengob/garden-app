@@ -86,12 +86,13 @@ export default function Contest() {
   return (
     <div className={css.root}>
       <div className={css.container}>
-        <div
+      <div
           className={css.close}
           onClick={() => {
             router.push('garden')
           }}
         >
+          <div className={css.background}></div>
           <Image
             className={css.icon}
             src={`/images/icons/cross.svg`}

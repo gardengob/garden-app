@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from 'next/link'
 import { useEffect, useLayoutEffect, useState } from 'react'
 import Account from '../components/account/Account'
 import AddFamily from '../components/addFamily/AddFamily'
@@ -28,10 +29,12 @@ export default function Family() {
       <h1 className={css.title}>Rejoindre un jardin</h1>
       {session && <Account key={session.user.id} session={session} />}
 
-      <button className={css.add}>
+      <Link href="/add-family">
+        <a className={css.add} href="">
         <img className={css.icon} src={`/images/icons/plus.svg`} alt="" />
         Ajouter une famille
-      </button>
+        </a>
+      </Link>
 
       <div className={css.ripped}>
         <RippedPaper />
