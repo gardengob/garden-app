@@ -226,9 +226,11 @@ export default function Recipes() {
               ? !people.find((user) => {
                   console.log('user', user)
                   console.log('recipe.dislikes', recipe.dislikes)
-                  return recipe.dislikes.find((dislike) => {
-                    return dislike.user_id === user.user_id
-                  })
+                  return recipe.dislikes
+                    ? recipe.dislikes.find((dislike) => {
+                        return dislike.user_id === user.user_id
+                      })
+                    : false
                 })
               : true
           })
