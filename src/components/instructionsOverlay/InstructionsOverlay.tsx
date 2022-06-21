@@ -5,14 +5,25 @@ import { useEffect, useRef, useState } from 'react'
 import loadingOne from '../../lotties/anim-onboarding.json'
 import loadingTwo from '../../lotties/anim-onboarding-2.json'
 import Image from 'next/image'
+import gsap from 'gsap'
 
 export default function InstructionsOverlay({ onClose }) {
+  const rootRef = useRef(null)
+
   const loadingOneRefEl = useRef(null)
   const loadingTwoRefEl = useRef(null)
   const loadingOneRef = useRef(null)
   const loadingTwoRef = useRef(null)
 
   const [step, setStep] = useState(1)
+
+  useEffect(() => {
+    gsap.fromTo(
+      rootRef.current,
+      { y: 60, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1 }
+    )
+  }, [])
 
   useEffect(() => {
     if (step === 1) {
@@ -36,7 +47,7 @@ export default function InstructionsOverlay({ onClose }) {
   }, [step])
 
   return (
-    <div className={css.root}>
+    <div className={css.root} ref={rootRef}>
       <div className={css.close} onClick={onClose}>
         <div className={css.background}></div>
         <Image
