@@ -9,6 +9,14 @@
   left: 0;
   background-color: #1c2d22;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .number {
+    position: absolute;
+    color: white;
+    font-family: 'Tropiline Regular', sans-serif;
+    font-size: 56px;
+  }
 }
