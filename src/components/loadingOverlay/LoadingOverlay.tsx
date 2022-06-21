@@ -1,7 +1,7 @@
 import css from './LoadingOverlay.module.scss'
 import Lottie from 'lottie-web'
 import { useEffect, useRef } from 'react'
-import condomJson from '../../lotties/anim-onboarding.json'
+import loadingJson from '../../lotties/anim-loading.json'
 
 export default function LoadingOverlay() {
   const loadingRefEl = useRef(null)
@@ -14,14 +14,13 @@ export default function LoadingOverlay() {
       renderer: 'svg',
       loop: true,
       autoplay: true,
-      animationData: condomJson,
+      animationData: loadingJson,
     })
   }, [])
 
   return (
     <div className={css.root}>
-      Loading ...
-      <div ref={loadingRefEl}></div>
+      <div className={css.lottie} ref={loadingRefEl}></div>
     </div>
   )
 }
