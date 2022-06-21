@@ -1,3 +1,4 @@
+import gsap from 'gsap'
 import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
 import Header from '../components/header/Header'
@@ -10,10 +11,15 @@ const Garden3d = dynamic(import('../components/garden3d/Garden3d'), {
 
 function MyApp({ Component, pageProps }) {
   const [loading, setloading] = useState(true)
+  const [loadingNumber, setloadingNumber] = useState(0)
 
   useEffect(() => {
+    const loader = { time: 0 }
     LoadingService.signal.on(() => {
       setloading(false)
+    })
+    LoadingService.loadingNumberSignal.on((number) => {
+      setloadingNumber(number)
     })
   }, [])
 
@@ -34,7 +40,7 @@ function MyApp({ Component, pageProps }) {
             alignItems: 'center',
           }}
         >
-          Loading...
+          Loading... {loadingNumber}
         </div>
       )}
       <Garden3d className={css.webgl} />

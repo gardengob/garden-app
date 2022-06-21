@@ -25,7 +25,7 @@ class RoutingCameraService {
     memories: 8.3,
     tree: 9.5,
     contest: 11,
-    portal: 14.5,
+    portal: 14,
   }
 
   public goTo(spaceName: Component3dName | 'start' | 'continue') {

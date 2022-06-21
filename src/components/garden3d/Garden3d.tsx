@@ -161,6 +161,7 @@ export default function Garden3d({ className }) {
   }
   function onModelLoadedFunction(gltf: GLTF, loadingPercent: number): void {
     console.log('loaded', gltf.scene.name)
+    LoadingService.loadingUpdate(Math.round(loadingPercent))
   }
   function onAllLoadedFunction(): void {
     console.log('loading finished')

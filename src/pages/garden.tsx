@@ -5,13 +5,16 @@ import { useEffect, useState } from 'react'
 import RoutingCameraService from '../services/events/RoutingCameraService'
 import SpaceEntryService from '../services/events/SpaceEntryService'
 import WebglService from '../services/events/WebglService'
+import FamilyService from '../services/FamilyService'
 import { AppManager } from '../webGL/webGLArchitecture/Classes/AppManager/AppManager'
 import css from './garden.module.scss'
 
 export default function Garden() {
   const [intro, setIntro] = useState<boolean>(false)
+  const [gardenName, setGardenName] = useState<string>()
   const router = useRouter()
   useEffect(() => {
+    FamilyService.getFamilyName().then((name) => setGardenName(name))
     WebglService.enable3D()
     console.log('gardenInit')
     localStorage.setItem(
@@ -47,7 +50,7 @@ export default function Garden() {
               src="/images/ui/behind-garden.png"
               alt=""
             />
-            <p className={css.name}>Jardin Les Gobelins</p>
+            <p className={css.name}>Jardin {gardenName}</p>
           </div>
           <button
             className={css.enter}

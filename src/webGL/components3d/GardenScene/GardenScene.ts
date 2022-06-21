@@ -58,7 +58,7 @@ let mixerEntryCam: AnimationMixer
 let mixerPortal: AnimationMixer
 const ANIMATION_SPEED = 1 / 144
 const ANIMATION_SPEED_COEF = 1 / 20 / 2
-const ENTRY_MARGIN = 0.3
+const ENTRY_MARGIN = 0.5
 
 let cameraPathDuration = 0
 let cameraLoopNumber = 0
