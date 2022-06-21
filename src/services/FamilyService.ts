@@ -14,6 +14,21 @@ class FamilyService {
       alert(error.message)
     }
   }
+  public async getFamilyName(): Promise<string> {
+    try {
+      let { data, error } = await supabase
+        .from('family')
+        .select('name')
+        .eq('id', localStorage.getItem('familyId'))
+        .single()
+      if (error) {
+        throw error
+      }
+      return data.name
+    } catch (error) {
+      alert(`${error.message}`)
+    }
+  }
 
   public async join(family_code: string, callback?: () => void): Promise<void> {
     if (!family_code) return alert('Renseigner un code')
