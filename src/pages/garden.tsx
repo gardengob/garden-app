@@ -70,7 +70,13 @@ export default function Garden() {
             onClick={() => {
               SpaceEntryService.enterGarden()
             }}
-          ></button>
+          >
+            <div className="poi-inner-circle" style={{ display: 'flex' }}>
+              <img className="poi-icon" src="/images/icons/poi/porte1-1.svg" />
+            </div>
+            <div className="poi-middle-circle"></div>
+            <div className="poi-outer-circle"></div>
+          </button>
         </>
       )}
 

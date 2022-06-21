@@ -95,7 +95,7 @@ gardenScene.onInit = (scene) => {
   MaterialHelper.disableLights(gardenScene.sceneBase)
 
   // ============= component3d snapping to scene ============= //
-
+  gardenBaseModel.position.x = 0.23
   gardenScene.components.forEach((component) => {
     gardenBaseModel.traverse((child) => {
       if (child.name === component.placeHolderName) {
