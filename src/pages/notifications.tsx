@@ -1,8 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
+import gsap from 'gsap'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import RoutingCameraService from '../services/events/RoutingCameraService'
 import { Component3dName } from '../webGL/webGLArchitecture/Types/Component3dNameType'
 import css from './notifications.module.scss'
@@ -12,18 +13,25 @@ export default function Notifications() {
 
   const router = useRouter()
 
+  const containerRef = useRef(null)
+
   useEffect(() => {
-    localStorage.setItem('display3D', 'true')
+    gsap.fromTo(
+      containerRef.current,
+      { y: 60, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1 }
+    )
   }, [])
 
   useEffect(() => {
     RoutingCameraService.goTo(CAMERA_POSITION)
     localStorage.setItem('lockScroll', 'true')
+    localStorage.setItem('display3D', 'true')
   }, [])
 
   return (
     <div className={css.root}>
-      <div className={css.container}>
+      <div className={css.container} ref={containerRef}>
         <div
           className={css.close}
           onClick={() => {

@@ -1,16 +1,28 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-unescaped-entities */
+import gsap from 'gsap'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { merge } from '../../utils/arrayUtils'
 import css from './IngredientDisplay.module.scss'
 
 export default function IngredientDisplay({ ingredient, backHandler }) {
   const [isRotated, setIsRotated] = useState(false)
+
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    gsap.fromTo(
+      containerRef.current,
+      { y: 60, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1 }
+    )
+  }, [])
+
   return (
     <div className={css.root}>
       <div className={css.background}></div>
-      <div className={merge([css.card])}>
+      <div className={merge([css.card])} ref={containerRef}>
         <div
           className={merge([css.inner, isRotated ? css['inner-rotated'] : ''])}
         >
