@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import css from './index.module.scss'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { supabase } from '../utils/supabaseClient'
 import Auth from '../components/auth/Auth'
 import Account from '../components/account/Account'
@@ -11,6 +11,9 @@ import UiService from '../services/events/UiService'
 import { merge } from '../utils/arrayUtils'
 import Link from 'next/link'
 import RippedPaper from '../components/rippedPaper/RippedPaper'
+
+import Lottie from 'lottie-web'
+import condomJson from '../lotties/anim-onboarding.json'
 
 export default function Home() {
   const router = useRouter()
