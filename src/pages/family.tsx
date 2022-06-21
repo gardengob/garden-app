@@ -17,6 +17,7 @@ export default function Family() {
     localStorage.setItem('display3D', 'false')
     localStorage.setItem('lockScroll', 'true')
     localStorage.setItem('initiated', 'false')
+
     setSession(supabase.auth.session())
   }, [])
 
