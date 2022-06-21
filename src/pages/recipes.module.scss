@@ -8,7 +8,7 @@
   }
 }
 .root {
-  padding: 48px 48px 0 48px;
+  padding: 48px;
   min-height: 100vh;
 
   background-image: url('/images/ui/noise-texture.png');
@@ -17,6 +17,8 @@
 
   .title {
     color: $color-primary;
+    font-family: 'Tropiline Regular', sans-serif;
+    font-size: 36px;
   }
 
   .head {
@@ -48,15 +50,77 @@
     }
   }
 
+  .filters {
+    display: flex;
+    width: fit-content;
+    margin: auto;
+
+    .search {
+      position: relative;
+      input {
+        width: 480px;
+        height: 56px;
+        padding: 20px 16px;
+        font-size: 18px;
+        color: $color-primary;
+        border: 1px solid $color-primary-lighter;
+        border-radius: 8px;
+
+        &::placeholder {
+          color: $color-primary;
+        }
+      }
+
+      .icon {
+        position: absolute;
+        top: 50%;
+        right: 16px;
+        transform: translateY(-50%);
+      }
+    }
+
+    .filter {
+      position: relative;
+
+      .icon {
+        position: absolute;
+        top: 50%;
+        right: 16px;
+        width: 24px;
+        transform: translateY(-50%);
+      }
+    }
+
+    .select {
+      display: flex;
+      // width: 56px;
+      height: 56px;
+      margin-left: 16px;
+      padding: 0 48px 0 16px;
+      color: $color-primary;
+      background-color: white;
+      border-radius: 8px;
+      border: 1px solid $color-primary-lighter;
+      -webkit-appearance:none;
+      -moz-appearance:none;
+      appearance:none;
+
+      .icon {
+        width: 24px;
+        margin: auto;
+      }
+    }
+  }
+
   .recipes {
     display: flex;
     flex-wrap: wrap;
     margin: 48px;
-    justify-content: space-between;
+    justify-content: flex-start;
   }
 
   .recipe {
-    width: 20%;
+    width: calc(25% - 24px);
     margin-right: 24px;
     margin-bottom: 24px;
   }
