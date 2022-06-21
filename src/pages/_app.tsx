@@ -26,10 +26,10 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      {/* {loading && (
+      {loading && (
         <LoadingOverlay />
-      )} */}
-      <LoadingOverlay />
+      )}
+      {/* <LoadingOverlay /> */}
       <Garden3d className={css.webgl} />
       <Component {...pageProps} className={css.content} />
     </>
