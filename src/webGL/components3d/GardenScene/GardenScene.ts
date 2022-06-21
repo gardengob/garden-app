@@ -35,6 +35,7 @@ import gsap from 'gsap'
 import { portalComponent3d } from '../Portal/Portal.main'
 import Stats from 'three/examples/jsm/libs/stats.module'
 import WebglService from '../../../services/events/WebglService'
+import UiService from '../../../services/events/UiService'
 
 export const gardenScene = new Scene()
 const loadingManager = LoadingManager.getInstance()
@@ -286,6 +287,7 @@ gardenScene.onAnimationLoop = (ellapsedTime) => {
     gardenScene.statesDictionnary['introPlayed'] === 'shallPlay'
   ) {
     // console.log('finished', entrPathClip.duration)
+    UiService.showTuto()
 
     mixerCam.setTime(2.793)
     // mixerCam.setTime(2.7935)

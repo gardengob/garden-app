@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import InstructionsOverlay from '../components/instructionsOverlay/InstructionsOverlay'
 import RoutingCameraService from '../services/events/RoutingCameraService'
 import SpaceEntryService from '../services/events/SpaceEntryService'
+import UiService from '../services/events/UiService'
 import WebglService from '../services/events/WebglService'
 import FamilyService from '../services/FamilyService'
 import { AppManager } from '../webGL/webGLArchitecture/Classes/AppManager/AppManager'
@@ -17,7 +18,7 @@ export default function Garden() {
   const router = useRouter()
 
   const [animIsFinished, setAnimIsFinished] = useState(true)
-  const [modalIsDisplayed, setModalIsDisplayed] = useState(true)
+  const [modalIsDisplayed, setModalIsDisplayed] = useState(false)
 
   useEffect(() => {
     FamilyService.getFamilyName().then((name) => setGardenName(name))
@@ -31,6 +32,10 @@ export default function Garden() {
 
     SpaceEntryService.gardenEntrySignal.on(() => {
       setIntro(true)
+    })
+
+    UiService.displayTutoSignal.on((tutoState) => {
+      setModalIsDisplayed(tutoState)
     })
   }, [])
 
@@ -69,7 +74,9 @@ export default function Garden() {
         </>
       )}
 
-      {modalIsDisplayed && <InstructionsOverlay onClose={() => setModalIsDisplayed(false)}/>}
+      {modalIsDisplayed && (
+        <InstructionsOverlay onClose={() => setModalIsDisplayed(false)} />
+      )}
     </>
   )
 }
