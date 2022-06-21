@@ -6,7 +6,6 @@ import css from './RecipeDisplayTabs.module.scss'
 enum ERecipeTabs {
   INGREDIENTS = 'Ingrédients',
   INSTRUCTIONS = 'Instructions',
-  NOTES = 'Notes',
 }
 
 export default function RecipeDisplayTabs({
@@ -34,7 +33,7 @@ export default function RecipeDisplayTabs({
                   src={`/images/icons/${key}.svg`}
                   alt=""
                 />{' '}
-                {ERecipeTabs[key]}
+                <span className={css.label}>{ERecipeTabs[key]}</span>
               </h3>
             )
           }
@@ -65,7 +64,6 @@ export default function RecipeDisplayTabs({
             })}
           </>
         )}
-        {tab === ERecipeTabs.NOTES && <p>Work in progress 🚧</p>}
       </div>
     </div>
   )

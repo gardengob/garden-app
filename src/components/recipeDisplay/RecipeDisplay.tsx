@@ -103,22 +103,6 @@ export default function RecipeDisplay({ recipe }) {
               )}
               {author && <h3 className={css.username}>{author.username}</h3>}
             </div>
-            <div>
-              <button
-                onClick={() => {
-                  RecipeService.likeRecipe(recipe.id)
-                }}
-              >
-                Miam
-              </button>
-              <button
-                onClick={() => {
-                  RecipeService.dislikeRecipe(recipe.id)
-                }}
-              >
-                Meh
-              </button>
-            </div>
 
             <div className={css.types}>
               <span className={merge([css.label, css['label-diet']])}>

@@ -33,27 +33,6 @@ const Recipe = () => {
     <div className={merge([css.root, 'garden-ui'])}>
       {recipe && (
         <>
-          <div className={css.head}>
-            <Link href={`/recipes`}>
-              <a className={css.back}>
-                <img
-                  className={css.icon}
-                  src={`/images/icons/back.svg`}
-                  alt=""
-                />
-              </a>
-            </Link>
-
-            <Link href={`/edit-recipe?rid=${recipe.id}`}>
-              <a className={css.edit}>
-                <img
-                  className={css.icon}
-                  src={`/images/icons/edit.svg`}
-                  alt=""
-                />
-              </a>
-            </Link>
-          </div>
           <RecipeDisplay recipe={recipe} />
           <div className={css.ripped}>
             <RippedPaper />

@@ -59,9 +59,17 @@
   z-index: 1;
   margin: 0 0 48px 0;
   font-family: 'Tropiline Semibold', sans-serif;
-  font-size: 64px;
+  font-size: 32px;
   color: $color-primary;
   text-decoration: none;
+
+  @media (min-width: 768px) {
+    font-size: 48px;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 64px;
+  }
 }
 
 .description {
@@ -69,9 +77,19 @@
   flex-direction: column;
   align-items: center;
   margin: 0 0 72px 0;
-  font-family: 'Mabry Medium', sans-serif;
-  font-size: 24px;
-  line-height: 36px;
+  font-family: 'Mabry Light', sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+
+  @media (min-width: 768px) {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 24px;
+    line-height: 36px;
+  }
 }
 
 .title,

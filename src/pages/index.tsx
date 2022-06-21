@@ -64,23 +64,18 @@ export default function Home() {
             alt=""
           />
           <img className={css.logo} src="/images/ui/logotype.png" alt="" />
-          <h1 className={css.title}>Bienvenue {username},</h1>
+          <h1 className={css.title}>Bienvenue cher visiteur,</h1>
           <p className={css.description}>
             <span>
-              Créez, découvrez, apprenez et participez à la vie culinaire de
-              votre famille
+              Finebouche est encore en phase de développement.
             </span>
             <span>
-              avec Finebouche ! Partagez vos recettes, conseils et bien plus
-              dans cette
+              Le projet est très prometteur mais nécessite encore un peu de maturation.
             </span>
             <span>
-              expérience entièrement familiale conçue pour chaque génération.
+              Un peu comme une bonne marinade finalement.
             </span>
           </p>
-          <Link href="family">
-            <a className={css.button}>Commencer</a>
-          </Link>
         </div>
       )}
       <div className={css.ripped}>

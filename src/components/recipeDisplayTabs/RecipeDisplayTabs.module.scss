@@ -1,6 +1,7 @@
 @import '../../styles/references';
 
 .root {
+  width: 100%;
   .tabs {
     display: flex;
     margin-bottom: 24px;
@@ -16,6 +17,13 @@
 
       .icon {
         margin-right: 10px;
+      }
+      .label {
+        display: block;
+
+        @media (min-width: 768px) {
+          display: block;
+        }
       }
 
       &-active {
