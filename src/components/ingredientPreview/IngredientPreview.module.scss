@@ -6,6 +6,7 @@
   width: 225px;
   height: 250px;
   background-color: white;
+  border-radius: 8px;
 
   .container {
     width: 100%;
@@ -14,8 +15,9 @@
   }
 
   .name {
-    margin: 0;
+    margin: 0 0 12px 0;
     color: $color-primary;
+    font-family: 'Tropiline Regular', sans-serif;
     font-size: 30px;
     font-weight: normal;
   }
@@ -23,6 +25,8 @@
   .type {
     margin: 0 0 16px 0;
     color: $color-primary-darker;
+    font-family: 'Suomi', sans-serif;
+    font-size: 30px;
   }
 
   .image {

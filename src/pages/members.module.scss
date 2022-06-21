@@ -4,6 +4,8 @@
   position: relative;
   min-height: 100vh;
   background-color: $color-primary-darker-300;
+  background-image: url('/images/ui/members-pattern.png');
+  background-size: cover;
 
   .members {
     display: flex;
@@ -37,17 +39,30 @@
   }
 
   .add {
+    cursor: pointer;
     position: absolute;
+    z-index: 1;
     left: 50%;
-    bottom: 48px;
+    bottom: 72px;
+
     display: flex;
-    padding: 12px 24px;
+    align-items: center;
+    padding: 24px 48px;
+    border-radius: 8px;
+
+    font-family: 'Tropiline Regular', sans-serif;
     font-size: 20px;
     color: white;
     background-color: $color-primary;
     border: 1px solid $color-primary;
-    border-radius: 8px;
+
     transform: translate(-50%);
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: $color-primary-darker-300;
+      border: 1px solid $color-primary-darker-300;
+    }
 
     .icon {
       width: 24px;

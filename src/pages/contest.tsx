@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import gsap from 'gsap'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import ContestService from '../services/ContestService'
@@ -11,12 +12,12 @@ import css from './contest.module.scss'
 import Image from 'next/image'
 
 export default function Contest() {
-  const timerRef = useRef(null)
   const [currentContest, setCurrentContest] =
     useState<IFamilyContest>(undefined)
   const [contestSubject, setcontestSubject] = useState<any>(undefined)
   const [contestEntries, setcontestEntries] =
     useState<IContestEntry[]>(undefined)
+    const [currentTimer, setCurrentTimer] = useState<string>(null)
 
   const CAMERA_POSITION: Component3dName = 'contest'
   const startTimer = (start, duration) => {
@@ -38,8 +39,7 @@ export default function Contest() {
       minutes = minutes < 10 ? '0' + minutes : minutes
       seconds = seconds < 10 ? '0' + seconds : seconds
 
-      timerRef.current.textContent =
-        days + 'j ' + hours + 'h ' + minutes + 'min ' + seconds + 'sec '
+      setCurrentTimer(` ${days}j ${hours}h ${minutes}min ${seconds}sec`)
 
       if (--timer < 0) {
         timer = remainingTime
@@ -50,6 +50,17 @@ export default function Contest() {
   }
 
   const router = useRouter()
+
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    gsap.fromTo(
+      containerRef.current,
+      { y: 60, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1 }
+    )
+  }, [])
+
   useEffect(() => {
     localStorage.setItem('display3D', 'true')
     localStorage.setItem('lockScroll', 'true')
@@ -85,8 +96,8 @@ export default function Contest() {
   }, [])
   return (
     <div className={css.root}>
-      <div className={css.container}>
-      <div
+      <div className={css.container} ref={containerRef}>
+        <div
           className={css.close}
           onClick={() => {
             router.push('garden')
@@ -133,7 +144,7 @@ export default function Contest() {
 
               <div className={css.contestTimerHolder}>
                 <span style={{ textAlign: 'center' }}>Il reste encore</span>
-                <p className={css.contestTimer} ref={timerRef}></p>
+                <p className={css.contestTimer}>{currentTimer ? currentTimer : "-j -h -min -s"}</p>
               </div>
               <button className={css.contestSubject}>Participer</button>
 
