@@ -1,6 +1,7 @@
 @import '../../styles/references';
 
 .root {
+  position: relative;
   min-height: 100vh;
 
   background-image: url('/images/ui/noise-texture.png');
