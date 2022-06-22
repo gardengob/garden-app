@@ -31,7 +31,7 @@ export default function RecipeDisplayTabs({
               >
                 <img
                   className={css.icon}
-                  src={`/images/icons/${key}.svg`}
+                  src={`/images/icons/${key.toLowerCase()}.svg`}
                   alt=""
                 />{' '}
                 {ERecipeTabs[key]}
