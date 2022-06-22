@@ -14,6 +14,7 @@ import RippedPaper from '../components/rippedPaper/RippedPaper'
 
 import Lottie from 'lottie-web'
 import condomJson from '../lotties/anim-onboarding.json'
+import AudioService from '../services/events/AudioService'
 
 export default function Home() {
   const router = useRouter()
@@ -80,7 +81,7 @@ export default function Home() {
               </span>
             </p>
             <Link href="family">
-              <a className={css.button}>Commencer</a>
+              <a className={css.button} onClick={() => AudioService.start()}>Commencer</a>
             </Link>
           </div>
         </div>
