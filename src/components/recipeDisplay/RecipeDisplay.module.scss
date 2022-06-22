@@ -2,6 +2,11 @@
 
 .root {
   position: relative;
+  padding: 24px 48px;
+
+  @media (min-width: 768px) {
+    padding: 48px 96px;
+  }
 
   .container {
     display: flex;
@@ -22,6 +27,7 @@
 
     @media (min-width: 1024px) {
       width: calc(33% - 32px);
+      margin-right: 64px;
     }
   }
 
@@ -37,12 +43,22 @@
     }
   }
 
+  .visual {
+    width: 380px;
+    height: 280px;
+  }
+
   .title {
     width: 100%;
-    margin-top: 0;
+    margin-top: 32px;
     margin-bottom: 24px;
-    font-size: 24px;
+    font-family: 'Tropiline Semibold', sans-serif;
+    font-size: 36px;
     color: $color-primary;
+
+    @media (min-width: 1024px) {
+      margin-top: 0;
+    }
   }
 
   .author {
@@ -50,6 +66,8 @@
     align-items: center;
     height: 40px;
     margin-bottom: 40px;
+    font-family: 'Suomi', sans-serif;
+    font-size: 36px;
 
     .image {
       border-radius: 50%;
@@ -92,6 +110,7 @@
   }
 
   .image {
+    max-height: 200px;
     object-fit: cover;
   }
 
@@ -108,25 +127,34 @@
 
   .details {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    background-color: $color-primary;
     border-radius: 8px;
     margin-bottom: 40px;
 
+    @media (min-width: 1024px) {
+      flex-direction: row;
+      background-color: $color-primary;
+    }
+
     p {
       color: white;
-      &:not(:last-child) {
-        margin-right: 36px;
-      }
+      text-align: center;
     }
   }
 
   .detail {
     display: flex;
     align-items: center;
+    width: 100%;
+    background-color: $color-primary;
+    padding: 8px 24px;
+    border-radius: 8px;
 
-    label {
-      margin-right: 12px;
+    span {
+      display: block;
+      width: fit-content;
+      margin: auto;
     }
   }
 }

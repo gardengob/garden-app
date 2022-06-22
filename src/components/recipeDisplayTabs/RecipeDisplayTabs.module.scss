@@ -6,22 +6,42 @@
     display: flex;
     margin-bottom: 24px;
 
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+
+    @media (min-width: 520px) {
+      margin-left: 0;
+      margin-right: 0;
+      width: auto;
+    }
+
     .tab {
       cursor: pointer;
       display: flex;
       align-self: center;
-      margin-right: 40px;
       font-size: 20px;
       color: $color-primary-darker;
       opacity: 0.5;
 
+      &:not(:last-child) {
+        margin-right: 40px;
+      }
+
       .icon {
         margin-right: 10px;
-      }
-      .label {
-        display: block;
+        width: 48px;
 
-        @media (min-width: 768px) {
+        @media (min-width: 520px) {
+          display: block;
+          width: auto;
+        }
+      }
+
+      .label {
+        display: none;
+
+        @media (min-width: 520px) {
           display: block;
         }
       }

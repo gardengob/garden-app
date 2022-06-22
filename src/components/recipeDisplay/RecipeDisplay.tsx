@@ -62,28 +62,20 @@ export default function RecipeDisplay({ recipe }) {
         <div className={css.container}>
           <div className={css.left}>
             {recipeImageUrl ? (
-              <Image
-                className={css.image}
-                src={recipeImageUrl}
-                alt={recipe.name}
-                layout={'responsive'}
-                width={380}
-                height={280}
-              />
+              <div className={css.visual}>
+                <Image
+                  src={recipeImageUrl}
+                  alt={recipe.name}
+                  layout={'fill'}
+                  objectFit={'cover'}
+                />
+              </div>
             ) : (
               <div className={merge([css.image, css['no-image']])} />
             )}
             <span className={merge([css.label, css['label-difficulty']])}>
               {recipe.difficulty.label}
             </span>
-            <div className={css.stars}>
-              <Image
-                src={'/images/ui/stars.png'}
-                alt={'Étoiles'}
-                width={210}
-                height={230}
-              />
-            </div>
           </div>
           <div className={css.right}>
             <h2 className={css.title}>{recipe.name}</h2>
@@ -115,14 +107,20 @@ export default function RecipeDisplay({ recipe }) {
 
             <div className={css.details}>
               <p className={css.detail}>
-                Temps de préparation: {recipe.preparationTime.amount}{' '}
-                {recipe.preparationTime.unit}
+                <span>
+                  Temps de préparation: {recipe.preparationTime.amount}{' '}
+                  {recipe.preparationTime.unit}
+                </span>
               </p>
               <p className={css.detail}>
-                Temps de cuisson: {recipe.cookingTime.amount}{' '}
-                {recipe.cookingTime.unit}
+                <span>
+                  Temps de cuisson: {recipe.cookingTime.amount}{' '}
+                  {recipe.cookingTime.unit}
+                </span>
               </p>
-              <p className={css.detail}>Personnes: {recipe.peopleAmount}</p>
+              <p className={css.detail}>
+                <span>Personnes: {recipe.peopleAmount}</span>
+              </p>
             </div>
 
             <RecipeDisplayTabs
