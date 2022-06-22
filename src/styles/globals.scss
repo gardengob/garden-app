@@ -17,3 +17,29 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.searchWrapper {
+  display: flex;
+  border: none !important;
+  color: $color-primary;
+
+  input {
+    &::placeholder {
+      color: $color-primary;
+    }
+  }
+}
+
+.optionListContainer {
+  top: 100%;
+  left: 0;
+}
+
+.optionContainer {
+  .option {
+    &:hover{
+      color: white;
+      background-color: $color-primary;
+    }
+  }
+}

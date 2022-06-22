@@ -2,6 +2,7 @@
 
 .root {
   position: relative;
+  padding-bottom: 32px;
 
   .container {
     display: flex;
@@ -22,7 +23,8 @@
     width: 100%;
     margin-top: 0;
     margin-bottom: 24px;
-    font-size: 24px;
+    font-family: 'Tropiline Semibold', sans-serif;
+    font-size: 36px;
     color: $color-primary;
   }
 
@@ -31,6 +33,8 @@
     align-items: center;
     height: 40px;
     margin-bottom: 40px;
+    font-family: 'Suomi', sans-serif;
+    font-size: 36px;
 
     .image {
       border-radius: 50%;
@@ -44,12 +48,44 @@
 
   .types {
     display: flex;
-    margin-bottom: 24px;
 
     .label {
       &:not(:last-child) {
         margin-right: 12px;
       }
+    }
+  }
+
+  .relations {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+
+  .rapports {
+    display: flex;
+  }
+
+  .rapport {
+    cursor: pointer;
+    display: flex;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+
+    &-love {
+      margin-right: 12px;
+      border: 2px solid $color-primary-darker;
+    }
+
+    &-hate {
+      border: 2px solid $color-secondary;
+    }
+
+    .icon {
+      width: 24px;
+      margin: auto;
     }
   }
 

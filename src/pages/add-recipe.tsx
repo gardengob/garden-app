@@ -67,7 +67,7 @@ export default function AddRecipe() {
       <button
         onClick={() => {
           router.push('recipes')
-          UiService.toggleUi('recipe')
+          // UiService.toggleUi('recipe')
         }}
       >
         <a className={css.back}>

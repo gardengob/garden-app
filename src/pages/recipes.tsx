@@ -15,6 +15,7 @@ import WebglService from '../services/events/WebglService'
 import RecipeService from '../services/RecipeService'
 import TagService from '../services/TagService'
 import { ITag } from '../types/recipe'
+import Multiselect from 'multiselect-react-dropdown'
 
 export default function Recipes() {
   const CAMERA_POSITION: Component3dName = 'kitchen'
@@ -24,7 +25,9 @@ export default function Recipes() {
 
   const [dishes, setDishes] = useState([])
   const [diets, setDiets] = useState([])
+
   const [people, setPeople] = useState([])
+  const [members, setMembers] = useState([])
 
   const [dishFilters, setDishFilters] = useState<(ITag | string)[]>([
     'noFilters',
@@ -33,6 +36,8 @@ export default function Recipes() {
     'noFilters',
   ])
   // const [displayUI, setDisplayUI] = useState<boolean>(false)
+
+  useEffect(() => console.log('PEOPLE', people), [people])
   useEffect(() => {
     RoutingCameraService.goTo(CAMERA_POSITION)
     WebglService.disable3D()
@@ -55,20 +60,19 @@ export default function Recipes() {
     )
 
     TagService.getDiets().then((data) => {
-      console.log('got test', data)
-
       setDiets(data)
     })
     TagService.getDishes().then((data) => {
-      console.log('got test', data)
-
       setDishes(data)
     })
 
-    setPeople([
-      { user_id: 'f682af07-c306-4fac-be6f-7049ced85ec8', avatar_url: '' },
-      // { user_id: '7b77f42f-64b0-4361-a9fb-3a9363e07be5', avatar_url: '' },
-    ])
+    FamilyService.getUsers(localStorage.getItem('familyId')).then((data) => {
+      console.log('DATAAAA', data)
+      data.map((d, i) => {
+        console.log('DATAAAA', d.user)
+        setMembers((m) => [...m, d.user])
+      })
+    })
 
     return () => {
       supabase.removeSubscription(subscription)
@@ -85,7 +89,7 @@ export default function Recipes() {
   //   )
   // }, [dishFilters, dishFilters])
 
-  function debounce(func, timeout = 300) {
+  const debounce = (func, timeout = 300) => {
     let timer
     return (...args) => {
       clearTimeout(timer)
@@ -100,6 +104,20 @@ export default function Recipes() {
       setRecipes(data)
     })
   })
+
+  const onSelect = (selectedList, selectedItem) => {
+    console.log(selectedItem)
+    setPeople([...people, selectedItem])
+  }
+
+  const onRemove = (selectedList, removedItem) => {
+    console.log(removedItem)
+    setPeople(
+      people.filter((item) => {
+        return item !== removedItem
+      })
+    )
+  }
 
   return (
     <div className={merge([css.root, 'garden-ui'])}>
@@ -127,34 +145,6 @@ export default function Recipes() {
           />
           <img className={css.icon} src="/images/icons/search.svg" alt="" />
         </div>
-        <div className={css.filter}>
-          <select
-            className={css.select}
-            onChange={(e) => {
-              console.log(e.target.value)
-              if (e.target.value == 'noFilters') {
-                setDietFilters(['noFilters'])
-              } else {
-                RecipeService.getTagRecipe(e.target.value).then((data) => {
-                  console.log('datazzzzzzzzzzzzzzz', data)
-                  setDietFilters(data)
-                })
-              }
-            }}
-          >
-            <option value="noFilters">Régimes</option>
-            {diets &&
-              diets.map((diet, index) => {
-                console.log('diet', diets)
-                return (
-                  <option key={index} value={diet.id}>
-                    {diet.label}
-                  </option>
-                )
-              })}
-          </select>
-          <img className={css.icon} src="/images/icons/search.svg" alt="" />
-        </div>
 
         <div className={css.filter}>
           <select
@@ -174,7 +164,6 @@ export default function Recipes() {
             <option value="noFilters">Types</option>
             {dishes &&
               dishes.map((diet, index) => {
-                console.log('diet', dishes)
                 return (
                   <option key={index} value={diet.id}>
                     {diet.label}
@@ -184,24 +173,23 @@ export default function Recipes() {
           </select>
           <img className={css.icon} src="/images/icons/cooking.svg" alt="" />
         </div>
-        {/* <div className={css.filter}>
+
+        <div className={css.filter}>
           <select
             className={css.select}
             onChange={(e) => {
               if (e.target.value == 'noFilters') {
-                setDishFilters(['noFilters'])
+                setDietFilters(['noFilters'])
               } else {
                 RecipeService.getTagRecipe(e.target.value).then((data) => {
-                  console.log('datazzzzzzzzzzzzzzz', data)
-                  setDishFilters(data)
+                  setDietFilters(data)
                 })
               }
             }}
           >
-            <option value="noFilters">Membres</option>
-            {dishes &&
-              dishes.map((diet, index) => {
-                console.log('diet', dishes)
+            <option value="noFilters">Régimes</option>
+            {diets &&
+              diets.map((diet, index) => {
                 return (
                   <option key={index} value={diet.id}>
                     {diet.label}
@@ -209,8 +197,52 @@ export default function Recipes() {
                 )
               })}
           </select>
+          <img className={css.icon} src="/images/icons/regime.svg" alt="" />
+        </div>
+
+        <div className={css.filter}>
+          <Multiselect
+            className={css.select}
+            hideSelectedList
+            showCheckbox
+            placeholder="Membres"
+            options={members} // Options to display in the dropdown
+            selectedValues={people} // Preselected value to persist in dropdown
+            onSelect={onSelect} // Function will trigger on select event
+            onRemove={onRemove} // Function will trigger on remove event
+            displayValue="username" // Property name to display in the dropdown options
+          />
+
+          {/* <select
+            className={css.select}
+            multiple
+            // onChange={(e) => {
+            //   if (e.target.value == 'noFilters') {
+            //     setDishFilters(['noFilters'])
+            //   } else {
+            //     RecipeService.getTagRecipe(e.target.value).then((data) => {
+            //       console.log('datazzzzzzzzzzzzzzz', data)
+            //       setDishFilters(data)
+            //     })
+            //   }
+            // }}
+          > */}
+          {/* <option value="noFilters">Membres</option>
+            {members &&
+              members.map((member, index) => {
+                return (
+                  <option
+                    key={index}
+                    value={member.user_id}
+                    onClick={() => console.log('ADD', member.user_id)}
+                  >
+                    {member.user_id}
+                  </option>
+                )
+              })}
+          </select> */}
           <img className={css.icon} src="/images/icons/user.svg" alt="" />
-        </div> */}
+        </div>
       </div>
       <div className={css.recipes}>
         {recipes
@@ -224,11 +256,9 @@ export default function Recipes() {
           .filter((recipe) => {
             return people !== null && people[0] !== 'noFilters'
               ? !people.find((user) => {
-                  console.log('user', user)
-                  console.log('recipe.dislikes', recipe.dislikes)
                   return recipe.dislikes
                     ? recipe.dislikes.find((dislike) => {
-                        return dislike.user_id === user.user_id
+                        return dislike.user_id === user.id
                       })
                     : false
                 })

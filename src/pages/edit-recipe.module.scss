@@ -1,6 +1,11 @@
 @import '../styles/references';
 
 .root {
+  min-height: 100vh;
+  background-image: url('/images/ui/noise-texture.png');
+  background-size: cover;
+  background-color: $color-cream-darker;
+  
   .back {
     cursor: pointer;
     position: absolute;

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import RecipeService from '../../services/RecipeService'
@@ -103,30 +104,35 @@ export default function RecipeDisplay({ recipe }) {
               )}
               {author && <h3 className={css.username}>{author.username}</h3>}
             </div>
-            <div>
-              <button
-                onClick={() => {
-                  RecipeService.likeRecipe(recipe.id)
-                }}
-              >
-                Miam
-              </button>
-              <button
-                onClick={() => {
-                  RecipeService.dislikeRecipe(recipe.id)
-                }}
-              >
-                Meh
-              </button>
-            </div>
 
-            <div className={css.types}>
-              <span className={merge([css.label, css['label-diet']])}>
-                {recipe.diet.label}
-              </span>
-              <span className={merge([css.label, css['label-dish']])}>
-                {recipe.dish.label}
-              </span>
+            <div className={css.relations}>
+              <div className={css.types}>
+                <span className={merge([css.label, css['label-diet']])}>
+                  {recipe.diet.label}
+                </span>
+                <span className={merge([css.label, css['label-dish']])}>
+                  {recipe.dish.label}
+                </span>
+              </div>
+
+              <div className={css.rapports}>
+                <button
+                  className={merge([css.rapport, css['rapport-love']])}
+                  onClick={() => {
+                    RecipeService.likeRecipe(recipe.id)
+                  }}
+                >
+                  <img className={css.icon} src="/images/icons/love.svg" alt="" />
+                </button>
+                <button
+                  className={merge([css.rapport, css['rapport-hate']])}
+                  onClick={() => {
+                    RecipeService.dislikeRecipe(recipe.id)
+                  }}
+                >
+                  <img className={css.icon} src="/images/icons/hate.svg" alt="" />
+                </button>
+              </div>
             </div>
 
             <div className={css.details}>
