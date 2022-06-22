@@ -26,9 +26,8 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      {loading && (
-        <LoadingOverlay />
-      )}
+      <audio src="/audio/ambiance.mp3"></audio>
+      {loading && <LoadingOverlay />}
       {/* <LoadingOverlay /> */}
       <Garden3d className={css.webgl} />
       <Component {...pageProps} className={css.content} />
