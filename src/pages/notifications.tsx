@@ -61,7 +61,7 @@ export default function Notifications() {
             <p className={css.label}>
               <img
                 className={css.icon}
-                src="/images/icons/cross.svg"
+                src="/images/icons/avoid.svg"
                 alt=""
               />
               Adrien a supprimé la recette Pizzananas
