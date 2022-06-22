@@ -99,7 +99,6 @@ export default function RecipeInstructionsStep({
           ref={inputRef}
           id="instruction"
           placeholder="Étape à ajouter"
-          maxLength={100}
           onChange={(e) => {
             setFullText(e.target.value)
             recognitionRef.current.stop()

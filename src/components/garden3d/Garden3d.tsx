@@ -213,7 +213,7 @@ export default function Garden3d({ className }) {
           left: 0,
         }}
       ></div>
-      <button
+      {/* <button
         style={{
           position: 'absolute',
           zIndex: '4',
@@ -224,7 +224,7 @@ export default function Garden3d({ className }) {
         }}
       >
         devMode
-      </button>
+      </button> */}
       {/* {elementNear && (
         <div
           style={{

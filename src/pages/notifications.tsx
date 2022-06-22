@@ -79,7 +79,7 @@ export default function Notifications() {
                 src="/images/icons/notif-recipe.svg"
                 alt=""
               />
-              Adrien a ajouté la nouvelle recette Croziflette
+              Carine a ajouté la nouvelle recette Pasta alla carbonara
             </p>
             <img
               className={css.separator}

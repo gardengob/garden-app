@@ -28,12 +28,21 @@ function MyApp({ Component, pageProps }) {
   }, [])
 
   useEffect(() => {
-    if (audioRef) AudioService.signal.on(() => audioRef.current.play())
+    if (audioRef)
+      AudioService.signal.on(() => {
+        audioRef.current.volume = 0.2
+        audioRef.current.play()
+      })
   }, [])
 
   return (
     <>
-      <audio ref={audioRef} className={css.audio} loop src="/audio/ambiance.mp3"></audio>
+      <audio
+        ref={audioRef}
+        className={css.audio}
+        loop
+        src="/audio/ambiance.mp3"
+      ></audio>
       {loading && <LoadingOverlay />}
       {/* <LoadingOverlay /> */}
       <Garden3d className={css.webgl} />
