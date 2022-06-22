@@ -62,6 +62,35 @@ export default function IngredientDisplay({ ingredient, backHandler }) {
               <div className={css.relation}>
                 <img src="/images/icons/love.svg" alt="" />
                 <p>Adoré par :</p>
+                <div className={css.users}>
+                  <div className={css.avatarcontainer}>
+                    <Image
+                      className={css.avatar}
+                      src={'/images/avatars/raph.png'}
+                      alt={''}
+                      width={32}
+                      height={32}
+                    />
+                  </div>
+                  <div className={css.avatarcontainer}>
+                    <Image
+                      className={css.avatar}
+                      src={'/images/avatars/papa.png'}
+                      alt={''}
+                      width={32}
+                      height={32}
+                    />
+                  </div>
+                  <div className={css.avatarcontainer}>
+                    <Image
+                      className={css.avatar}
+                      src={'/images/avatars/carine.png'}
+                      alt={''}
+                      width={32}
+                      height={32}
+                    />
+                  </div>
+                </div>
               </div>
               <div className={css.relation}>
                 <img src="/images/icons/avoid.svg" alt="" />
@@ -81,15 +110,50 @@ export default function IngredientDisplay({ ingredient, backHandler }) {
               <div className={css.note}>
                 <div className={css.user}>
                   <Image
-                    src={'/images/user.png'}
+                    className={css.avatar}
+                    src={'/images/avatars/carine.png'}
                     alt={''}
                     width={32}
                     height={32}
                   />
                 </div>
                 <p className={css.comment}>
-                  Mamie adore les artichauts depuis qu'elle en a gouté avec la
-                  recette de Marion. Elle en mange assez rarement !
+                  Alors après plusieurs essais et quelques coupures j'ai réussi
+                  à en découper un corrrectement ! Coupez le chapeau et le bas
+                  de l'ananas. Débarrassez l'ananas de son écorce un peu comme
+                  si vous épluchiez une pomme : tournez autour du fruit avec le
+                  couteau !
+                </p>
+              </div>
+              <div className={css.note}>
+                <div className={css.user}>
+                  <Image
+                    className={css.avatar}
+                    src={'/images/avatars/papa.png'}
+                    alt={''}
+                    width={32}
+                    height={32}
+                  />
+                </div>
+                <p className={css.comment}>
+                  La semaine dernière on a roti des tranches au barbecue et
+                  c'était pas mal du tout ! Un peu de vanille et de miel, du
+                  rhum même pour les plus braves
+                </p>
+              </div>
+              <div className={css.note}>
+                <div className={css.user}>
+                  <Image
+                    className={css.avatar}
+                    src={'/images/avatars/raph.png'}
+                    alt={''}
+                    width={32}
+                    height={32}
+                  />
+                </div>
+                <p className={css.comment}>
+                  Truc tout bête mais si vous tirez sur les feuilles et qu'elles
+                  partent facilement c'est qu'il est mûr !
                 </p>
               </div>
             </div>

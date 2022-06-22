@@ -85,6 +85,32 @@ export default function RecipeDisplay({ recipe }) {
                 height={230}
               />
             </div>
+            <div className={css.likesdislikes}>
+              <p className={merge([css.likedislike, css['likedislike-love']])}>
+                Adrien adore
+                <img className={css.icon} src="/images/icons/like.svg" alt="" />
+              </p>
+              <p className={merge([css.likedislike, css['likedislike-love']])}>
+                Stéphane adore
+                <img className={css.icon} src="/images/icons/like.svg" alt="" />
+              </p>
+              <p className={merge([css.likedislike, css['likedislike-hate']])}>
+                Sébastien n’est pas fan
+                <img className={css.icon} src="/images/icons/nope.svg" alt="" />
+              </p>
+              <p className={merge([css.likedislike, css['likedislike-hate']])}>
+                Carine n’est pas fan
+                <img className={css.icon} src="/images/icons/nope.svg" alt="" />
+              </p>
+              <p className={merge([css.likedislike, css['likedislike-love']])}>
+                Raphaëlle adore
+                <img className={css.icon} src="/images/icons/like.svg" alt="" />
+              </p>
+              <p className={merge([css.likedislike, css['likedislike-love']])}>
+                Camille adore
+                <img className={css.icon} src="/images/icons/like.svg" alt="" />
+              </p>
+            </div>
           </div>
           <div className={css.right}>
             <h2 className={css.title}>{recipe.name}</h2>
@@ -122,7 +148,11 @@ export default function RecipeDisplay({ recipe }) {
                     RecipeService.likeRecipe(recipe.id)
                   }}
                 >
-                  <img className={css.icon} src="/images/icons/love.svg" alt="" />
+                  <img
+                    className={css.icon}
+                    src="/images/icons/love.svg"
+                    alt=""
+                  />
                 </button>
                 <button
                   className={merge([css.rapport, css['rapport-hate']])}
@@ -130,7 +160,11 @@ export default function RecipeDisplay({ recipe }) {
                     RecipeService.dislikeRecipe(recipe.id)
                   }}
                 >
-                  <img className={css.icon} src="/images/icons/hate.svg" alt="" />
+                  <img
+                    className={css.icon}
+                    src="/images/icons/hate.svg"
+                    alt=""
+                  />
                 </button>
               </div>
             </div>

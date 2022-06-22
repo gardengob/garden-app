@@ -57,14 +57,29 @@ export default function Notifications() {
         </div>
 
         <div className={css.notifications}>
+        <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
+                src="/images/icons/cross.svg"
+                alt=""
+              />
+              Adrien a supprimé la recette Pizzananas
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
           <div className={css.notification}>
             <p className={css.label}>
               <img
                 className={css.icon}
-                src="/images/icons/notif-user.svg"
+                src="/images/icons/notif-recipe.svg"
                 alt=""
               />
-              Carla a rejoint l'aventure !
+              Carine a ajouté la nouvelle recette Pizzananas
             </p>
             <img
               className={css.separator}
@@ -91,6 +106,82 @@ export default function Notifications() {
             <p className={css.label}>
               <img
                 className={css.icon}
+                src="/images/icons/notif-recipe.svg"
+                alt=""
+              />
+              Carine a ajouté la nouvelle recette Pasta alla carbonara
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
+          <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
+                src="/images/icons/notif-recipe.svg"
+                alt=""
+              />
+              Carine a ajouté la nouvelle recette Cotoletta alla milanese
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
+          <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
+                src="/images/icons/notif-recipe.svg"
+                alt=""
+              />
+              Carine a ajouté la nouvelle recette Risotto alla milanese
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
+          <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
+                src="/images/icons/notif-recipe.svg"
+                alt=""
+              />
+              Carine a ajouté la nouvelle recette Pizza margherita
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
+          <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
+                src="/images/icons/notif-recipe.svg"
+                alt=""
+              />
+              Carine a ajouté la nouvelle recette Cannelloni ripieni di carne al forno
+            </p>
+            <img
+              className={css.separator}
+              src="/images/ui/separator.png"
+              alt=""
+            />
+          </div>
+
+          <div className={css.notification}>
+            <p className={css.label}>
+              <img
+                className={css.icon}
                 src="/images/icons/notif-time.svg"
                 alt=""
               />
@@ -109,7 +200,7 @@ export default function Notifications() {
                 src="/images/icons/notif-note.svg"
                 alt=""
               />
-              Laura a ajouté une note sur la recette : Boeuf bourguignon à la
+              Sébastien a ajouté une note sur la recette : Boeuf bourguignon à la
               dijonnaise
             </p>
             <img
@@ -125,22 +216,7 @@ export default function Notifications() {
                 src="/images/icons/notif-recipe.svg"
                 alt=""
               />
-              Amélie a ajouté la nouvelle recette Lasagnes
-            </p>
-            <img
-              className={css.separator}
-              src="/images/ui/separator.png"
-              alt=""
-            />
-          </div>
-          <div className={css.notification}>
-            <p className={css.label}>
-              <img
-                className={css.icon}
-                src="/images/icons/notif-user.svg"
-                alt=""
-              />
-              Amélie a rejoint l'aventure !
+              Estelia a ajouté la nouvelle recette Lasagnes à la bolognaise
             </p>
             <img
               className={css.separator}
@@ -155,7 +231,7 @@ export default function Notifications() {
                 src="/images/icons/notif-winner.svg"
                 alt=""
               />
-              <b>Eva</b> a gagné le concours avec le thème Asie
+              Carlos a gagné le concours avec le thème Asie
             </p>
             <img
               className={css.separator}
@@ -185,7 +261,7 @@ export default function Notifications() {
                 src="/images/icons/notif-user.svg"
                 alt=""
               />
-              Killian a rejoint l'aventure !
+              Carlos a rejoint l'aventure !
             </p>
             <img
               className={css.separator}
@@ -201,23 +277,8 @@ export default function Notifications() {
                 src="/images/icons/notif-user.svg"
                 alt=""
               />
-              Laura a ajouté une note sur la recette : Salade quinoa mangue
+              Raphaëlle a ajouté une note sur la recette : Salade quinoa mangue
               avocat
-            </p>
-            <img
-              className={css.separator}
-              src="/images/ui/separator.png"
-              alt=""
-            />
-          </div>
-          <div className={css.notification}>
-            <p className={css.label}>
-              <img
-                className={css.icon}
-                src="/images/icons/notif-recipe.svg"
-                alt=""
-              />
-              Camille a ajouté la nouvelle recette Pizzananas
             </p>
             <img
               className={css.separator}
@@ -232,7 +293,7 @@ export default function Notifications() {
                 src="/images/icons/notif-winner.svg"
                 alt=""
               />
-              Théo a gagné le défi Devine mon plat
+              Estelia a gagné le défi Devine mon plat
             </p>
             <img
               className={css.separator}
