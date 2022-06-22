@@ -47,37 +47,30 @@ export default function Home() {
       className={merge([css.root, 'garden-ui'])}
       style={{ padding: '100px 50px' }}
     >
-      {!session ? (
-        <Auth />
-      ) : (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <img
-            className={css.plants}
-            src="/images/ui/decors_plantes.png"
-            alt=""
-          />
-          <img className={css.logo} src="/images/ui/logotype.png" alt="" />
-          <h1 className={css.title}>Bienvenue cher visiteur,</h1>
-          <p className={css.description}>
-            <span>
-              Finebouche est encore en phase de développement.
-            </span>
-            <span>
-              Le projet est très prometteur mais nécessite encore un peu de maturation.
-            </span>
-            <span>
-              Un peu comme une bonne marinade finalement.
-            </span>
-          </p>
-        </div>
-      )}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <img
+          className={css.plants}
+          src="/images/ui/decors_plantes.png"
+          alt=""
+        />
+        <img className={css.logo} src="/images/ui/logotype.png" alt="" />
+        <h1 className={css.title}>Bienvenue cher visiteur,</h1>
+        <p className={css.description}>
+          <span>Finebouche est encore en phase de développement.</span>
+          <span>
+            Le projet est très prometteur mais nécessite encore un peu de
+            maturation.
+          </span>
+          <span>Un peu comme une bonne marinade finalement.</span>
+        </p>
+      </div>
       <div className={css.ripped}>
         <RippedPaper />
       </div>
